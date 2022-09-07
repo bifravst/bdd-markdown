@@ -1,0 +1,25 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  tests:
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "18.x"
+
+      - name: Keep npm cache around to speed up installs
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci --no-audit
+
+      - name: Run Unit Tests
+        run: npm test

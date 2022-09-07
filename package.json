@@ -1,0 +1,19 @@
+{
+  "name": "bdd-parser",
+  "version": "0.0.0-development",
+  "type": "module",
+  "devDependencies": {
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.122",
+    "@types/node": "18.7.16",
+    "prettier": "2.7.1",
+    "tsx": "3.9.0",
+    "typescript": "4.8.2"
+  },
+  "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc",
+  "engines": {
+    "node": ">=18.8.0"
+  },
+  "scripts": {
+    "test": "npx tsx parseFeature.spec.ts"
+  }
+}
