@@ -7,6 +7,8 @@
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.122",
     "@types/node": "18.7.16",
     "chalk": "5.0.1",
+    "husky": "8.0.1",
+    "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "tap-parser": "11.0.1",
     "tsx": "3.9.0",
@@ -17,6 +19,16 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "test": "npx tsx tests.ts"
+    "test": "npx tsx tests.ts",
+    "postinstall": "husky install"
+  },
+  "lint-staged": {
+    "*.{md,json,yaml,yml}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --ext .js,.ts"
+    ]
   }
 }
