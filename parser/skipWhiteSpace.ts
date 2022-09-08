@@ -1,6 +1,7 @@
 import os from 'node:os'
-import { isWhiteSpace } from './isWhiteSpace'
-import { TokenStream } from './TokenStream'
+import { TokenStream } from '../tokenStream'
+
+const isWhiteSpace = (char: string) => /\s/.test(char)
 
 export const skipWhiteSpace = (s: TokenStream) => {
 	let newLines = 0

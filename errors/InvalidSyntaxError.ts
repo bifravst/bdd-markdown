@@ -1,5 +1,5 @@
 import os from 'os'
-import { TokenStream } from './TokenStream'
+import { TokenStream } from '../tokenStream'
 
 export class InvalidSyntaxError extends Error {
 	constructor(stream: TokenStream, error: string) {
@@ -10,9 +10,9 @@ export class InvalidSyntaxError extends Error {
 			.lastIndexOf(os.EOL)
 		const col = stream.index() - lastLineStart
 		super(
-			`${error}\nLine ${lines.length}, Column ${col}\n${
+			`${error}${os.EOL}Line ${lines.length}, Column ${col}${os.EOL}${
 				lines[lines.length - 1]
-			}\n${' '.repeat(col - 1)}^`,
+			}${os.EOL}${' '.repeat(col - 1)}^`,
 		)
 		this.name = 'InvalidSyntaxError'
 	}

@@ -1,4 +1,4 @@
-import { EndOfStreamError } from './EndOfStreamError'
+import { EndOfStreamError } from './errors/EndOfStreamError'
 
 export const tokenStream = (source: string, index = 0) => ({
 	index: () => index,
@@ -8,6 +8,7 @@ export const tokenStream = (source: string, index = 0) => ({
 			throw new EndOfStreamError({ stream: source, index })
 		return source[++index]
 	},
+	peekNext: () => source[index + 1],
 	eof: () => index + 1 >= source.length,
 	source: () => source,
 	clone: () => tokenStream(source, index),

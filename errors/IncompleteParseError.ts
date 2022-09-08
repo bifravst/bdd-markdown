@@ -1,4 +1,4 @@
-import { TokenStream } from './TokenStream'
+import { TokenStream } from '../tokenStream'
 
 export class IncompleteParseError extends Error {
 	constructor(stream: TokenStream) {

@@ -7,14 +7,14 @@ import { parseFeature } from './parseFeature'
 describe('parseFeature()', () => {
 	it('should parse a sample feature file', () => {
 		const tree = parseFeature(
-			readFileSync(path.join(process.cwd(), 'Example.feature'), 'utf-8'),
+			readFileSync(path.join(process.cwd(), 'features', 'Example.md'), 'utf-8'),
 		)
 
 		assert.deepEqual(tree, {
 			keyword: 'Feature',
 			shortDescription: 'Example feature',
 			description: [
-				'This is a description for the feature, which can span multiple lines.',
+				'This is a description for the feature, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
 				'And single line-breaks should be allowed in the description.',
 			],
 			scenarios: [
@@ -22,7 +22,7 @@ describe('parseFeature()', () => {
 					keyword: 'Scenario',
 					shortDescription: 'The first scenario',
 					description: [
-						'This is a description for the scenario, which can span multiple lines.',
+						'This is a description for the scenario, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
 						'And single line-breaks should be allowed in the description.',
 					],
 				},

@@ -1,46 +1,14 @@
-import { IncompleteParseError } from './IncompleteParseError'
-import { InvalidSyntaxError } from './InvalidSyntaxError'
-import { ParseError } from './ParseError'
-import { readKeyword } from './readKeyword'
-import { tokenStream } from './TokenStream'
-
-export enum Keyword {
-	Feature = 'Feature',
-	Contexts = 'Contexts',
-	Example = 'Example',
-	Scenario = 'Scenario',
-	Background = 'Background',
-	ScenarioOutline = 'Scenario Outline',
-	Rule = 'Rule',
-}
-export const keywords: string[] = [
-	Keyword.Feature,
-	Keyword.Contexts,
-	Keyword.Example,
-	Keyword.Scenario,
-	Keyword.Background,
-	Keyword.Scenario,
-]
-
-export type ParsedKeyword = {
-	keyword: Keyword
-	shortDescription: string
-	description: string[]
-}
-
-type Feature = ParsedKeyword & {
-	keyword: Keyword.Feature
-	scenarios: Scenario[]
-}
-
-type Scenario = ParsedKeyword & {
-	keyword: Keyword.Scenario
-}
+import { IncompleteParseError } from './errors/IncompleteParseError'
+import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
+import { ParseError } from './errors/ParseError'
+import { Feature, Keyword, Scenario } from './parser/grammar'
+import { readKeywordDefinition } from './parser/readKeywordDefinition'
+import { tokenStream } from './tokenStream'
 
 export const parseFeature = (source: string) => {
 	const stream = tokenStream(source)
 
-	const feature: Feature | null = readKeyword<Feature>(stream)
+	const feature: Feature | null = readKeywordDefinition<Feature>(stream)
 
 	if (feature === null)
 		throw new ParseError(`No feature found in source`, stream)
@@ -53,7 +21,7 @@ export const parseFeature = (source: string) => {
 	feature.scenarios = []
 
 	while (true) {
-		const scenario = readKeyword<Scenario>(stream)
+		const scenario = readKeywordDefinition<Scenario>(stream)
 		if (scenario === null) break
 		feature.scenarios.push(scenario)
 	}
