@@ -6,7 +6,7 @@ import { readKeywordDefinition } from '../parser/readKeywordDefinition'
 import { skipWhiteSpace } from '../parser/skipWhiteSpace'
 import { TokenStream } from '../tokenStream'
 
-export const parseFeature = (source: TokenStream) => {
+export const parseFeature = (source: TokenStream): Feature | null => {
 	const feature: Feature | null = readKeywordDefinition<Feature>(source)
 
 	if (feature === null)

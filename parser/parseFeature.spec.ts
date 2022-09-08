@@ -22,6 +22,8 @@ describe('parseFeature()', () => {
 						'This is a description for the scenario, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
 						'And line-breaks should be allowed in the description.',
 					],
+					comment:
+						'Comments on separate lines are supported. They will be associated with the following keyword.',
 				},
 			],
 		})

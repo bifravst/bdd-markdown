@@ -21,6 +21,7 @@ export type ParsedKeyword = {
 	keyword: Keyword
 	shortDescription?: string
 	description: string[]
+	comment?: string
 }
 
 export type Feature = ParsedKeyword & {
