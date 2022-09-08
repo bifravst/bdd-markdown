@@ -1,14 +1,11 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import path from 'node:path'
 import { describe, it } from 'node:test'
+import { testData } from '../test-data/testData'
 import { parseFeature } from './parseFeature'
 
 describe('parseFeature()', () => {
 	it('should parse a sample feature file', () => {
-		const tree = parseFeature(
-			readFileSync(path.join(process.cwd(), 'features', 'Example.md'), 'utf-8'),
-		)
+		const tree = parseFeature(testData(import.meta.url)('Example'))
 
 		assert.deepEqual(tree, {
 			keyword: 'Feature',

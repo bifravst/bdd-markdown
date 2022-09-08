@@ -23,10 +23,10 @@ describe('readSentence()', () => {
 
 	it('should read until EOL', () => {
 		const s = tokenStream('Foo: This is a short description.')
-		s.next()
-		s.next()
-		s.next()
-		s.next()
+		s.next() // F
+		s.next() // o
+		s.next() // o
+		s.next() // :
 		assert.equal(readSentence(s), 'This is a short description.')
 	})
 
