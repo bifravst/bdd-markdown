@@ -90,7 +90,8 @@ const formatFailures = (children: TAPChild[]) => {
 }
 
 const formatPlan = (plan: TAPPlan) => {
-	console.error(`  ${chalk.red(plan.comment)}`)
+	if (plan.start !== plan.end && plan.comment !== undefined)
+		console.error(`  ${chalk.red(plan.comment)}`)
 }
 
 export const formatTapErrors = (log: string): void => {
