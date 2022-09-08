@@ -1,0 +1,6 @@
+{
+  "extends": "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript",
+  "rules": {
+    "no-constant-condition": ["off"]
+  }
+}

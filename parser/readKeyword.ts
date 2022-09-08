@@ -1,21 +1,44 @@
+import os from 'os'
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
 import { TokenStream } from '../tokenStream'
 import { Keyword, keywords } from './grammar'
 import { readSentence } from './readSentence'
 import { readWord } from './readWord'
-import { skipWhiteSpace } from './skipWhiteSpace'
+import { skipSpace } from './skipWhiteSpace'
 
 /**
  * Keywords are
- * - Markdown headlines
+ * - Markdown headings
  * - either of level one or two
  * - with an optional keyword specifier
- * - except for `feature` which must be level 1 without the keyword.
+ * - except for `feature` which must be level 1 without the keyword
+ * - and an optional descriptions
+ *
+ * Examples:
+ *
+ * # User registration
+ * ^ this is the "feature" keyword, with the description "User registration"
+ *
+ * # Feature: User registration
+ * ^ the same as the previous
+ *
+ * ## Fill registration form
+ * ^ the "scenario" keyword, with the description "Fill registration form"
+ *
+ * ## Scenario: Fill registration form
+ * ^ the same as the previous
+ *
+ * ## Rule: Email must be syntactically correct
+ * ^ the "rule" keyword, with the description "Email must be syntactically correct"
+ *
+ * ## Background
+ * ^ the "background" keyword, without description
  */
 export const readKeyword = (
 	s: TokenStream,
-): { title: string; keyword?: Keyword } | null => {
+): { keyword: Keyword; description?: string } | null => {
 	let level = 0
+	if (s.char() !== '#') return null
 	while (true) {
 		if (s.char() !== '#') break
 		if (s.eof()) break
@@ -24,14 +47,17 @@ export const readKeyword = (
 	}
 	if (s.char() !== ' ')
 		throw new InvalidSyntaxError(s, `Expected " ", got "${s.char()}".`)
-	skipWhiteSpace(s)
-	const firstWord = readWord(s)
+	skipSpace(s)
+	let firstWord = readWord(s)
 	if (firstWord === null) return null
-	let title = ''
 	let keyword: Keyword | undefined = undefined
+
+	const firstWordIsKeyword = keywords.includes(firstWord)
+
 	if (s.char() === ':') {
-		// This is supposed to be a keyword
-		if (!keywords.includes(firstWord))
+		// First word is followed by a colon, so this is supposed to be a keyword
+		s.next() // skip the colon
+		if (!firstWordIsKeyword)
 			throw new InvalidSyntaxError(s, `Unexpected keyword ${firstWord}`)
 
 		if (firstWord === Keyword.Feature) {
@@ -48,17 +74,22 @@ export const readKeyword = (
 				)
 		}
 		keyword = firstWord as Keyword
-		// Skip colon and whitespace
-		s.next()
-		skipWhiteSpace(s)
+		firstWord = ''
 	} else {
-		title = firstWord + ' '
+		if (firstWordIsKeyword && s.char() === os.EOL) {
+			// The only word in the heading is a keyword, this is allowed
+			keyword = firstWord as Keyword
+		} else {
+			keyword = level === 1 ? Keyword.Feature : Keyword.Scenario
+		}
 	}
-	if (keyword === undefined) {
-		if (level === 1) keyword = Keyword.Feature
-		else keyword = Keyword.Scenario
+	skipSpace(s) // skip whitespace after first word
+
+	if (s.char() === os.EOL) return { keyword }
+
+	skipSpace(s)
+	return {
+		description: [firstWord, readSentence(s) ?? ''].join(' ').trim(),
+		keyword,
 	}
-	skipWhiteSpace(s)
-	title += readSentence(s)
-	return { title, keyword: keyword as Keyword }
 }

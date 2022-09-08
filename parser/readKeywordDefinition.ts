@@ -1,5 +1,5 @@
 import { TokenStream } from '../tokenStream'
-import { Keyword, ParsedKeyword } from './grammar'
+import { ParsedKeyword } from './grammar'
 import { readDescription } from './readDescription'
 import { readKeyword } from './readKeyword'
 import { skipWhiteSpace } from './skipWhiteSpace'
@@ -19,8 +19,8 @@ export const readKeywordDefinition = <K extends ParsedKeyword>(
 	const description = readDescription(s)
 
 	const kw: ParsedKeyword = {
-		keyword: keyword.keyword as Keyword,
-		shortDescription: keyword.title,
+		keyword: keyword.keyword,
+		shortDescription: keyword.description,
 		description,
 	}
 

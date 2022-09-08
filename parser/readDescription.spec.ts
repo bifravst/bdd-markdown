@@ -17,7 +17,7 @@ describe('readDescription()', () => {
 		]))
 
 	describe('should not parse other instructions', () => {
-		it('should not parse the next headline', () =>
+		it('should not parse the next heading', () =>
 			assert.deepEqual(readDescription(l('withOther')), ['Some description']))
 	})
 })

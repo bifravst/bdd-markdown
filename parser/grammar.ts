@@ -14,11 +14,12 @@ export const keywords: string[] = [
 	Keyword.Scenario,
 	Keyword.Background,
 	Keyword.Scenario,
+	Keyword.Rule,
 ]
 
 export type ParsedKeyword = {
 	keyword: Keyword
-	shortDescription: string
+	shortDescription?: string
 	description: string[]
 }
 

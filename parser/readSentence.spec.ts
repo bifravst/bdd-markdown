@@ -30,6 +30,6 @@ describe('readSentence()', () => {
 		assert.equal(readSentence(s), 'This is a short description.')
 	})
 
-	it('should not read headlines', () =>
-		assert.equal(readSentence(tokenStream('# This is a headline')), null))
+	it('should not read headings', () =>
+		assert.equal(readSentence(tokenStream('# This is a heading')), null))
 })
