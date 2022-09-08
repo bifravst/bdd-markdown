@@ -26,6 +26,7 @@ export const readKeyword = (
 		throw new InvalidSyntaxError(s, `Expected " ", got "${s.char()}".`)
 	skipWhiteSpace(s)
 	const firstWord = readWord(s)
+	if (firstWord === null) return null
 	let title = ''
 	let keyword: Keyword | undefined = undefined
 	if (s.char() === ':') {
