@@ -7,27 +7,26 @@ import { readDescription } from './readDescription'
 describe('readDescription()', () => {
 	it('should parse a description', () =>
 		assert.deepEqual(
-			readDescription(tokenStream('This is a short description.')),
+			readDescription(tokenStream('> This is a short description.')),
 			['This is a short description.'],
 		))
-
 	it('should parse multi-line descriptions', () =>
 		assert.deepEqual(
 			readDescription(
 				tokenStream(
 					[
-						`      This is a description for the feature, which can span multiple lines. This`,
-						`      paragraph is intentionally very long so we hit the prettier auto-format wrapping`,
-						`      the long line.`,
-						'      ',
-						`      And single line-breaks should be allowed in the description.`,
-						'      ',
+						`> This is a description for the feature, which can span multiple lines. This`,
+						`> paragraph is intentionally very long so we hit the prettier auto-format`,
+						`> wrapping the long line.`,
+						`>`,
+						`>`,
+						`> And line-breaks should be allowed in the description.`,
 					].join(os.EOL),
 				),
 			),
 			[
 				'This is a description for the feature, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
-				'And single line-breaks should be allowed in the description.',
+				'And line-breaks should be allowed in the description.',
 			],
 		))
 
@@ -37,7 +36,7 @@ describe('readDescription()', () => {
 				readDescription(
 					tokenStream(
 						[
-							'Some description',
+							'> Some description',
 							`## Scenario: this begins a new scenario.`,
 						].join(os.EOL),
 					),

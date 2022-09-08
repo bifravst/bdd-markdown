@@ -15,7 +15,7 @@ describe('parseFeature()', () => {
 			shortDescription: 'Example feature',
 			description: [
 				'This is a description for the feature, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
-				'And single line-breaks should be allowed in the description.',
+				'And line-breaks should be allowed in the description.',
 			],
 			scenarios: [
 				{
@@ -23,7 +23,7 @@ describe('parseFeature()', () => {
 					shortDescription: 'The first scenario',
 					description: [
 						'This is a description for the scenario, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
-						'And single line-breaks should be allowed in the description.',
+						'And line-breaks should be allowed in the description.',
 					],
 				},
 			],
