@@ -12,3 +12,4 @@ so why not use Markdown? It could look [like this](./features/Goal.md).
   already exist
 - it provide good tools to structure a hierarchical document
 - it has support for embedding source code / JSON payloads, and even tables
+- front matter can be used for feature-level configuration

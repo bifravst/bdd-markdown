@@ -1,3 +1,9 @@
+---
+info: front-matter should be supported for feature-level settings
+tags:
+  - first
+---
+
 # Demonstrate the Webhook Receiver
 
 > As the author of a software component I want to verify that it sends a webhook
