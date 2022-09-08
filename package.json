@@ -11,7 +11,7 @@
   },
   "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc",
   "engines": {
-    "node": ">=18.8.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "test": "npx tsx parseFeature.spec.ts"
