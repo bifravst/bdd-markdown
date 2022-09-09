@@ -1,18 +1,25 @@
+import chalk from 'chalk'
 import os from 'os'
 import { TokenStream } from '../tokenStream'
 
 export class InvalidSyntaxError extends Error {
 	constructor(stream: TokenStream, error: string) {
-		const lines = stream.source().substring(0, stream.index()).split(os.EOL)
+		const lines = stream.source().slice(0, stream.index()).split(os.EOL)
 		const lastLineStart = stream
 			.source()
-			.substring(0, stream.index())
+			.slice(0, stream.index())
 			.lastIndexOf(os.EOL)
+		const lineNum =
+			stream
+				.source()
+				.slice(0, stream.index())
+				.match(new RegExp(`${os.EOL}`, 'g'))?.length ?? 0
 		const col = stream.index() - lastLineStart
+		const lineInfo = `${lineNum + 1}:${col}: `
 		super(
-			`${error}${os.EOL}Line ${lines.length}, Column ${col}${os.EOL}${
-				lines[lines.length - 1]
-			}${os.EOL}${' '.repeat(col - 1)}^`,
+			`${error}${os.EOL}${chalk.gray(`${lineInfo}`)}${lines[lineNum]}${
+				os.EOL
+			}${' '.repeat(col - 1 + lineInfo.length)}^`,
 		)
 		this.name = 'InvalidSyntaxError'
 	}

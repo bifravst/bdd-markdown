@@ -10,7 +10,7 @@ describe('readStep()', () => {
 				tokenStream('Given the Maker has started a game with the word "silky"'),
 			),
 			{
-				step: 'Given',
+				keyword: 'Given',
 				title: 'the Maker has started a game with the word "silky"',
 			},
 		)
@@ -18,7 +18,7 @@ describe('readStep()', () => {
 		assert.deepEqual(
 			readStep(tokenStream("When the Breaker joins the Maker's game")),
 			{
-				step: 'When',
+				keyword: 'When',
 				title: "the Breaker joins the Maker's game",
 			},
 		)
@@ -28,9 +28,26 @@ describe('readStep()', () => {
 				tokenStream('Then the Breaker must guess a word with 5 characters'),
 			),
 			{
-				step: 'Then',
+				keyword: 'Then',
 				title: 'the Breaker must guess a word with 5 characters',
 			},
 		)
+
+		assert.deepEqual(
+			readStep(
+				tokenStream('And the Breaker must guess a word within 60 seconds'),
+			),
+			{
+				keyword: 'And',
+				title: 'the Breaker must guess a word within 60 seconds',
+			},
+		)
 	})
+
+	it('should parse values in step definitions', () =>
+		assert.deepEqual(readStep(tokenStream('When I add `4` and `5` together')), {
+			keyword: 'When',
+			title: 'I add `4` and `5` together',
+			values: ['4', '5'],
+		}))
 })

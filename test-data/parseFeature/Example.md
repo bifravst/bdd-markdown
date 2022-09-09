@@ -15,3 +15,15 @@
 > wrapping the long line.
 >
 > And line-breaks should be allowed in the description.
+
+<!-- Comments can also precede steps and they will be associated with them. -->
+
+Given a calculator
+
+<!-- The parser will extract all values in backticks and provide them in a list. -->
+
+When I add `4`
+
+And I add `5`
+
+Then the result is `9`

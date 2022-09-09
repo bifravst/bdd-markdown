@@ -31,4 +31,26 @@ export type Feature = ParsedKeyword & {
 
 export type Scenario = ParsedKeyword & {
 	keyword: Keyword.Scenario
+	steps: Step[]
+}
+
+export enum StepKeyword {
+	Given = 'Given',
+	When = 'When',
+	Then = 'Then',
+	And = 'And',
+}
+
+export const steps = [
+	StepKeyword.Given,
+	StepKeyword.When,
+	StepKeyword.Then,
+	StepKeyword.And,
+]
+
+export type Step = {
+	keyword: StepKeyword
+	title: string
+	values?: string[]
+	comment?: string
 }

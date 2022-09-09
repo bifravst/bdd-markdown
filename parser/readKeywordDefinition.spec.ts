@@ -19,7 +19,7 @@ const parsedFeature: Omit<Feature, 'scenarios'> = {
 	],
 }
 
-const parsedScenario: Scenario = {
+const parsedScenario: Partial<Scenario> = {
 	keyword: Keyword.Scenario,
 	shortDescription: 'The first scenario',
 	description: [
