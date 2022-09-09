@@ -1,6 +1,5 @@
 export enum Keyword {
 	Feature = 'Feature',
-	Contexts = 'Contexts',
 	Example = 'Example',
 	Scenario = 'Scenario',
 	Background = 'Background',
@@ -9,7 +8,6 @@ export enum Keyword {
 }
 export const keywords: string[] = [
 	Keyword.Feature,
-	Keyword.Contexts,
 	Keyword.Example,
 	Keyword.Scenario,
 	Keyword.Background,
