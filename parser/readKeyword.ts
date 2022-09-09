@@ -1,6 +1,6 @@
 import os from 'os'
 import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
-import { Keyword, keywords } from './grammar'
+import { Keyword } from './grammar'
 import { readSentence } from './readSentence'
 import { readWord } from './readWord'
 import { skipSpace } from './skipWhiteSpace'
@@ -34,62 +34,65 @@ import { TokenStream } from './tokenStream'
  * ## Background
  * ^ the "background" keyword, without description
  */
-export const readKeyword = (
-	s: TokenStream,
-): { keyword: Keyword; description?: string } | null => {
-	let level = 0
-	if (s.char() !== '#') return null
-	while (true) {
-		if (s.char() !== '#') break
-		if (s.isEoF()) break
-		level++
-		s.next()
-	}
-	if (s.char() !== ' ')
-		throw new InvalidSyntaxError(s, `Expected " ", got "${s.char()}".`)
-	skipSpace(s)
-	let firstWord = readWord(s)
-	if (firstWord === null) return null
-	let keyword: Keyword | undefined = undefined
-
-	const firstWordIsKeyword = keywords.includes(firstWord)
-
-	if (s.char() === ':') {
-		// First word is followed by a colon, so this is supposed to be a keyword
-		s.next() // skip the colon
-		if (!firstWordIsKeyword)
-			throw new InvalidSyntaxError(s, `Unexpected keyword ${firstWord}`)
-
-		if (firstWord === Keyword.Feature) {
-			if (level !== 1)
-				throw new InvalidSyntaxError(
-					s,
-					`The ${Keyword.Feature} keyword must be a level 1 heading.`,
-				)
-		} else {
-			if (level !== 2)
-				throw new InvalidSyntaxError(
-					s,
-					`The ${firstWord} keyword must be a level 2 heading.`,
-				)
+export const readKeyword =
+	(allowedKeywords: Keyword[], allowedLevel: number) =>
+	(s: TokenStream): { keyword: Keyword; description?: string } | null => {
+		let level = 0
+		if (s.char() !== '#') return null
+		while (true) {
+			if (s.char() !== '#') break
+			if (s.isEoF()) break
+			level++
+			s.next()
 		}
-		keyword = firstWord as Keyword
-		firstWord = ''
-	} else {
-		if (firstWordIsKeyword && s.char() === os.EOL) {
-			// The only word in the heading is a keyword, this is allowed
+		if (s.char() !== ' ')
+			throw new InvalidSyntaxError(s, `Expected " ", got "${s.char()}".`)
+		skipSpace(s)
+		let firstWord = readWord(s)
+		if (firstWord === null) return null
+		let keyword: Keyword | undefined = undefined
+
+		if (s.char() === ':') {
+			// First word is followed by a colon, so this is supposed to be a keyword
+			s.next() // skip the colon
 			keyword = firstWord as Keyword
+			firstWord = ''
 		} else {
-			keyword = level === 1 ? Keyword.Feature : Keyword.Scenario
+			if (s.peekNext() === os.EOL) {
+				// The only word in the heading is a keyword, this is allowed
+				keyword = firstWord as Keyword
+			} else {
+				keyword = level === 1 ? Keyword.Feature : Keyword.Scenario
+			}
+		}
+		skipSpace(s) // skip whitespace after first word
+
+		if (!allowedKeywords.includes(keyword))
+			throw new InvalidSyntaxError(
+				s,
+				`Unexpected keyword ${keyword}, expected ${allowedKeywords.join(
+					' or ',
+				)}!`,
+			)
+
+		if (level !== allowedLevel)
+			throw new InvalidSyntaxError(
+				s,
+				`The ${keyword} keyword must be a level ${allowedLevel} heading.`,
+			)
+
+		if (s.char() === os.EOL) return { keyword }
+
+		skipSpace(s)
+		return {
+			description: [firstWord, readSentence(s) ?? ''].join(' ').trim(),
+			keyword,
 		}
 	}
-	skipSpace(s) // skip whitespace after first word
 
-	if (s.char() === os.EOL) return { keyword }
-
-	skipSpace(s)
-	return {
-		description: [firstWord, readSentence(s) ?? ''].join(' ').trim(),
-		keyword,
-	}
-}
+export const readFeatureKeyword = readKeyword([Keyword.Feature], 1)
+export const readSecondLevelKeyword = readKeyword(
+	[Keyword.Scenario, Keyword.ScenarioOutline, Keyword.Background, Keyword.Rule],
+	2,
+)
+export const readExampleKeyword = readKeyword([Keyword.Example], 3)
