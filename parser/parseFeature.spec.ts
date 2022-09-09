@@ -111,9 +111,58 @@ describe('parseFeature()', () => {
 		} as Feature)
 	})
 
-	/*
 	it('should parse a file with rules', () => {
 		const tree = parseFeature(l('Highlander'))
+		assert.deepEqual(tree, {
+			keyword: 'Feature',
+			title: 'Highlander',
+			comment: 'see https://cucumber.io/docs/gherkin/reference/#rule',
+			rules: [
+				{
+					keyword: 'Rule',
+					title: 'There can be only One',
+					scenarios: [
+						{
+							keyword: 'Example',
+							title: 'Only One -- More than one alive',
+							steps: [
+								{ keyword: 'Given', title: 'there are 3 ninjas' },
+								{
+									keyword: 'And',
+									title: 'there are more than one ninja alive',
+								},
+								{ keyword: 'When', title: '2 ninjas meet, they will fight' },
+								{ keyword: 'Then', title: 'one ninja dies (but not me)' },
+								{ keyword: 'And', title: 'there is one ninja less alive' },
+							],
+						},
+						{
+							keyword: 'Example',
+							title: 'Only One -- One alive',
+							steps: [
+								{ keyword: 'Given', title: 'there is only 1 ninja alive' },
+								{ keyword: 'Then', title: 'he (or she) will live forever ;-)' },
+							],
+						},
+					],
+				},
+				{
+					keyword: 'Rule',
+					title: 'There can be Two (in some cases)',
+					scenarios: [
+						{
+							keyword: 'Example',
+							title: 'Two -- Dead and Reborn as Phoenix',
+							steps: [
+								{
+									keyword: 'Then',
+									title: 'the story continues',
+								},
+							],
+						},
+					],
+				},
+			],
+		})
 	})
-	*/
 })

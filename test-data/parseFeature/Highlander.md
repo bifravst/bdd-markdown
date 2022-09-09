@@ -25,3 +25,5 @@ Then he (or she) will live forever ;-)
 ## Rule: There can be Two (in some cases)
 
 ### Example: Two -- Dead and Reborn as Phoenix
+
+Then the story continues

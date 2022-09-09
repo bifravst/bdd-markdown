@@ -213,6 +213,9 @@ const parseSteps = (s: TokenStream): Step[] => {
 		if (codeBlock !== null) step.codeBlock = codeBlock
 	}
 
+	if (steps.length === 0)
+		throw new InvalidSyntaxError(s, `Must define at least 1 step!`)
+
 	return steps
 }
 

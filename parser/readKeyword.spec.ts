@@ -43,16 +43,16 @@ describe('readKeyword()', () => {
 			},
 		))
 
-	it('should not allow feature keyword on level 2 heading', () =>
-		assert.throws(
-			() => readKeyword(l('feature-wrong-level'), [Keyword.Feature], 1),
-			/The Feature keyword must be a level 1 heading./,
+	it('should not find feature keyword on level 2 heading', () =>
+		assert.equal(
+			readKeyword(l('feature-wrong-level'), [Keyword.Feature], 1),
+			null,
 		))
 
-	it('should not allow other keywords on level 1 heading', () =>
-		assert.throws(
-			() => readKeyword(l('scenario-wrong-level'), [Keyword.Scenario], 2),
-			/The Scenario keyword must be a level 2 heading./,
+	it('should not find other keywords on level 1 heading', () =>
+		assert.equal(
+			readKeyword(l('scenario-wrong-level'), [Keyword.Scenario], 2),
+			null,
 		))
 
 	it('should parse keywords without description', () =>

@@ -72,19 +72,9 @@ export const readKeyword = (
 		}[level]
 	}
 
-	if (!allowedKeywords.includes(keyword as Keyword))
-		throw new InvalidSyntaxError(
-			s,
-			`Unexpected keyword ${keyword}, expected ${allowedKeywords.join(
-				' or ',
-			)}!`,
-		)
+	if (!allowedKeywords.includes(keyword as Keyword)) return null
 
-	if (level !== allowedLevel)
-		throw new InvalidSyntaxError(
-			s,
-			`The ${keyword} keyword must be a level ${allowedLevel} heading.`,
-		)
+	if (level !== allowedLevel) return null
 
 	if (description === undefined) return { keyword: keyword as Keyword }
 

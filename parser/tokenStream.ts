@@ -15,6 +15,12 @@ export const tokenStream = (source: string, index = 0): TokenStream => {
 		isEoF,
 		isEoL: () => isEoF() || source[index] === os.EOL,
 		source: () => source,
+		go: (i: number) => {
+			if (i < 0) throw new Error(`Index must be 0 or greater.`)
+			if (i + 1 > source.length)
+				throw new Error(`Index must not be beyond stream size.`)
+			index = i
+		},
 	}
 }
 
@@ -26,4 +32,5 @@ export type TokenStream = {
 	isEoF: () => boolean
 	isEoL: () => boolean
 	source: () => string
+	go: (index: number) => void
 }
