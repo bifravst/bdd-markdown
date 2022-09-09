@@ -2,9 +2,9 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
 import { testData } from '../test-data/testData'
-import { tokenStream } from '../tokenStream'
 import { Feature, Keyword, Scenario } from './grammar'
 import { readKeywordDefinition } from './readKeywordDefinition'
+import { tokenStream } from './tokenStream'
 
 const l = testData(import.meta.url)
 const feature = l('feature')

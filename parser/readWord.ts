@@ -1,11 +1,11 @@
-import { TokenStream } from '../tokenStream'
+import { TokenStream } from './tokenStream'
 
 export const readWord = (s: TokenStream): string | null => {
 	const wordTokens = []
 	while (true) {
 		if (!/[a-z]/i.test(s.char())) break
 		wordTokens.push(s.char())
-		if (s.eof()) break
+		if (s.isEoF()) break
 		s.next()
 	}
 	const word = wordTokens.join('')

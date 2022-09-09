@@ -1,14 +1,14 @@
-import { TokenStream } from '../tokenStream'
 import { ParsedKeyword } from './grammar'
 import { readComments } from './readComments'
 import { readDescription } from './readDescription'
 import { readKeyword } from './readKeyword'
 import { skipWhiteSpace } from './skipWhiteSpace'
+import { TokenStream } from './tokenStream'
 
 export const readKeywordDefinition = <K extends ParsedKeyword>(
 	s: TokenStream,
 ): K | null => {
-	if (s.eof()) return null
+	if (s.isEoF()) return null
 
 	const comment = readComments(s)
 
@@ -24,8 +24,8 @@ export const readKeywordDefinition = <K extends ParsedKeyword>(
 	const kw: ParsedKeyword = {
 		keyword: keyword.keyword,
 		shortDescription: keyword.description,
-		description,
 	}
+	if (description !== null) kw.description = description
 	if (comment !== null) kw.comment = comment
 
 	return kw as K

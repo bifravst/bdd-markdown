@@ -1,12 +1,13 @@
-import { IncompleteParseError } from '../errors/IncompleteParseError'
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
-import { ParseError } from '../errors/ParseError'
 import { Feature, Keyword, Scenario } from '../parser/grammar'
 import { readKeywordDefinition } from '../parser/readKeywordDefinition'
 import { skipWhiteSpace } from '../parser/skipWhiteSpace'
-import { TokenStream } from '../tokenStream'
+import { IncompleteParseError } from './errors/IncompleteParseError'
+import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
+import { ParseError } from './errors/ParseError'
+import { readCodeBlock } from './readCodeBlock'
 import { readComments } from './readComments'
 import { readStep } from './readStep'
+import { TokenStream } from './tokenStream'
 
 export const parseFeature = (s: TokenStream): Feature | null => {
 	const feature: Feature | null = readKeywordDefinition<Feature>(s)
@@ -28,13 +29,16 @@ export const parseFeature = (s: TokenStream): Feature | null => {
 		const steps = []
 
 		while (true) {
-			const stepComment = readComments(s)
+			const comment = readComments(s)
 			skipWhiteSpace(s)
 			const step = readStep(s)
 			skipWhiteSpace(s)
+			const codeBlock = readCodeBlock(s)
+			skipWhiteSpace(s)
 			if (step === null) break
 			steps.push(step)
-			if (stepComment !== null) step.comment = stepComment
+			if (comment !== null) step.comment = comment
+			if (codeBlock !== null) step.codeBlock = codeBlock
 		}
 
 		scenario.steps = steps
@@ -43,7 +47,7 @@ export const parseFeature = (s: TokenStream): Feature | null => {
 	// Ignore whitespace at end of file
 	skipWhiteSpace(s)
 
-	if (s.index() !== s.source().length - 1) throw new IncompleteParseError(s)
+	if (s.index() !== s.source().length) throw new IncompleteParseError(s)
 
 	return feature
 }

@@ -27,3 +27,15 @@ When I add `4`
 And I add `5`
 
 Then the result is `9`
+
+## Verify that a webhook request was sent using the REST client
+
+When I POST to `${webhookReceiver}/hook` with this JSON
+
+```json
+{ "foo": "bar" }
+```
+
+<!-- This is the response from API Gateway -->
+
+Then the response status code should be `202`

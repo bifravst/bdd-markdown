@@ -1,8 +1,8 @@
 import os from 'node:os'
-import { TokenStream } from '../tokenStream'
 import { skipWhiteSpace } from './skipWhiteSpace'
+import { TokenStream } from './tokenStream'
 
-export const readSentence = (s: TokenStream) => {
+export const readSentence = (s: TokenStream): string | null => {
 	skipWhiteSpace(s)
 	const sentenceTokens = []
 	while (true) {
@@ -10,7 +10,7 @@ export const readSentence = (s: TokenStream) => {
 		if (char === os.EOL) break
 		if (char === '#') break
 		sentenceTokens.push(char)
-		if (s.eof()) break
+		if (s.isEoF()) break
 		s.next()
 	}
 	const sentence = sentenceTokens.join('')

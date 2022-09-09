@@ -20,7 +20,7 @@ export const keywords: string[] = [
 export type ParsedKeyword = {
 	keyword: Keyword
 	shortDescription?: string
-	description: string[]
+	description?: string[]
 	comment?: string
 }
 
@@ -53,4 +53,10 @@ export type Step = {
 	title: string
 	values?: string[]
 	comment?: string
+	codeBlock?: CodeBlock
+}
+
+export type CodeBlock = {
+	language?: string
+	code: string
 }

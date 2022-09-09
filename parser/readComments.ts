@@ -1,6 +1,6 @@
 import os from 'node:os'
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
-import { TokenStream } from '../tokenStream'
+import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
+import { TokenStream } from './tokenStream'
 
 const readCommentStart = (s: TokenStream): boolean => {
 	if (s.char() !== '<') return false
@@ -19,8 +19,8 @@ export const readComments = (s: TokenStream): string | null => {
 	while (true) {
 		const char = s.char()
 		if (char === os.EOL) break
+		if (s.isEoF()) break
 		commentTokens.push(char)
-		if (s.eof()) break
 		s.next()
 	}
 

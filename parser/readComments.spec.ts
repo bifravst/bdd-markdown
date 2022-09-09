@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { tokenStream } from '../tokenStream'
 import { readComments } from './readComments'
+import { tokenStream } from './tokenStream'
 
 describe('readComments()', () => {
 	it('should read a sentence', () =>

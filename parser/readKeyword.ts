@@ -1,10 +1,10 @@
 import os from 'os'
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
-import { TokenStream } from '../tokenStream'
+import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
 import { Keyword, keywords } from './grammar'
 import { readSentence } from './readSentence'
 import { readWord } from './readWord'
 import { skipSpace } from './skipWhiteSpace'
+import { TokenStream } from './tokenStream'
 
 /**
  * Keywords are
@@ -41,7 +41,7 @@ export const readKeyword = (
 	if (s.char() !== '#') return null
 	while (true) {
 		if (s.char() !== '#') break
-		if (s.eof()) break
+		if (s.isEoF()) break
 		level++
 		s.next()
 	}

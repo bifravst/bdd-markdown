@@ -51,6 +51,28 @@ describe('parseFeature()', () => {
 						},
 					],
 				},
+				{
+					keyword: 'Scenario',
+					shortDescription:
+						'Verify that a webhook request was sent using the REST client',
+					steps: [
+						{
+							keyword: 'When',
+							title: 'I POST to `${webhookReceiver}/hook` with this JSON',
+							codeBlock: {
+								language: 'json',
+								code: '{ "foo": "bar" }',
+							},
+							values: ['${webhookReceiver}/hook'],
+						},
+						{
+							keyword: 'Then',
+							title: 'the response status code should be `202`',
+							values: ['202'],
+							comment: 'This is the response from API Gateway',
+						},
+					],
+				},
 			],
 		} as Feature)
 	})

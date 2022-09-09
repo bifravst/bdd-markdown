@@ -1,11 +1,11 @@
-import { TokenStream } from '../tokenStream'
+import { TokenStream } from './tokenStream'
 
 export const skip =
 	(ifMatch: (char: string) => boolean) =>
 	(s: TokenStream): void => {
 		while (true) {
 			if (!ifMatch(s.char())) break
-			if (s.eof()) break
+			if (s.isEoF()) break
 			s.next()
 		}
 	}

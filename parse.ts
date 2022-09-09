@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import path from 'path'
 import { parseFeature } from './parser/parseFeature'
-import { tokenStream } from './tokenStream'
+import { tokenStream } from './parser/tokenStream'
 
 console.log(
 	JSON.stringify(
