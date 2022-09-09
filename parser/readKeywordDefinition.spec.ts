@@ -3,7 +3,10 @@ import { describe, it } from 'node:test'
 import os from 'os'
 import { testData } from '../test-data/testData'
 import { Feature, Keyword, Scenario } from './grammar'
-import { readKeywordDefinition } from './readKeywordDefinition'
+import {
+	readFeatureKeywordDefinition,
+	readSecondLevelKeywordDefinition,
+} from './readKeywordDefinition'
 import { tokenStream } from './tokenStream'
 
 const l = testData(import.meta.url)
@@ -30,11 +33,11 @@ const parsedScenario: Partial<Scenario> = {
 
 describe('readKeywordDefinition()', () => {
 	it('should parse a definition', () =>
-		assert.deepEqual(readKeywordDefinition(feature), parsedFeature))
+		assert.deepEqual(readFeatureKeywordDefinition(feature), parsedFeature))
 
 	it('should not read the next keyword', () => {
 		const s = tokenStream([feature.source(), scenario.source()].join(os.EOL))
-		assert.deepEqual(readKeywordDefinition(s), parsedFeature)
-		assert.deepEqual(readKeywordDefinition(s), parsedScenario)
+		assert.deepEqual(readFeatureKeywordDefinition(s), parsedFeature)
+		assert.deepEqual(readSecondLevelKeywordDefinition(s), parsedScenario)
 	})
 })
