@@ -6,24 +6,29 @@ import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
 import { ParseError } from './errors/ParseError'
 import { readCodeBlock } from './readCodeBlock'
 import { readComments } from './readComments'
+import { readKeyword } from './readKeyword'
 import { readStep } from './readStep'
 import { TokenStream } from './tokenStream'
 
 export const parseFeature = (s: TokenStream): Feature | null => {
-	const feature: Feature | null = readKeywordDefinition<Feature>(s)
+	const maybeFeature = readKeywordDefinition(s)
+	if (maybeFeature === null)
+		throw new ParseError(`No feature found in source`, s)
 
-	if (feature === null) throw new ParseError(`No feature found in source`, s)
-
-	if (feature.keyword !== Keyword.Feature)
+	if (maybeFeature.keyword !== Keyword.Feature)
 		throw new InvalidSyntaxError(
 			s,
 			'Must specify a feature as the first element!',
 		)
+	const feature = maybeFeature as Feature
 	feature.scenarios = []
 
 	while (true) {
-		const scenario = readKeywordDefinition<Scenario>(s)
-		if (scenario === null) break
+		const maybeScenario = readKeywordDefinition(s)
+		if (maybeScenario === null) break
+		if (maybeScenario.keyword === Keyword.Feature)
+			throw new InvalidSyntaxError(s, 'Must only specify one feature per file!')
+		const scenario = maybeScenario as Scenario
 		feature.scenarios.push(scenario)
 
 		const steps = []
@@ -42,6 +47,11 @@ export const parseFeature = (s: TokenStream): Feature | null => {
 		}
 
 		scenario.steps = steps
+
+		if (maybeScenario.keyword === Keyword.ScenarioOutline) {
+			// Must provide examples
+			console.log(readKeyword(s))
+		}
 	}
 
 	// Ignore whitespace at end of file

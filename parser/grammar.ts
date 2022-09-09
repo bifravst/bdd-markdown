@@ -15,21 +15,26 @@ export const keywords: string[] = [
 	Keyword.Rule,
 ]
 
-export type ParsedKeyword = {
+export type KeywordDefinition = {
 	keyword: Keyword
 	shortDescription?: string
 	description?: string[]
 	comment?: string
 }
 
-export type Feature = ParsedKeyword & {
+export type Feature = KeywordDefinition & {
 	keyword: Keyword.Feature
 	scenarios: Scenario[]
 }
 
-export type Scenario = ParsedKeyword & {
+export type Scenario = KeywordDefinition & {
 	keyword: Keyword.Scenario
 	steps: Step[]
+}
+
+export type ScenarioOutline = Scenario & {
+	keyword: Keyword.ScenarioOutline
+	examples: Table
 }
 
 export enum StepKeyword {
@@ -58,3 +63,6 @@ export type CodeBlock = {
 	language?: string
 	code: string
 }
+
+export type Row = Record<string, string>
+export type Table = Row[]
