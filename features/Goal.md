@@ -54,7 +54,7 @@ When I eat `${eat}` cucumbers
 
 Then I should have `${left}` cucumbers
 
-### Examples
+### Example
 
 | start | eat | left |
 | ----- | --- | ---- |

@@ -10,30 +10,55 @@ export const keywords: string[] = [
 	Keyword.Feature,
 	Keyword.Example,
 	Keyword.Scenario,
+	Keyword.ScenarioOutline,
 	Keyword.Background,
-	Keyword.Scenario,
 	Keyword.Rule,
 ]
 
 export type KeywordDefinition = {
 	keyword: Keyword
-	shortDescription?: string
+	title?: string
 	description?: string[]
 	comment?: string
 }
 
+export type Scenarios = (Scenario | ScenarioOutline | Example)[]
+
 export type Feature = KeywordDefinition & {
 	keyword: Keyword.Feature
-	scenarios: Scenario[]
+	background?: Background
+	scenarios: Scenarios
+	rules: Rule[]
+}
+
+/**
+ * Used to group Scenarios
+ */
+export type Rule = KeywordDefinition & {
+	keyword: Keyword.Rule
+	scenarios: Scenarios
 }
 
 export type Scenario = KeywordDefinition & {
 	keyword: Keyword.Scenario
 	steps: Step[]
 }
+/**
+ * Same as Scenario
+ */
+export type Example = KeywordDefinition & {
+	keyword: Keyword.Example
+	steps: Step[]
+}
 
-export type ScenarioOutline = Scenario & {
+export type Background = KeywordDefinition & {
+	keyword: Keyword.Background
+	steps: Step[]
+}
+
+export type ScenarioOutline = KeywordDefinition & {
 	keyword: Keyword.ScenarioOutline
+	steps: Step[]
 	examples: Table
 }
 

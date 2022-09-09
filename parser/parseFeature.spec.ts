@@ -4,13 +4,15 @@ import { testData } from '../test-data/testData'
 import { Feature } from './grammar'
 import { parseFeature } from './parseFeature'
 
+const l = testData(import.meta.url)
+
 describe('parseFeature()', () => {
 	it('should parse a sample feature file', () => {
-		const tree = parseFeature(testData(import.meta.url)('Example'))
+		const tree = parseFeature(l('Example'))
 
 		assert.deepEqual(tree, {
 			keyword: 'Feature',
-			shortDescription: 'Example feature',
+			title: 'Example feature',
 			description: [
 				'This is a description for the feature, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
 				'And line-breaks should be allowed in the description.',
@@ -18,7 +20,7 @@ describe('parseFeature()', () => {
 			scenarios: [
 				{
 					keyword: 'Scenario',
-					shortDescription: 'The first scenario',
+					title: 'The first scenario',
 					description: [
 						'This is a description for the scenario, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
 						'And line-breaks should be allowed in the description.',
@@ -53,8 +55,7 @@ describe('parseFeature()', () => {
 				},
 				{
 					keyword: 'Scenario',
-					shortDescription:
-						'Verify that a webhook request was sent using the REST client',
+					title: 'Verify that a webhook request was sent using the REST client',
 					steps: [
 						{
 							keyword: 'When',
@@ -73,7 +74,46 @@ describe('parseFeature()', () => {
 						},
 					],
 				},
+				{
+					keyword: 'Scenario Outline',
+					title: 'eating',
+					steps: [
+						{
+							keyword: 'Given',
+							title: 'there are `${start}` cucumbers',
+							values: ['${start}'],
+						},
+						{
+							keyword: 'When',
+							title: 'I eat `${eat}` cucumbers',
+							values: ['${eat}'],
+						},
+						{
+							keyword: 'Then',
+							title: 'I should have `${left}` cucumbers',
+							values: ['${left}'],
+						},
+					],
+					examples: [
+						{
+							start: '12',
+							eat: '5',
+							left: '7',
+						},
+						{
+							start: '20',
+							eat: '5',
+							left: '15',
+						},
+					],
+				},
 			],
 		} as Feature)
 	})
+
+	/*
+	it('should parse a file with rules', () => {
+		const tree = parseFeature(l('Highlander'))
+	})
+	*/
 })
