@@ -1,6 +1,6 @@
-import { readSentence } from './readSentence'
-import { skipWhiteSpace } from './skipWhiteSpace'
-import { TokenStream } from './tokenStream'
+import { TokenStream } from '../tokenStream'
+import { sentence } from './sentence'
+import { whiteSpace } from './whiteSpace'
 
 /**
  * A description is a freeform text in quotes.
@@ -14,27 +14,27 @@ import { TokenStream } from './tokenStream'
  * >
  * > And line-breaks should be allowed in the description.
  */
-export const readDescription = (s: TokenStream): string[] | null => {
+export const description = (s: TokenStream): string[] | null => {
 	let paragraph = 0
 	const description: string[][] = [[]]
 	while (true) {
 		if (!isQuoteStart(s.char())) break
 		s.next()
-		skipWhiteSpace(s) // skip '>' and all whitespace
+		whiteSpace(s) // skip '>' and all whitespace
 		while (isQuoteStart(s.char())) {
 			// skip blank lines
 			s.next()
-			skipWhiteSpace(s) // skip '>' and all whitespace
+			whiteSpace(s) // skip '>' and all whitespace
 			// Increase paragraph count if current has content
 			if (description[paragraph].length > 0) {
 				description[++paragraph] = []
 			}
 		}
-		const sentence = readSentence(s)
-		if (sentence === null) break
-		description[paragraph].push(sentence)
+		const sn = sentence(s)
+		if (sn === null) break
+		description[paragraph].push(sn)
 		if (s.isEoF()) break
-		skipWhiteSpace(s)
+		whiteSpace(s)
 	}
 
 	const paragraphs = description

@@ -1,7 +1,7 @@
 import os from 'os'
 import { parse } from 'yaml'
-import { readLine } from './readLine'
-import { TokenStream } from './tokenStream'
+import { TokenStream } from '../tokenStream'
+import { line } from './line'
 
 const readFence = (s: TokenStream): boolean => {
 	const index = s.index()
@@ -29,16 +29,16 @@ const readFence = (s: TokenStream): boolean => {
  *   - bar
  * ---
  */
-export const readFrontMatter = (s: TokenStream): Record<string, any> | null => {
+export const frontMatter = (s: TokenStream): Record<string, any> | null => {
 	if (!readFence(s)) return null
 
 	const yamlLines: string[] = []
 
 	while (true) {
-		const line = readLine(s)
-		if (line === null) break
-		if (line === '---') break
-		yamlLines.push(line)
+		const l = line(s)
+		if (l === null) break
+		if (l === '---') break
+		yamlLines.push(l)
 	}
 
 	return parse(yamlLines.join(os.EOL))

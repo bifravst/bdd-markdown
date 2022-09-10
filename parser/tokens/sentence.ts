@@ -1,9 +1,9 @@
-import os from 'node:os'
-import { skipWhiteSpace } from './skipWhiteSpace'
-import { TokenStream } from './tokenStream'
+import os from 'os'
+import { TokenStream } from '../tokenStream'
+import { whiteSpace } from './whiteSpace'
 
-export const readSentence = (s: TokenStream): string | null => {
-	skipWhiteSpace(s)
+export const sentence = (s: TokenStream): string | null => {
+	whiteSpace(s)
 	const sentenceTokens = []
 	while (true) {
 		const char = s.char()

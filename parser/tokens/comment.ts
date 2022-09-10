@@ -1,8 +1,8 @@
 import os from 'node:os'
-import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
-import { TokenStream } from './tokenStream'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
+import { TokenStream } from '../tokenStream'
 
-const readCommentStart = (s: TokenStream): boolean => {
+const commenttart = (s: TokenStream): boolean => {
 	if (s.char() !== '<') return false
 	if (s.next() !== '!') return false
 	if (s.next() !== '-') return false
@@ -13,8 +13,8 @@ const readCommentStart = (s: TokenStream): boolean => {
 
 const endComment = '-->'
 
-export const readComments = (s: TokenStream): string | null => {
-	if (!readCommentStart(s)) return null
+export const comment = (s: TokenStream): string | null => {
+	if (!commenttart(s)) return null
 	const commentTokens = []
 	while (true) {
 		const char = s.char()

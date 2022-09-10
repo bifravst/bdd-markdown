@@ -1,19 +1,19 @@
-import assert from 'node:assert/strict'
+import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { readComments } from './readComments'
-import { tokenStream } from './tokenStream'
+import { tokenStream } from '../tokenStream'
+import { comment } from './comment'
 
-describe('readComments()', () => {
+describe('comment()', () => {
 	it('should read a sentence', () =>
 		assert.equal(
-			readComments(tokenStream('<!-- This is a comment. -->')),
+			comment(tokenStream('<!-- This is a comment. -->')),
 			'This is a comment.',
 		))
 
 	it('should stop at EOL', () =>
 		assert.equal(
-			readComments(
+			comment(
 				tokenStream(
 					['<!-- This is a comment. -->', 'Second line'].join(os.EOL),
 				),

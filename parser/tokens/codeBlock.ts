@@ -1,11 +1,11 @@
 import os from 'os'
-import { CodeBlock } from './grammar'
-import { readLine } from './readLine'
-import { readWord } from './readWord'
-import { skipWhiteSpace } from './skipWhiteSpace'
-import { TokenStream } from './tokenStream'
+import { CodeBlock } from '../grammar'
+import { TokenStream } from '../tokenStream'
+import { line } from './line'
+import { whiteSpace } from './whiteSpace'
+import { word } from './word'
 
-const readFence = (s: TokenStream): boolean => {
+const fence = (s: TokenStream): boolean => {
 	const index = s.index()
 	if (s.char() !== '`') return false
 	if (s.next() !== '`') {
@@ -36,18 +36,18 @@ const readFence = (s: TokenStream): boolean => {
  * }
  * ```
  */
-export const readCodeBlock = (s: TokenStream): CodeBlock | null => {
-	if (!readFence(s)) return null
-	const language = readWord(s)
-	skipWhiteSpace(s)
+export const codeBlock = (s: TokenStream): CodeBlock | null => {
+	if (!fence(s)) return null
+	const language = word(s)
+	whiteSpace(s)
 
 	const codeLines: string[] = []
 
 	while (true) {
-		const line = readLine(s)
-		if (line === null) break
-		if (line === '```') break
-		codeLines.push(line)
+		const l = line(s)
+		if (l === null) break
+		if (l === '```') break
+		codeLines.push(l)
 	}
 
 	const block: CodeBlock = {

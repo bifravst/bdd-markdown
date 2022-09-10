@@ -1,14 +1,14 @@
-import assert from 'node:assert/strict'
+import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import { testData } from '../test-data/testData'
+import { feature } from './feature'
 import { Feature } from './grammar'
-import { parseFeature } from './parseFeature'
 
 const l = testData(import.meta.url)
 
-describe('parseFeature()', () => {
+describe('feature()', () => {
 	it('should parse a sample feature file', () => {
-		const tree = parseFeature(l('Example'))
+		const tree = feature(l('Example'))
 
 		assert.deepEqual(tree, {
 			keyword: 'Feature',
@@ -126,7 +126,7 @@ describe('parseFeature()', () => {
 	})
 
 	it('should parse a file with rules', () => {
-		const tree = parseFeature(l('Highlander'))
+		const tree = feature(l('Highlander'))
 		assert.deepEqual(tree, {
 			keyword: 'Feature',
 			title: 'Highlander',

@@ -1,13 +1,13 @@
-import assert from 'node:assert/strict'
+import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { testData } from '../test-data/testData'
-import { readFrontMatter } from './readFrontMatter'
+import { testData } from '../../test-data/testData'
+import { frontMatter } from './frontMatter'
 
 const l = testData(import.meta.url)
 
-describe('readFrontMatter()', () => {
+describe('frontMatter()', () => {
 	it('should parse a one-line code block', () =>
-		assert.deepEqual(readFrontMatter(l('frontmatter')), {
+		assert.deepEqual(frontMatter(l('frontmatter')), {
 			info: 'front-matter should be supported for feature-level settings',
 			tags: ['first'],
 			contexts: [

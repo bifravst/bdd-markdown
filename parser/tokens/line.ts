@@ -1,6 +1,6 @@
-import { TokenStream } from './tokenStream'
+import { TokenStream } from '../tokenStream'
 
-export const readLine = (s: TokenStream): string | null => {
+export const line = (s: TokenStream): string | null => {
 	const lineTokens = []
 	while (true) {
 		lineTokens.push(s.char())

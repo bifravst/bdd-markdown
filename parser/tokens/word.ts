@@ -1,6 +1,6 @@
-import { TokenStream } from './tokenStream'
+import { TokenStream } from '../tokenStream'
 
-export const readWord = (s: TokenStream): string | null => {
+export const word = (s: TokenStream): string | null => {
 	const wordTokens = []
 	while (true) {
 		if (!/[a-z]/i.test(s.char())) break

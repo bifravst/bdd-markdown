@@ -1,10 +1,10 @@
-import assert from 'node:assert/strict'
+import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { testData } from '../test-data/testData'
-import { Feature, Keyword, Scenario } from './grammar'
-import { readKeywordDefinition } from './readKeywordDefinition'
-import { tokenStream } from './tokenStream'
+import { testData } from '../../test-data/testData'
+import { Feature, Keyword, Scenario } from '../grammar'
+import { tokenStream } from '../tokenStream'
+import { keywordDefinition } from './keywordDefinition'
 
 const l = testData(import.meta.url)
 const feature = l('feature')
@@ -28,21 +28,18 @@ const parsedScenario: Partial<Scenario> = {
 	],
 }
 
-describe('readKeywordDefinition()', () => {
+describe('keywordDefinition()', () => {
 	it('should parse a definition', () =>
 		assert.deepEqual(
-			readKeywordDefinition(feature, [Keyword.Feature], 1),
+			keywordDefinition(feature, [Keyword.Feature], 1),
 			parsedFeature,
 		))
 
 	it('should not read the next keyword', () => {
 		const s = tokenStream([feature.source(), scenario.source()].join(os.EOL))
+		assert.deepEqual(keywordDefinition(s, [Keyword.Feature], 1), parsedFeature)
 		assert.deepEqual(
-			readKeywordDefinition(s, [Keyword.Feature], 1),
-			parsedFeature,
-		)
-		assert.deepEqual(
-			readKeywordDefinition(s, [Keyword.Scenario], 2),
+			keywordDefinition(s, [Keyword.Scenario], 2),
 			parsedScenario,
 		)
 	})

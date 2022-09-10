@@ -1,8 +1,8 @@
-import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
-import { Keyword } from './grammar'
-import { readSentence } from './readSentence'
-import { skipSpace } from './skipWhiteSpace'
-import { TokenStream } from './tokenStream'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
+import { Keyword } from '../grammar'
+import { TokenStream } from '../tokenStream'
+import { sentence } from './sentence'
+import { space } from './whiteSpace'
 
 /**
  * Keywords are
@@ -32,7 +32,7 @@ import { TokenStream } from './tokenStream'
  * ## Background
  * ^ the "background" keyword, without description
  */
-export const readKeyword = (
+export const keyword = (
 	s: TokenStream,
 	allowedKeywords: Keyword[],
 	allowedLevel: number,
@@ -47,23 +47,23 @@ export const readKeyword = (
 	}
 	if (s.char() !== ' ')
 		throw new InvalidSyntaxError(s, `Expected " ", got "${s.char()}".`)
-	skipSpace(s)
+	space(s)
 
 	let keyword: Keyword | undefined = undefined
 	let description: string | undefined = undefined
 
-	const sentence = readSentence(s)
-	if (sentence?.includes(':') ?? false) {
+	const sn = sentence(s)
+	if (sn?.includes(':') ?? false) {
 		// Keyword heading includes a colon, so the part before the colon is supposed to be a keyword
-		const [k, d] = (sentence as string).split(':').map((s) => s.trim())
+		const [k, d] = (sn as string).split(':').map((s) => s.trim())
 		keyword = k as Keyword
 		description = d
-	} else if (allowedKeywords.includes(sentence as Keyword)) {
+	} else if (allowedKeywords.includes(sn as Keyword)) {
 		// The heading is just the keyword
-		keyword = sentence as Keyword
+		keyword = sn as Keyword
 	} else {
 		// The heading is just the description
-		description = sentence ?? undefined
+		description = sn ?? undefined
 		// Infer the keyword from the level
 		keyword = {
 			1: Keyword.Feature,

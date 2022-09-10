@@ -1,13 +1,13 @@
-import assert from 'node:assert/strict'
+import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { testData } from '../test-data/testData'
-import { readTable } from './readTable'
+import { testData } from '../../test-data/testData'
+import { table } from './table'
 
 const l = testData(import.meta.url)
 
-describe('readTable()', () => {
+describe('table()', () => {
 	it('should parse a table', () =>
-		assert.deepEqual(readTable(l('simple')), [
+		assert.deepEqual(table(l('simple')), [
 			{
 				start: '12',
 				eat: '5',

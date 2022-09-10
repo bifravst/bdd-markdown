@@ -1,5 +1,5 @@
-import { readFileSync } from 'node:fs'
-import path, { parse } from 'node:path'
+import { readFileSync } from 'fs'
+import path, { parse } from 'path'
 import { TokenStream, tokenStream } from '../parser/tokenStream'
 
 export const testData =

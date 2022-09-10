@@ -1,8 +1,21 @@
-import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
-import { Table } from './grammar'
-import { readUntil } from './readUntil'
-import { skipWhiteSpace } from './skipWhiteSpace'
-import { TokenStream } from './tokenStream'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
+import { Table } from '../grammar'
+import { TokenStream } from '../tokenStream'
+import { whiteSpace } from './whiteSpace'
+
+const until =
+	(endToken: string) =>
+	(s: TokenStream): string | null => {
+		const contentTokens = []
+		while (true) {
+			if (s.isEoF()) break
+			if (s.char() === endToken) break
+			contentTokens.push(s.char())
+			s.next()
+			if (s.char() === endToken || s.isEoF()) break
+		}
+		return contentTokens.length > 0 ? contentTokens.join('') : null
+	}
 
 /**
  * A table is created using a bit of ASCII art.
@@ -15,7 +28,7 @@ import { TokenStream } from './tokenStream'
  * | 20    | 5   | 15   |
  *
  */
-export const readTable = (s: TokenStream): Table | null => {
+export const table = (s: TokenStream): Table | null => {
 	const table: Table = []
 
 	while (true) {
@@ -54,7 +67,7 @@ export const readTable = (s: TokenStream): Table | null => {
 	return Object.keys(table).length > 0 ? table : null
 }
 
-const readCol = readUntil('|')
+const readCol = until('|')
 
 const readRow = (s: TokenStream): string[] | null => {
 	const rowTokens: string[] = []
@@ -62,11 +75,11 @@ const readRow = (s: TokenStream): string[] | null => {
 	while (true) {
 		if (s.char() !== '|') break
 		s.next() // skip |
-		skipWhiteSpace(s)
+		whiteSpace(s)
 		const col = readCol(s)
 		if (col === null) break
 		rowTokens.push(col.trim())
 	}
-	skipWhiteSpace(s)
+	whiteSpace(s)
 	return rowTokens.length > 0 ? rowTokens : null
 }

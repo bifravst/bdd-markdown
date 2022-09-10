@@ -1,11 +1,11 @@
 import { readFileSync } from 'fs'
 import path from 'path'
-import { parseFeature } from './parser/parseFeature'
+import { feature } from './parser/feature'
 import { tokenStream } from './parser/tokenStream'
 
 console.log(
 	JSON.stringify(
-		parseFeature(
+		feature(
 			tokenStream(
 				readFileSync(
 					path.join(process.cwd(), process.argv[process.argv.length - 1]),

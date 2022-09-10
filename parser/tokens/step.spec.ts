@@ -1,12 +1,12 @@
-import assert from 'node:assert/strict'
+import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { readStep } from './readStep'
-import { tokenStream } from './tokenStream'
+import { tokenStream } from '../tokenStream'
+import { step } from './step'
 
-describe('readStep()', () => {
+describe('step()', () => {
 	it('should parse step definitions', () => {
 		assert.deepEqual(
-			readStep(
+			step(
 				tokenStream('Given the Maker has started a game with the word "silky"'),
 			),
 			{
@@ -16,7 +16,7 @@ describe('readStep()', () => {
 		)
 
 		assert.deepEqual(
-			readStep(tokenStream("When the Breaker joins the Maker's game")),
+			step(tokenStream("When the Breaker joins the Maker's game")),
 			{
 				keyword: 'When',
 				title: "the Breaker joins the Maker's game",
@@ -24,9 +24,7 @@ describe('readStep()', () => {
 		)
 
 		assert.deepEqual(
-			readStep(
-				tokenStream('Then the Breaker must guess a word with 5 characters'),
-			),
+			step(tokenStream('Then the Breaker must guess a word with 5 characters')),
 			{
 				keyword: 'Then',
 				title: 'the Breaker must guess a word with 5 characters',
@@ -34,9 +32,7 @@ describe('readStep()', () => {
 		)
 
 		assert.deepEqual(
-			readStep(
-				tokenStream('And the Breaker must guess a word within 60 seconds'),
-			),
+			step(tokenStream('And the Breaker must guess a word within 60 seconds')),
 			{
 				keyword: 'And',
 				title: 'the Breaker must guess a word within 60 seconds',
@@ -45,7 +41,7 @@ describe('readStep()', () => {
 	})
 
 	it('should parse values in step definitions', () =>
-		assert.deepEqual(readStep(tokenStream('When I add `4` and `5` together')), {
+		assert.deepEqual(step(tokenStream('When I add `4` and `5` together')), {
 			keyword: 'When',
 			title: 'I add `4` and `5` together',
 			values: ['4', '5'],

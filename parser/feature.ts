@@ -1,3 +1,6 @@
+import { IncompleteParseError } from './errors/IncompleteParseError'
+import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
+import { ParseError } from './errors/ParseError'
 import {
 	Background,
 	Example,
@@ -9,25 +12,22 @@ import {
 	ScenarioOutline,
 	Step,
 	Table,
-} from '../parser/grammar'
-import { readKeywordDefinition } from '../parser/readKeywordDefinition'
-import { skipWhiteSpace } from '../parser/skipWhiteSpace'
-import { IncompleteParseError } from './errors/IncompleteParseError'
-import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
-import { ParseError } from './errors/ParseError'
-import { readCodeBlock } from './readCodeBlock'
-import { readComments } from './readComments'
-import { readFrontMatter } from './readFrontMatter'
-import { readKeyword } from './readKeyword'
-import { readStep } from './readStep'
-import { readTable } from './readTable'
+} from './grammar'
+import { codeBlock } from './tokens/codeBlock'
+import { comment } from './tokens/comment'
+import { frontMatter } from './tokens/frontMatter'
+import { keyword } from './tokens/keyword'
+import { keywordDefinition } from './tokens/keywordDefinition'
+import { step } from './tokens/step'
+import { table } from './tokens/table'
+import { whiteSpace } from './tokens/whiteSpace'
 import { TokenStream } from './tokenStream'
 
-export const parseFeature = (s: TokenStream): Feature | null => {
+export const feature = (s: TokenStream): Feature | null => {
 	// Features may have front matter
-	const maybeFrontMatter = readFrontMatter(s)
+	const maybeFrontMatter = frontMatter(s)
 	// Read the feature name
-	const maybeFeature = readKeywordDefinition(s, [Keyword.Feature], 1)
+	const maybeFeature = keywordDefinition(s, [Keyword.Feature], 1)
 	if (maybeFeature === null)
 		throw new ParseError(`No feature found in source`, s)
 
@@ -41,7 +41,7 @@ export const parseFeature = (s: TokenStream): Feature | null => {
 
 	// Read the children of a feature
 	while (true) {
-		const secondLevel = parseFeatureChildren(s)
+		const secondLevel = featureChildren(s)
 		if (secondLevel === null) break
 		// There may be one Background
 		if (secondLevel.keyword === Keyword.Background) {
@@ -60,7 +60,7 @@ export const parseFeature = (s: TokenStream): Feature | null => {
 	}
 
 	// Ignore whitespace at end of file
-	skipWhiteSpace(s)
+	whiteSpace(s)
 
 	if (s.index() !== s.source().length) throw new IncompleteParseError(s)
 
@@ -77,10 +77,10 @@ export const parseFeature = (s: TokenStream): Feature | null => {
  *
  * Each child can have a comment and a description.
  */
-const parseFeatureChildren = (
+const featureChildren = (
 	s: TokenStream,
 ): Background | Rule | Scenario | ScenarioOutline | Example | null => {
-	const def = readKeywordDefinition(
+	const def = keywordDefinition(
 		s,
 		[Keyword.Rule, Keyword.Scenario, Keyword.Example, Keyword.ScenarioOutline],
 		2,
@@ -92,7 +92,7 @@ const parseFeatureChildren = (
 		case Keyword.ScenarioOutline:
 		case Keyword.Example:
 		case Keyword.Background:
-			return parseFeatureChildSteps(s, def)
+			return featureChildSteps(s, def)
 		case Keyword.Rule:
 			return parseRule(s, def)
 	}
@@ -111,7 +111,7 @@ const parseRule = (s: TokenStream, def: KeywordDefinition): Rule => {
 	return rule
 }
 
-const parseFeatureChildSteps = (
+const featureChildSteps = (
 	s: TokenStream,
 	def: KeywordDefinition,
 ): Background | Rule | Scenario | ScenarioOutline | Example => {
@@ -160,7 +160,7 @@ const parseRuleChildren = (
 	const children: (Scenario | ScenarioOutline | Example)[] = []
 
 	while (true) {
-		const def = readKeywordDefinition(
+		const def = keywordDefinition(
 			s,
 			[Keyword.Scenario, Keyword.Example, Keyword.ScenarioOutline],
 			3,
@@ -205,16 +205,16 @@ const parseSteps = (s: TokenStream): Step[] => {
 	const steps = []
 
 	while (true) {
-		const stepComment = readComments(s)
-		skipWhiteSpace(s)
-		const step = readStep(s)
-		skipWhiteSpace(s)
-		const codeBlock = readCodeBlock(s)
-		skipWhiteSpace(s)
-		if (step === null) break
-		steps.push(step)
-		if (stepComment !== null) step.comment = stepComment
-		if (codeBlock !== null) step.codeBlock = codeBlock
+		const stepComment = comment(s)
+		whiteSpace(s)
+		const st = step(s)
+		whiteSpace(s)
+		const code = codeBlock(s)
+		whiteSpace(s)
+		if (st === null) break
+		steps.push(st)
+		if (stepComment !== null) st.comment = stepComment
+		if (code !== null) st.codeBlock = code
 	}
 
 	if (steps.length === 0)
@@ -228,10 +228,10 @@ const parseSteps = (s: TokenStream): Step[] => {
  */
 const parseExamples = (s: TokenStream, level: number): Table => {
 	// Must provide examples
-	if (readKeyword(s, [Keyword.Example], level) === null)
+	if (keyword(s, [Keyword.Example], level) === null)
 		throw new InvalidSyntaxError(s, `Scenario outlines must provide examples.`)
-	skipWhiteSpace(s)
-	const examples = readTable(s)
+	whiteSpace(s)
+	const examples = table(s)
 	if (examples === null)
 		throw new InvalidSyntaxError(
 			s,
