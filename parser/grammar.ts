@@ -28,7 +28,8 @@ export type Feature = KeywordDefinition & {
 	keyword: Keyword.Feature
 	background?: Background
 	scenarios: Scenarios
-	rules: Rule[]
+	rules?: Rule[]
+	frontMatter?: Record<string, any>
 }
 
 /**

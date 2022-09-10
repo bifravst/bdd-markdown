@@ -17,6 +17,20 @@ describe('parseFeature()', () => {
 				'This is a description for the feature, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
 				'And line-breaks should be allowed in the description.',
 			],
+			frontMatter: {
+				info: 'front-matter should be supported for feature-level settings',
+				tags: ['first'],
+				contexts: [
+					{
+						nw: 'ltem',
+						'nw-modem': 'LTE-M',
+					},
+					{
+						nw: 'nbiot',
+						'nw-modem': 'NB-IoT',
+					},
+				],
+			},
 			scenarios: [
 				{
 					keyword: 'Scenario',

@@ -17,12 +17,15 @@ import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
 import { ParseError } from './errors/ParseError'
 import { readCodeBlock } from './readCodeBlock'
 import { readComments } from './readComments'
+import { readFrontMatter } from './readFrontMatter'
 import { readKeyword } from './readKeyword'
 import { readStep } from './readStep'
 import { readTable } from './readTable'
 import { TokenStream } from './tokenStream'
 
 export const parseFeature = (s: TokenStream): Feature | null => {
+	// Features may have front matter
+	const maybeFrontMatter = readFrontMatter(s)
 	// Read the feature name
 	const maybeFeature = readKeywordDefinition(s, [Keyword.Feature], 1)
 	if (maybeFeature === null)
@@ -34,6 +37,7 @@ export const parseFeature = (s: TokenStream): Feature | null => {
 			'Must specify a feature as the first element!',
 		)
 	const feature = maybeFeature as Feature
+	if (maybeFrontMatter !== null) feature.frontMatter = maybeFrontMatter
 
 	// Read the children of a feature
 	while (true) {

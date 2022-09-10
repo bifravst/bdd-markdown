@@ -5,7 +5,8 @@
   "type": "module",
   "dependencies": {
     "chalk": "5.0.1",
-    "tap-parser": "11.0.1"
+    "tap-parser": "11.0.1",
+    "yaml": "2.1.1"
   },
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.123",

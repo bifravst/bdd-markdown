@@ -6,9 +6,16 @@ import { skipWhiteSpace } from './skipWhiteSpace'
 import { TokenStream } from './tokenStream'
 
 const readFence = (s: TokenStream): boolean => {
+	const index = s.index()
 	if (s.char() !== '`') return false
-	if (s.next() !== '`') return false
-	if (s.next() !== '`') return false
+	if (s.next() !== '`') {
+		s.go(index)
+		return false
+	}
+	if (s.next() !== '`') {
+		s.go(index)
+		return false
+	}
 	s.next()
 	return true
 }
