@@ -64,6 +64,19 @@ export const feature = (s: TokenStream): Feature | null => {
 
 	if (s.index() !== s.source().length) throw new IncompleteParseError(s)
 
+	// Feature must define at least one scenario
+	const numScenarios =
+		(feature?.scenarios ?? []).length +
+		(feature?.rules ?? []).reduce(
+			(ruleScenarios, { scenarios }) => scenarios.length + ruleScenarios,
+			0,
+		)
+	if (numScenarios === 0)
+		throw new InvalidSyntaxError(
+			s,
+			`Features must define at least one scenario.`,
+		)
+
 	return feature
 }
 

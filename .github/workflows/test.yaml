@@ -25,3 +25,8 @@ jobs:
 
       - name: Run Unit Tests
         run: npm test
+
+      - name: Parse examples
+        run: |
+          npx tsx parse.ts parser/test-data/feature/Example.md
+          npx tsx parse.ts parser/test-data/feature/Highlander.md

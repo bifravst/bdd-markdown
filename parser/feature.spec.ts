@@ -179,4 +179,10 @@ describe('feature()', () => {
 			],
 		})
 	})
+
+	it('should complain about a feature with no scenarios', () =>
+		assert.throws(
+			() => feature(l('NoScenario')),
+			/Features must define at least one scenario./,
+		))
 })
