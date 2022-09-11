@@ -1,4 +1,5 @@
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
+import { getLineNumber } from '../errors/toErrorPosition'
 import { Keyword } from '../grammar'
 import { TokenStream } from '../tokenStream'
 import { sentence } from './sentence'
@@ -36,7 +37,7 @@ export const keyword = (
 	s: TokenStream,
 	allowedKeywords: Keyword[],
 	allowedLevel: number,
-): { keyword: Keyword; description?: string } | null => {
+): { keyword: Keyword; description?: string; lineNumber: number } | null => {
 	let level = 0
 	if (s.char() !== '#') return null
 	while (true) {
@@ -53,6 +54,7 @@ export const keyword = (
 	let description: string | undefined = undefined
 
 	const sn = sentence(s)
+	const lineNumber = getLineNumber(s)
 	if (sn?.includes(':') ?? false) {
 		// Keyword heading includes a colon, so the part before the colon is supposed to be a keyword
 		const [k, d] = (sn as string).split(':').map((s) => s.trim())
@@ -76,10 +78,12 @@ export const keyword = (
 
 	if (level !== allowedLevel) return null
 
-	if (description === undefined) return { keyword: keyword as Keyword }
+	if (description === undefined)
+		return { keyword: keyword as Keyword, lineNumber: lineNumber }
 
 	return {
 		keyword: keyword as Keyword,
+		lineNumber: lineNumber,
 		description,
 	}
 }

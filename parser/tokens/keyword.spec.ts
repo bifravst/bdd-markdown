@@ -14,12 +14,14 @@ describe('keyword()', () => {
 			{
 				keyword: 'Feature',
 				description: 'User registration',
+				lineNumber: 1,
 			},
 		))
 	it('should parse a feature heading with the keyword', () =>
 		assert.deepEqual(keyword(l('feature-with-keyword'), [Keyword.Feature], 1), {
 			keyword: 'Feature',
 			description: 'User registration',
+			lineNumber: 1,
 		}))
 
 	it('should parse a scenario heading with the keyword', () =>
@@ -28,6 +30,7 @@ describe('keyword()', () => {
 			{
 				keyword: 'Scenario',
 				description: 'Fill registration form',
+				lineNumber: 1,
 			},
 		))
 
@@ -37,6 +40,7 @@ describe('keyword()', () => {
 			{
 				keyword: 'Scenario',
 				description: 'Fill registration form',
+				lineNumber: 1,
 			},
 		))
 
@@ -52,12 +56,14 @@ describe('keyword()', () => {
 	it('should parse keywords without description', () =>
 		assert.deepEqual(keyword(l('background'), [Keyword.Background], 2), {
 			keyword: 'Background',
+			lineNumber: 1,
 		}))
 
 	it('should parse other keywords with description', () =>
 		assert.deepEqual(keyword(l('rule'), [Keyword.Rule], 2), {
 			keyword: 'Rule',
 			description: 'Email must be syntactically correct',
+			lineNumber: 1,
 		}))
 
 	it('should parse features without keyword that use a keyword in the description', () =>
@@ -66,6 +72,7 @@ describe('keyword()', () => {
 			{
 				keyword: 'Feature',
 				description: 'Example feature',
+				lineNumber: 1,
 			},
 		))
 
@@ -74,6 +81,7 @@ describe('keyword()', () => {
 
 		assert.deepEqual(keyword(f, [Keyword.Feature], 1), {
 			keyword: 'Feature',
+			lineNumber: 1,
 		})
 
 		whiteSpace(f)
@@ -81,24 +89,28 @@ describe('keyword()', () => {
 		assert.deepEqual(keyword(f, [Keyword.ScenarioOutline], 2), {
 			keyword: 'Scenario Outline',
 			description: 'eating',
+			lineNumber: 3,
 		})
 
 		whiteSpace(f)
 
 		assert.deepEqual(keyword(f, [Keyword.Example], 3), {
 			keyword: 'Example',
+			lineNumber: 5,
 		})
 
 		whiteSpace(f)
 
 		assert.deepEqual(keyword(f, [Keyword.ScenarioOutline], 2), {
 			keyword: 'Scenario Outline',
+			lineNumber: 7,
 		})
 
 		whiteSpace(f)
 
 		assert.deepEqual(keyword(f, [Keyword.Example], 3), {
 			keyword: 'Example',
+			lineNumber: 9,
 		})
 	})
 })

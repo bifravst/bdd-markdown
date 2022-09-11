@@ -1,3 +1,4 @@
+import { getLineNumber } from '../errors/toErrorPosition'
 import { Keyword, KeywordDefinition } from '../grammar'
 import { TokenStream } from '../tokenStream'
 import { comment } from './comment'
@@ -22,6 +23,7 @@ export const keywordDefinition = (
 	whiteSpace(s)
 
 	const k = keyword(s, allowedKeywords, allowedLevel)
+	const line = getLineNumber(s)
 	if (k === null) {
 		s.go(startIndex)
 		return null
@@ -34,6 +36,7 @@ export const keywordDefinition = (
 	const kw: KeywordDefinition = {
 		keyword: k.keyword,
 		title: k.description,
+		line,
 	}
 	if (d !== null) kw.description = d
 	if (c !== null) kw.comment = c

@@ -36,6 +36,7 @@ export const feature = (s: TokenStream): Feature | null => {
 			'Must specify a feature as the first element!',
 		)
 	const feature = maybeFeature as Feature
+
 	if (maybeFrontMatter !== null) feature.frontMatter = maybeFrontMatter
 
 	// Read the children of a feature

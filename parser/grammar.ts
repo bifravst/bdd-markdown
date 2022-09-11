@@ -18,6 +18,7 @@ export const keywords: string[] = [
 export type KeywordDefinition = {
 	keyword: Keyword
 	title?: string
+	line: number
 	description?: string[]
 	comment?: string
 }
@@ -80,6 +81,7 @@ export const steps = [
 export type Step = {
 	keyword: StepKeyword
 	title: string
+	line: number
 	values?: string[]
 	comment?: string
 	codeBlock?: CodeBlock
