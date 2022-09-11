@@ -4,6 +4,7 @@ export enum Keyword {
 	Scenario = 'Scenario',
 	Background = 'Background',
 	ScenarioOutline = 'Scenario Outline',
+	ScenarioOutlineExamples = 'Examples',
 	Rule = 'Rule',
 }
 export const keywords: string[] = [

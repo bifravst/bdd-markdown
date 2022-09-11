@@ -30,3 +30,4 @@ jobs:
         run: |
           npx tsx parse.ts parser/test-data/feature/Example.md
           npx tsx parse.ts parser/test-data/feature/Highlander.md
+          npx tsx parse.ts examples/MarsRover.md

@@ -115,7 +115,7 @@ const featureChildren = (
 const parseRule = (s: TokenStream, def: KeywordDefinition): Rule => {
 	const scenarios = parseRuleChildren(s)
 	if (scenarios === null)
-		throw new InvalidSyntaxError(s, `Rule must contain Scenarios`)
+		throw new InvalidSyntaxError(s, `Rule must contain scenarios`)
 	const rule: Rule = {
 		...def,
 		keyword: Keyword.Rule,
@@ -241,7 +241,7 @@ const parseSteps = (s: TokenStream): Step[] => {
  */
 const parseExamples = (s: TokenStream, level: number): Table => {
 	// Must provide examples
-	if (keyword(s, [Keyword.Example], level) === null)
+	if (keyword(s, [Keyword.ScenarioOutlineExamples], level) === null)
 		throw new InvalidSyntaxError(s, `Scenario outlines must provide examples.`)
 	whiteSpace(s)
 	const examples = table(s)

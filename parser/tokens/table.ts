@@ -1,7 +1,8 @@
+import os from 'os'
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
 import { Table } from '../grammar'
 import { TokenStream } from '../tokenStream'
-import { whiteSpace } from './whiteSpace'
+import { space } from './whiteSpace'
 
 const until =
 	(endToken: string) =>
@@ -9,6 +10,7 @@ const until =
 		const contentTokens = []
 		while (true) {
 			if (s.isEoF()) break
+			if (s.isEoL()) break
 			if (s.char() === endToken) break
 			contentTokens.push(s.char())
 			s.next()
@@ -39,8 +41,9 @@ export const table = (s: TokenStream): Table | null => {
 			throw new InvalidSyntaxError(s, `Failed to parse table header!`)
 		// Parse header separator
 		const headerSep = readRow(s)
-		if (headerSep === null)
+		if (headerSep === null) {
 			throw new InvalidSyntaxError(s, `Failed to parse table header separator!`)
+		}
 		if (headerSep.filter((col) => /^-+$/.test(col)).length !== headerSep.length)
 			throw new InvalidSyntaxError(s, `Invalid table header separator.`)
 		// Parse rows
@@ -75,11 +78,15 @@ const readRow = (s: TokenStream): string[] | null => {
 	while (true) {
 		if (s.char() !== '|') break
 		s.next() // skip |
-		whiteSpace(s)
+		space(s)
 		const col = readCol(s)
+		if (s.char() === os.EOL) {
+			s.next()
+			break
+		}
 		if (col === null) break
 		rowTokens.push(col.trim())
 	}
-	whiteSpace(s)
+	space(s)
 	return rowTokens.length > 0 ? rowTokens : null
 }
