@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { testData } from '../../test-data/testData'
 import { Feature, Keyword, Scenario } from '../grammar'
+import { testData } from '../test-data/testData'
 import { tokenStream } from '../tokenStream'
 import { keywordDefinition } from './keywordDefinition'
 

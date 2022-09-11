@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import path, { parse } from 'path'
-import { TokenStream, tokenStream } from '../parser/tokenStream'
+import { TokenStream, tokenStream } from '../tokenStream'
 
 export const testData =
 	(testFilename: string) =>
@@ -9,6 +9,7 @@ export const testData =
 			readFileSync(
 				path.join(
 					process.cwd(),
+					'parser',
 					'test-data',
 					parse(testFilename).name.replace('.spec', ''),
 					`${dataFilename}.md`,
