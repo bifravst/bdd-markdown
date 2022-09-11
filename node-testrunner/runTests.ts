@@ -5,11 +5,11 @@ import path from 'path'
 import { findTestFiles } from './findTestFiles'
 import { formatTapErrors } from './tap/formatTapErrors'
 
-export const runTests = async (baseDir: string) => {
+export const runTests = async (baseDir: string): Promise<void> => {
 	const testFiles = await findTestFiles(baseDir)
 	const result = await Promise.all(
 		testFiles.map(
-			(f) =>
+			async (f) =>
 				new Promise<{
 					success: boolean
 					log: string

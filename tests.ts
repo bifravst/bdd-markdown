@@ -1,3 +1,3 @@
-import { runTests } from './testrunner/runTests'
+import { runTests } from './node-testrunner/runTests'
 
-runTests(process.cwd())
+await runTests(process.cwd())

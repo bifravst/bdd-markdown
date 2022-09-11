@@ -1,10 +1,10 @@
 import { readdir, stat } from 'fs/promises'
 import path from 'path'
 
-export const findTestFiles = async (baseDir: string) =>
+export const findTestFiles = async (baseDir: string): Promise<string[]> =>
 	exploreDirectory(baseDir)
 
-const exploreDirectory = async (dir: string) => {
+const exploreDirectory = async (dir: string): Promise<string[]> => {
 	const files: string[] = []
 	for (const entry of await readdir(dir)) {
 		const f = path.join(dir, entry)
