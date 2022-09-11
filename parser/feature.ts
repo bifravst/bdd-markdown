@@ -1,6 +1,5 @@
 import { IncompleteParseError } from './errors/IncompleteParseError'
 import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
-import { ParseError } from './errors/ParseError'
 import {
 	Background,
 	Example,
@@ -29,7 +28,7 @@ export const feature = (s: TokenStream): Feature | null => {
 	// Read the feature name
 	const maybeFeature = keywordDefinition(s, [Keyword.Feature], 1)
 	if (maybeFeature === null)
-		throw new ParseError(`No feature found in source`, s)
+		throw new InvalidSyntaxError(s, `No feature found in source`)
 
 	if (maybeFeature.keyword !== Keyword.Feature)
 		throw new InvalidSyntaxError(
