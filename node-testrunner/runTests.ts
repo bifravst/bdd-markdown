@@ -61,7 +61,7 @@ export const runTests = async (baseDir: string): Promise<void> => {
 		chalk.grey(` Total:    `),
 		chalk.white(pad(summary.count)),
 		chalk.grey(` Duration: `),
-		chalk.white(`${pad(Math.round(summary.durationMs * 1000))} ms`),
+		chalk.white(`${pad(Math.round(summary.durationMs))} ms`),
 	)
 	console.log()
 
