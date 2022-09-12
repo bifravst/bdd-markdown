@@ -12,7 +12,7 @@ export const testData =
 					'parser',
 					'test-data',
 					parse(testFilename).name.replace('.spec', ''),
-					`${dataFilename}.md`,
+					`${dataFilename}.feature.md`,
 				),
 				'utf-8',
 			),
