@@ -9,7 +9,7 @@
     "yaml": "2.1.1"
   },
   "devDependencies": {
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.123",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.124",
     "@types/node": "18.7.16",
     "husky": "8.0.1",
     "lint-staged": "13.0.3",
