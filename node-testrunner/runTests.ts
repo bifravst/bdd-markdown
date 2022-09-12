@@ -4,6 +4,7 @@ import os from 'os'
 import path from 'path'
 import { findTestFiles } from './findTestFiles'
 import { formatTapErrors } from './tap/formatTapErrors'
+import { complete, summarize } from './tap/summary'
 
 export const runTests = async (baseDir: string): Promise<void> => {
 	const testFiles = await findTestFiles(baseDir)
@@ -46,6 +47,24 @@ export const runTests = async (baseDir: string): Promise<void> => {
 			formatTapErrors(log)
 		}
 	})
+
+	const summary = summarize(result.map(({ log }) => complete(log)))
+	const pad = (n: number) => `${n}`.padStart(5, ' ')
+	console.log()
+	console.log(
+		chalk.grey(` Failed:   `),
+		(summary.fail !== 0 ? chalk.redBright : chalk.green)(pad(summary.fail)),
+		chalk.grey(` Passed:   `),
+		(summary.fail !== 0 ? chalk.yellow : chalk.greenBright)(pad(summary.pass)),
+	)
+	console.log(
+		chalk.grey(` Total:    `),
+		chalk.white(pad(summary.count)),
+		chalk.grey(` Duration: `),
+		chalk.white(`${pad(Math.round(summary.durationMs * 1000))} ms`),
+	)
+	console.log()
+
 	if (
 		!result.reduce(
 			(allPass, { success }) => (success === false ? false : allPass),
