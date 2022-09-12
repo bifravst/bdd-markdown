@@ -28,6 +28,6 @@ jobs:
 
       - name: Parse examples
         run: |
-          npx tsx parse.ts parser/test-data/feature/Example.md
-          npx tsx parse.ts parser/test-data/feature/Highlander.md
-          npx tsx parse.ts examples/MarsRover.md
+          npx tsx parse.ts parser/test-data/feature/Example.feature.md
+          npx tsx parse.ts parser/test-data/feature/Highlander.feature.md
+          npx tsx parse.ts examples/mars-rover/MarsRover.feature.md

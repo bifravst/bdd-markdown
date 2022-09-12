@@ -48,6 +48,7 @@ export type Scenario = KeywordDefinition & {
 }
 /**
  * Same as Scenario
+ * FIXME: get rid of extra type
  */
 export type Example = KeywordDefinition & {
 	keyword: Keyword.Example

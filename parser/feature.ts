@@ -22,7 +22,7 @@ import { table } from './tokens/table'
 import { whiteSpace } from './tokens/whiteSpace'
 import { TokenStream } from './tokenStream'
 
-export const feature = (s: TokenStream): Feature | null => {
+export const feature = (s: TokenStream): Feature => {
 	// Features may have front matter
 	const maybeFrontMatter = frontMatter(s)
 	// Read the feature name

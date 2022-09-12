@@ -6,7 +6,7 @@
 > vehicles to the surface of the planet. Develop an API that translates the
 > commands sent from earth to instructions that are understood by the rover.
 
-## Scenario Outline: Move the rover forward/backward (f,b).
+## Scenario Outline: Move the rover forward/backward (f,b)
 
 Given I have a Mars Rover
 
@@ -20,7 +20,7 @@ Then the current position should be `${x},${y}`
 
 ### Examples
 
-| direction | X   | Y   |
+| direction | x   | y   |
 | --------- | --- | --- |
 | N         | 0   | -1  |
 | S         | 0   | 1   |
