@@ -14,7 +14,7 @@ When I set the initial starting point to `0,0`
 
 And I set the initial direction to `${direction}`
 
-And I move the Mars Rover forward
+And I move the Mars Rover `forward`
 
 Then the current position should be `${x},${y}`
 
@@ -25,4 +25,4 @@ Then the current position should be `${x},${y}`
 | N         | 0   | -1  |
 | S         | 0   | 1   |
 | E         | 1   | 0   |
-| W         | -   | 0   |
+| W         | -1  | 0   |
