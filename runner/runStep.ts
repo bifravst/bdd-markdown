@@ -21,6 +21,7 @@ export type StepResult = {
 }
 
 export const noMatch = { matched: false }
+export const isMatch = { matched: true }
 export type StepMatched = {
 	matched: true
 	result?: any
