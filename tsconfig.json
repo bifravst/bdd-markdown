@@ -9,6 +9,8 @@
     "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
+      "@bdd-markdown/parser": ["parser/index.ts"],
+      "@bdd-markdown/parser/*": ["parser/*"],
       "@bdd-markdown/runner": ["runner/index.ts"],
       "@bdd-markdown/runner/*": ["runner/*"],
       "@bdd-markdown/reporter": ["reporter/index.ts"],

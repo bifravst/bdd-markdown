@@ -1,6 +1,7 @@
 import { Feature, Keyword, Row, Scenario, Step } from 'parser/grammar'
 import { ParsedPath } from 'path'
 import { parseFeaturesInFolder } from './parseFeaturesInFolder'
+import { replaceFromExamples } from './replaceFromExamples'
 import { Logger, StepLog, stepLogger } from './stepLogger'
 
 export type RunResult = {
@@ -238,26 +239,6 @@ const runScenario = async <Context extends Record<string, any>>(
 		duration: Date.now() - startTs,
 	}
 }
-
-const replaceFromExamples =
-	(row: Row) =>
-	(step: Step): Step => ({
-		...step,
-		title: replacePlaceholders(step.title, row),
-		codeBlock:
-			step.codeBlock === undefined
-				? undefined
-				: {
-						...step.codeBlock,
-						code: replacePlaceholders(step.codeBlock.code, row),
-				  },
-	})
-
-const replacePlaceholders = (s: string, row: Row): string =>
-	Object.entries(row).reduce(
-		(replaced, [k, v]) => (replaced = replaced.replace(`\${${k}}`, v)),
-		s,
-	)
 
 const runStep = async <Context extends Record<string, any>>(
 	stepRunners: StepRunner<Context>[],
