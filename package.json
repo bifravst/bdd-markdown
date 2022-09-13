@@ -32,7 +32,7 @@
   },
   "scripts": {
     "test": "npx tsx tests.ts",
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
   },
   "lint-staged": {
