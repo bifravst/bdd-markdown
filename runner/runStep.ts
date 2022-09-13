@@ -1,4 +1,6 @@
 import { Feature, Scenario, Step } from '@bdd-markdown/parser/grammar'
+import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders'
+import { replaceFromContext } from './replaceFromContext'
 import { ScenarioExecution } from './runFeature'
 import { Logger, StepLog, stepLogger } from './stepLogger'
 
@@ -48,6 +50,21 @@ export const runStep = async <Context extends Record<string, any>>(
 ): Promise<Omit<StepResult, 'skipped'>> => {
 	const logs = stepLogger({ getRelativeTs })
 
+	const replacedStep = replaceFromContext(context)(step)
+
+	const unreplaced = getUnreplacedPlaceholders(replacedStep)
+	if (unreplaced.length > 0) {
+		logs.error({
+			message: `Step has unreplaced placeholders: ${unreplaced.join(', ')}`,
+			detail: unreplaced,
+		})
+		return {
+			ok: false,
+			logs: logs.getLogs(),
+			duration: 0,
+		}
+	}
+
 	const startTs = Date.now()
 	try {
 		for (const stepRunner of stepRunners) {
@@ -64,7 +81,7 @@ export const runStep = async <Context extends Record<string, any>>(
 				}
 			}
 			const maybeRun = await stepRunner({
-				step,
+				step: replacedStep,
 				context,
 				feature,
 				scenario,
@@ -92,7 +109,7 @@ export const runStep = async <Context extends Record<string, any>>(
 		}
 	}
 	logs.error({
-		message: `No runner defined for step: ${step.title}`,
+		message: `No runner defined for step: ${replacedStep.title}`,
 	})
 	return {
 		ok: false,

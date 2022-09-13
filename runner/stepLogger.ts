@@ -7,6 +7,7 @@ export type Logger = {
 
 type ErrorInfo = {
 	message: string
+	detail?: any
 }
 
 export enum LogLevel {

@@ -39,3 +39,4 @@ jobs:
       - name: Run examples
         run: |
           npx tsx examples/mars-rover/tests.ts
+          npx tsx examples/firmware/tests.ts

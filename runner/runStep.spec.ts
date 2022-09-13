@@ -134,4 +134,56 @@ describe('runStep()', () => {
 			},
 		])
 	})
+
+	it('should complain about unreplaced placeholders', async () => {
+		const feature = await f()
+		const stepResult = await runStep(
+			[async () => ({ matched: true })],
+			feature,
+			feature.scenarios[0] as Scenario,
+			{
+				...feature.scenarios[0].steps[0],
+				title: 'I echo ${unreplaced}',
+			},
+			{},
+			[],
+			() => 42,
+		)
+
+		assert.equal(stepResult.ok, false)
+		assert.deepEqual(stepResult.logs, [
+			{
+				level: LogLevel.ERROR,
+				ts: 42,
+				message: ['Step has unreplaced placeholders: ${unreplaced}'],
+			},
+		])
+	})
+
+	it('should complain replaced placeholders with data from context', async () => {
+		const feature = await f()
+		let replacedTitle = ''
+		const stepResult = await runStep(
+			[
+				async ({ step: { title } }) => {
+					replacedTitle = title
+					return { matched: true }
+				},
+			],
+			feature,
+			feature.scenarios[0] as Scenario,
+			{
+				...feature.scenarios[0].steps[0],
+				title: 'I echo ${foo}',
+			},
+			{
+				foo: 'bar',
+			},
+			[],
+			() => 42,
+		)
+
+		assert.equal(stepResult.ok, true)
+		assert.equal(replacedTitle, 'I echo bar')
+	})
 })

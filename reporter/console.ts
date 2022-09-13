@@ -131,11 +131,11 @@ const formatRunResult = (result: SuiteResult) => {
 					switch (log.level) {
 						case LogLevel.DEBUG:
 							color = chalk.blue
-							prefix = color(`     🛈 `)
+							prefix = color(`    🛈 `)
 							break
 						case LogLevel.ERROR:
 							color = chalk.redBright
-							prefix = color(`     ⚠️ `)
+							prefix = color(`     ⚠️`)
 							break
 						case LogLevel.PROGRESS:
 							color = chalk.blueBright

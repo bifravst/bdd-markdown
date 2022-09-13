@@ -14,13 +14,12 @@ export type SuiteResult = {
 	results: [ParsedPath, FeatureResult][]
 	summary: Summary
 }
-type Runner<Context extends Record<string, any>> = {
-	run: () => Promise<SuiteResult>
+export type Runner<Context extends Record<string, any>> = {
+	run: (context?: Context) => Promise<SuiteResult>
 	addStepRunners: (...stepRunners: StepRunner<Context>[]) => Runner<Context>
 }
 export const runSuite = <Context extends Record<string, any>>(
 	featureFiles: FeatureFile[],
-	context?: Context,
 ): Runner<Context> => {
 	const stepRunners: StepRunner<Context>[] = []
 
@@ -29,7 +28,7 @@ export const runSuite = <Context extends Record<string, any>>(
 			stepRunners.push(...runners)
 			return runner
 		},
-		run: async () => {
+		run: async (context?: Context) => {
 			const featureResults: [ParsedPath, FeatureResult][] = []
 
 			for (const { file, feature } of featureFiles) {

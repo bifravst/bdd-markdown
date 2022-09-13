@@ -28,3 +28,5 @@ so why not use Markdown? It can look
 - [Gherkin `Rule` keyword](./parser/test-data/feature/Highlander.feature.md)
 - [Mars Rover Kata](./examples/mars-rover/MarsRover.feature.md)  
   Run: `npx tsx examples/mars-rover/tests.ts`
+- [Firmware UART log assertions](./examples/firmware/)  
+  Run: `npx tsx examples/firmware/tests.ts`
