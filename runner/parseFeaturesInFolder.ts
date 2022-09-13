@@ -5,14 +5,13 @@ import { Feature } from 'parser/grammar'
 import { tokenStream } from 'parser/tokenStream'
 import { findFilesInFolder } from './findTestFiles'
 
+export type FeatureFile = {
+	file: ReturnType<typeof parse>
+	feature: Feature
+}
 export const parseFeaturesInFolder = async (
 	folderWithFeatures: string,
-): Promise<
-	{
-		file: ReturnType<typeof parse>
-		feature: Feature
-	}[]
-> => {
+): Promise<FeatureFile[]> => {
 	const featureFiles = await findFilesInFolder(
 		folderWithFeatures,
 		'.feature.md',

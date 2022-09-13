@@ -1,18 +1,18 @@
-import { LogLevel, RunResult, StepResult } from '@bdd-markdown/runner'
+import { LogLevel, StepResult, SuiteResult } from '@bdd-markdown/runner'
 import chalk, { ChalkInstance } from 'chalk'
 import os from 'os'
 
 const errorMark = chalk.bgRedBright(' EE ')
 const passMark = chalk.bgGreenBright(' OK ')
 
-export const consoleReporter = (result: RunResult): void => {
+export const consoleReporter = (result: SuiteResult): void => {
 	console.log('')
 	formatRunResult(result)
 	console.log('')
 	summarizeRunResult(result)
 }
 
-const summarizeRunResult = (result: RunResult) => {
+const summarizeRunResult = (result: SuiteResult) => {
 	const numPass = result.results.filter(([, { ok }]) => ok === true).length
 	const numFail = result.results.filter(([, { ok }]) => ok !== true).length
 	const allPass = numFail === 0
@@ -34,7 +34,7 @@ const summarizeRunResult = (result: RunResult) => {
 	)
 }
 
-const formatRunResult = (result: RunResult) => {
+const formatRunResult = (result: SuiteResult) => {
 	const testSuiteDuration = result.results.reduce(
 		(total, [, { duration }]) => total + duration,
 		0,
