@@ -31,8 +31,6 @@ contexts:
 
 Given a calculator
 
-<!-- The parser will extract all values in backticks and provide them in a list. -->
-
 When I add `4`
 
 And I add `5`

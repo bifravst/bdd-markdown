@@ -23,17 +23,5 @@ export const step = (s: TokenStream): Step | null => {
 		title,
 		line,
 	}
-	const values = parseValues(title)
-	if (values !== null) step.values = values
 	return step
-}
-
-const parseValues = (text: string): string[] | null => {
-	const matches: string[] = []
-
-	for (const match of text.matchAll(/`([^`]+)`/g)) {
-		matches.push(match[1])
-	}
-
-	return matches.length > 0 ? matches : null
 }

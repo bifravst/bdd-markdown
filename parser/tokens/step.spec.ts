@@ -43,12 +43,4 @@ describe('step()', () => {
 			},
 		)
 	})
-
-	it('should parse values in step definitions', () =>
-		assert.deepEqual(step(tokenStream('When I add `4` and `5` together')), {
-			keyword: 'When',
-			title: 'I add `4` and `5` together',
-			line: 1,
-			values: ['4', '5'],
-		}))
 })

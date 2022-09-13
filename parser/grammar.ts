@@ -84,7 +84,6 @@ export type Step = {
 	keyword: StepKeyword
 	title: string
 	line: number
-	values?: string[]
 	comment?: string
 	codeBlock?: CodeBlock
 }

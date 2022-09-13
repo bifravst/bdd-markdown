@@ -54,71 +54,61 @@ describe('feature()', () => {
 						{
 							keyword: 'When',
 							title: 'I add `4`',
-							values: ['4'],
-							line: 36,
-							comment:
-								'The parser will extract all values in backticks and provide them in a list.',
+							line: 34,
 						},
 						{
 							keyword: 'And',
 							title: 'I add `5`',
-							line: 38,
-							values: ['5'],
+							line: 36,
 						},
 						{
 							keyword: 'Then',
 							title: 'the result is `9`',
-							line: 40,
-							values: ['9'],
+							line: 38,
 						},
 					],
 				},
 				{
 					keyword: 'Scenario',
 					title: 'Verify that a webhook request was sent using the REST client',
-					line: 42,
+					line: 40,
 					steps: [
 						{
 							keyword: 'When',
 							title: 'I POST to `${webhookReceiver}/hook` with this JSON',
-							line: 44,
+							line: 42,
 							codeBlock: {
 								language: 'json',
 								code: '{ "foo": "bar" }',
 							},
-							values: ['${webhookReceiver}/hook'],
 						},
 						{
 							keyword: 'Then',
 							title: 'the response status code should be `202`',
-							line: 52,
-							values: ['202'],
+							line: 50,
 							comment: 'This is the response from API Gateway',
 						},
 					],
 				},
 				{
 					keyword: 'Scenario Outline',
-					line: 54,
+					line: 52,
 					title: 'eating',
 					steps: [
 						{
 							keyword: 'Given',
 							title: 'there are `${start}` cucumbers',
-							line: 56,
-							values: ['${start}'],
+							line: 54,
 						},
 						{
 							keyword: 'When',
 							title: 'I eat `${eat}` cucumbers',
-							line: 58,
-							values: ['${eat}'],
+							line: 56,
 						},
 						{
 							keyword: 'Then',
 							title: 'I should have `${left}` cucumbers',
-							line: 60,
-							values: ['${left}'],
+							line: 58,
 						},
 					],
 					examples: [
