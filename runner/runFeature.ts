@@ -52,7 +52,13 @@ export const runFeature = async <Context extends Record<string, any>>(
 					context,
 					getRelativeTs,
 				)
-				scenarioResults.push([scenarioFromExample, result])
+				scenarioResults.push([
+					scenarioFromExample,
+					{
+						...result,
+						skipped: false,
+					},
+				])
 				if (!result.ok) aborted = true
 			}
 		} else {
@@ -76,7 +82,13 @@ export const runFeature = async <Context extends Record<string, any>>(
 				context,
 				getRelativeTs,
 			)
-			scenarioResults.push([scenario as ScenarioExecution, result])
+			scenarioResults.push([
+				scenario as ScenarioExecution,
+				{
+					...result,
+					skipped: false,
+				},
+			])
 			if (!result.ok) aborted = true
 		}
 	}

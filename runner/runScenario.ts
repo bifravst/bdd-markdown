@@ -14,7 +14,7 @@ export const runScenario = async <Context extends Record<string, any>>(
 	scenario: Scenario,
 	context: Context,
 	getRelativeTs: () => number,
-): Promise<ScenarioResult> => {
+): Promise<Omit<ScenarioResult, 'skipped'>> => {
 	const startTs = Date.now()
 	const stepResults: [Step, StepResult][] = []
 
@@ -59,7 +59,6 @@ export const runScenario = async <Context extends Record<string, any>>(
 			true,
 		),
 		results: stepResults,
-		skipped: false,
 		duration: Date.now() - startTs,
 	}
 }
