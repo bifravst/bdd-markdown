@@ -1,6 +1,7 @@
 import { Feature, Keyword, Row, Scenario, Step } from 'parser/grammar'
 import { ParsedPath } from 'path'
 import { parseFeaturesInFolder } from './parseFeaturesInFolder'
+import { Logger, StepLog, stepLogger } from './stepLogger'
 
 export type RunResult = {
 	ok: boolean
@@ -38,29 +39,6 @@ export type StepResult = {
 type Runner<Context extends Record<string, any>> = {
 	run: () => Promise<RunResult>
 	addStepRunners: (...stepRunners: StepRunner<Context>[]) => Runner<Context>
-}
-
-type Logger = {
-	debug: (...args: any[]) => void
-	info: (...args: string[]) => void
-	error: (error: ErrorInfo) => void
-	progress: (...args: string[]) => void
-}
-
-export enum LogLevel {
-	DEBUG = 'debug',
-	INFO = 'info',
-	ERROR = 'error',
-	PROGRESS = 'progress',
-}
-
-export type StepLog = {
-	level: LogLevel
-	message: string[]
-	/**
-	 * Time in ms from beginning of the feature run when the log message was created
-	 */
-	ts: number
 }
 
 export const noMatch = { matched: false }
@@ -330,44 +308,5 @@ const runStep = async <Context extends Record<string, any>>(
 		ok: false,
 		logs: logs.getLogs(),
 		duration: 0,
-	}
-}
-
-type ErrorInfo = {
-	message: string
-}
-
-const stepLogger = ({
-	getRelativeTs,
-}: {
-	getRelativeTs: () => number
-}): Logger & { getLogs: () => StepLog[] } => {
-	const logs: StepLog[] = []
-	return {
-		debug: (...message) =>
-			logs.push({
-				message,
-				level: LogLevel.DEBUG,
-				ts: getRelativeTs(),
-			}),
-		progress: (...message) =>
-			logs.push({
-				message,
-				level: LogLevel.PROGRESS,
-				ts: getRelativeTs(),
-			}),
-		info: (...message) =>
-			logs.push({
-				message,
-				level: LogLevel.INFO,
-				ts: getRelativeTs(),
-			}),
-		error: (error) =>
-			logs.push({
-				message: [error.message],
-				level: LogLevel.ERROR,
-				ts: getRelativeTs(),
-			}),
-		getLogs: () => logs,
 	}
 }
