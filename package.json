@@ -55,7 +55,11 @@
   },
   "files": [
     "package-lock.json",
-    "dist",
+    "dist/index.d.ts",
+    "dist/index.js",
+    "dist/parser",
+    "dist/reporter",
+    "dist/runner",
     "LICENSE",
     "README.md"
   ]
