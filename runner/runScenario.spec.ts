@@ -14,7 +14,6 @@ const f = async () =>
 				'runner',
 				'test-data',
 				'runSuite',
-				'simple',
 				'Example.feature.md',
 			),
 		)

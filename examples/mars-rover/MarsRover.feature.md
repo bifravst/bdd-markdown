@@ -6,7 +6,7 @@
 > vehicles to the surface of the planet. Develop an API that translates the
 > commands sent from earth to instructions that are understood by the rover.
 
-## Scenario Outline: Move the rover forward/backward (f,b)
+## Scenario Outline: Move the rover forward
 
 Given I have a Mars Rover
 

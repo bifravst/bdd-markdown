@@ -12,7 +12,6 @@ describe('runSuite()', () => {
 				'runner',
 				'test-data',
 				'runSuite',
-				'simple',
 				'Example.feature.md',
 			),
 		)
