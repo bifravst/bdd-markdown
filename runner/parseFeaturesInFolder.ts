@@ -1,8 +1,10 @@
+import {
+	feature,
+	Feature,
+	tokenStream,
+} from '@nordicsemiconductor/bdd-markdown'
 import { readFile } from 'node:fs/promises'
 import { parse } from 'node:path'
-import { feature } from 'parser/feature'
-import { Feature } from 'parser/grammar'
-import { tokenStream } from 'parser/tokenStream'
 import { findFilesInFolder } from './findTestFiles.js'
 
 export type FeatureFile = {

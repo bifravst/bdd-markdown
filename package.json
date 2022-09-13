@@ -7,8 +7,14 @@
   "license": "BSD-3-Clause",
   "typings": "dist/index.d.ts",
   "exports": {
-    "import": "./dist/index.js",
-    "node": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.js",
+      "node": "./dist/index.js"
+    },
+    "./*": {
+      "import": "./dist/*",
+      "node": "./dist/*"
+    }
   },
   "dependencies": {
     "chalk": "5.0.1",
