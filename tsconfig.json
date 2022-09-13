@@ -10,7 +10,9 @@
     "baseUrl": ".",
     "paths": {
       "@bdd-markdown/runner": ["runner/index.ts"],
-      "@bdd-markdown/runner/*": ["runner/*"]
+      "@bdd-markdown/runner/*": ["runner/*"],
+      "@bdd-markdown/reporter": ["reporter/index.ts"],
+      "@bdd-markdown/reporter/*": ["reporter/*"]
     }
   }
 }

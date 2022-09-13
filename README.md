@@ -21,3 +21,10 @@ so why not use Markdown? It can look
 - it provide good tools to structure a hierarchical document
 - it has support for embedding source code / JSON payloads, and even tables
 - front matter can be used for feature-level configuration
+
+## Examples
+
+- [Demo of supported syntax](./parser/test-data/feature/Example.feature.md)
+- [Gherkin `Rule` keyword](./parser/test-data/feature/Highlander.feature.md)
+- [Mars Rover Kata](./examples/mars-rover/MarsRover.feature.md)  
+  Run: `npx tsx examples/mars-rover/tests.ts`

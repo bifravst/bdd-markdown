@@ -14,11 +14,13 @@ type ScenarioExecution = Scenario & {
 type FeatureResult = {
 	ok: boolean
 	results: [ScenarioExecution, ScenarioResult][]
+	duration: number
 }
 type ScenarioResult = {
 	ok: boolean
 	skipped: boolean
 	results: [Step, StepResult][]
+	duration: number
 }
 
 export type StepResult = {
@@ -30,11 +32,12 @@ export type StepResult = {
 	 */
 	printable?: string
 	logs: StepLog[]
+	duration: number
 }
 
 type Runner<Context extends Record<string, any>> = {
 	run: () => Promise<RunResult>
-	addStepRunner: (stepRunner: StepRunner<Context>) => Runner<Context>
+	addStepRunners: (...stepRunners: StepRunner<Context>[]) => Runner<Context>
 }
 
 type Logger = {
@@ -51,10 +54,13 @@ export enum LogLevel {
 	PROGRESS = 'progress',
 }
 
-type StepLog = {
+export type StepLog = {
 	level: LogLevel
 	message: string[]
-	ts: Date
+	/**
+	 * Time in ms from beginning of the feature run when the log message was created
+	 */
+	ts: number
 }
 
 export const noMatch = { matched: false }
@@ -66,15 +72,19 @@ export type StepMatched = {
 	 */
 	printable?: string
 }
-type StepRunner<Context extends Record<string, any>> = (args: {
+export type StepRunResult = typeof noMatch | StepMatched
+export type StepRunnerArgs<Context extends Record<string, any>> = {
 	step: Step
 	scenario: ScenarioExecution
 	feature: Feature
 	context: Context
-	logs: Logger
+	log: Logger
 	previousResult?: [Step, any]
 	previousResults: [Step, any][]
-}) => Promise<typeof noMatch | StepMatched>
+}
+export type StepRunner<Context extends Record<string, any>> = (
+	args: StepRunnerArgs<Context>,
+) => Promise<StepRunResult>
 
 export const runner = <Context extends Record<string, any>>(
 	folderWithFeatures: string,
@@ -83,8 +93,8 @@ export const runner = <Context extends Record<string, any>>(
 	const stepRunners: StepRunner<Context>[] = []
 
 	const runner: Runner<Context> = {
-		addStepRunner: (stepRunner: StepRunner<Context>) => {
-			stepRunners.push(stepRunner)
+		addStepRunners: (...runners: StepRunner<Context>[]) => {
+			stepRunners.push(...runners)
 			return runner
 		},
 		run: async () => {
@@ -123,6 +133,8 @@ const runFeature = async <Context extends Record<string, any>>(
 	context: Context,
 ): Promise<FeatureResult> => {
 	const scenarioResults: [ScenarioExecution, ScenarioResult][] = []
+	const startTs = Date.now()
+	const getRelativeTs = () => Date.now() - startTs
 
 	let aborted = false
 	for (const scenario of feature.scenarios) {
@@ -141,6 +153,7 @@ const runFeature = async <Context extends Record<string, any>>(
 							ok: false,
 							skipped: true,
 							results: [],
+							duration: 0,
 						},
 					])
 					continue
@@ -151,6 +164,7 @@ const runFeature = async <Context extends Record<string, any>>(
 					scenarioFromExample,
 					// Re-use the same context
 					context,
+					getRelativeTs,
 				)
 				scenarioResults.push([scenarioFromExample, result])
 				if (!result.ok) aborted = true
@@ -163,6 +177,7 @@ const runFeature = async <Context extends Record<string, any>>(
 						ok: false,
 						skipped: true,
 						results: [],
+						duration: 0,
 					},
 				])
 				continue
@@ -173,6 +188,7 @@ const runFeature = async <Context extends Record<string, any>>(
 				scenario as Scenario,
 				// Re-use the same context
 				context,
+				getRelativeTs,
 			)
 			scenarioResults.push([scenario as ScenarioExecution, result])
 			if (!result.ok) aborted = true
@@ -185,6 +201,7 @@ const runFeature = async <Context extends Record<string, any>>(
 			true,
 		),
 		results: scenarioResults,
+		duration: Date.now() - startTs,
 	}
 }
 
@@ -193,7 +210,9 @@ const runScenario = async <Context extends Record<string, any>>(
 	feature: Feature,
 	scenario: Scenario,
 	context: Context,
+	getRelativeTs: () => number,
 ): Promise<ScenarioResult> => {
+	const startTs = Date.now()
 	const stepResults: [Step, StepResult][] = []
 
 	let aborted = false
@@ -205,10 +224,12 @@ const runScenario = async <Context extends Record<string, any>>(
 					logs: [],
 					ok: false,
 					skipped: true,
+					duration: 0,
 				},
 			])
 			continue
 		}
+
 		const stepRunResult = await runStep(
 			stepRunners,
 			feature,
@@ -217,6 +238,7 @@ const runScenario = async <Context extends Record<string, any>>(
 			// Re-use the same context
 			context,
 			stepResults.map(([step, stepResult]) => [step, stepResult.result]),
+			getRelativeTs,
 		)
 		stepResults.push([
 			step,
@@ -235,6 +257,7 @@ const runScenario = async <Context extends Record<string, any>>(
 		),
 		results: stepResults,
 		skipped: false,
+		duration: Date.now() - startTs,
 	}
 }
 
@@ -265,14 +288,11 @@ const runStep = async <Context extends Record<string, any>>(
 	step: Step,
 	context: Context,
 	previousResults: [Step, any][],
-): Promise<{
-	ok: boolean
-	logs: StepLog[]
-	result?: any
-	printable?: string
-}> => {
-	const logs = stepLogger()
+	getRelativeTs: () => number,
+): Promise<Omit<StepResult, 'skipped'>> => {
+	const logs = stepLogger({ getRelativeTs })
 
+	const startTs = Date.now()
 	try {
 		for (const stepRunner of stepRunners) {
 			const maybeRun = await stepRunner({
@@ -280,7 +300,7 @@ const runStep = async <Context extends Record<string, any>>(
 				context,
 				feature,
 				scenario,
-				logs,
+				log: logs,
 				previousResults,
 				previousResult: previousResults[previousResults.length - 1]?.[1],
 			})
@@ -290,6 +310,7 @@ const runStep = async <Context extends Record<string, any>>(
 				ok: true,
 				result: (maybeRun as StepMatched).result,
 				printable: (maybeRun as StepMatched).printable,
+				duration: Date.now() - startTs,
 			}
 		}
 	} catch (err) {
@@ -299,6 +320,7 @@ const runStep = async <Context extends Record<string, any>>(
 		return {
 			logs: logs.getLogs(),
 			ok: false,
+			duration: Date.now() - startTs,
 		}
 	}
 	logs.error({
@@ -307,6 +329,7 @@ const runStep = async <Context extends Record<string, any>>(
 	return {
 		ok: false,
 		logs: logs.getLogs(),
+		duration: 0,
 	}
 }
 
@@ -314,32 +337,36 @@ type ErrorInfo = {
 	message: string
 }
 
-const stepLogger = (): Logger & { getLogs: () => StepLog[] } => {
+const stepLogger = ({
+	getRelativeTs,
+}: {
+	getRelativeTs: () => number
+}): Logger & { getLogs: () => StepLog[] } => {
 	const logs: StepLog[] = []
 	return {
 		debug: (...message) =>
 			logs.push({
 				message,
 				level: LogLevel.DEBUG,
-				ts: new Date(),
+				ts: getRelativeTs(),
 			}),
 		progress: (...message) =>
 			logs.push({
 				message,
 				level: LogLevel.PROGRESS,
-				ts: new Date(),
+				ts: getRelativeTs(),
 			}),
 		info: (...message) =>
 			logs.push({
 				message,
 				level: LogLevel.INFO,
-				ts: new Date(),
+				ts: getRelativeTs(),
 			}),
 		error: (error) =>
 			logs.push({
 				message: [error.message],
 				level: LogLevel.ERROR,
-				ts: new Date(),
+				ts: getRelativeTs(),
 			}),
 		getLogs: () => logs,
 	}
