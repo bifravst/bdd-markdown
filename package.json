@@ -1,8 +1,15 @@
 {
-  "name": "bdd-markdown",
+  "name": "@nordicsemiconductor/bdd-markdown",
   "version": "0.0.0-development",
   "description": "Write BDD tests in Markdown.",
   "type": "module",
+  "author": "Nordic Semiconductor ASA | nordicsemi.no",
+  "license": "BSD-3-Clause",
+  "typings": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "node": "./dist/index.js"
+  },
   "dependencies": {
     "chalk": "5.0.1",
     "tap-parser": "11.0.1",
@@ -11,6 +18,8 @@
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.125",
     "@types/node": "18.7.16",
+    "eslint-import-resolver-typescript": "3.5.1",
+    "eslint-plugin-import": "2.26.0",
     "husky": "8.0.1",
     "lint-staged": "13.0.3",
     "prettier": "2.7.1",
@@ -23,7 +32,8 @@
   },
   "scripts": {
     "test": "npx tsx tests.ts",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
@@ -34,7 +44,19 @@
       "eslint --fix --ext .js,.ts"
     ]
   },
-  "_moduleAliases": {
-    "@bdd-markdown/runner": "runner"
-  }
+  "release": {
+    "branches": [
+      "saga"
+    ],
+    "remoteTags": true
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "package-lock.json",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ]
 }

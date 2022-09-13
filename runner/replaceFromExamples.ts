@@ -1,4 +1,4 @@
-import { Row, Step } from '@bdd-markdown/parser'
+import { Row, Step } from '@nordicsemiconductor/bdd-markdown/parser'
 
 export const replaceFromExamples =
 	(row: Row) =>

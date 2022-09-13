@@ -1,10 +1,10 @@
-import { getLineNumber } from '../errors/toErrorPosition'
-import { Keyword, KeywordDefinition } from '../grammar'
-import { TokenStream } from '../tokenStream'
-import { comment } from './comment'
-import { description } from './description'
-import { keyword } from './keyword'
-import { whiteSpace } from './whiteSpace'
+import { getLineNumber } from '../errors/toErrorPosition.js'
+import { Keyword, KeywordDefinition } from '../grammar.js'
+import { TokenStream } from '../tokenStream.js'
+import { comment } from './comment.js'
+import { description } from './description.js'
+import { keyword } from './keyword.js'
+import { whiteSpace } from './whiteSpace.js'
 
 /**
  * In this reader we have to take a look ahead in in case we do not encounter the "allowed" keyword, track back.

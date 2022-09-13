@@ -1,5 +1,5 @@
 import os from 'os'
-import { EndOfStreamError } from './errors/EndOfStreamError'
+import { EndOfStreamError } from './errors/EndOfStreamError.js'
 
 export const tokenStream = (source: string, index = 0): TokenStream => {
 	const isEoF = () => index + 1 > source.length

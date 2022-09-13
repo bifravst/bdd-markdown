@@ -2,7 +2,7 @@ import assert from 'assert/strict'
 import { steps } from 'examples/mars-rover/steps'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { runFolder } from './runFolder'
+import { runFolder } from './runFolder.js'
 
 describe('runFolder()', () => {
 	it('should run the feature files in a folder', async () => {

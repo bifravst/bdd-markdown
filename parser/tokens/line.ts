@@ -1,4 +1,4 @@
-import { TokenStream } from '../tokenStream'
+import { TokenStream } from '../tokenStream.js'
 
 export const line = (s: TokenStream): string | null => {
 	const lineTokens = []

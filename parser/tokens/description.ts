@@ -1,6 +1,6 @@
-import { TokenStream } from '../tokenStream'
-import { sentence } from './sentence'
-import { whiteSpace } from './whiteSpace'
+import { TokenStream } from '../tokenStream.js'
+import { sentence } from './sentence.js'
+import { whiteSpace } from './whiteSpace.js'
 
 /**
  * A description is a freeform text in quotes.

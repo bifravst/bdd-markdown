@@ -3,9 +3,9 @@ import {
 	StepRunner,
 	StepRunnerArgs,
 	StepRunResult,
-} from '@bdd-markdown/runner'
+} from '@nordicsemiconductor/bdd-markdown/runner'
 import assert from 'assert/strict'
-import { Direction, rover } from './rover'
+import { Direction, rover } from './rover.js'
 
 const printRover = (r: ReturnType<typeof rover>): string =>
 	`${r.x()},${r.y()} ${r.direction()}`

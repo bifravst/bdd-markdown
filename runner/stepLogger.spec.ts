@@ -1,6 +1,6 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { LogLevel, StepLog, stepLogger } from './stepLogger'
+import { LogLevel, StepLog, stepLogger } from './stepLogger.js'
 
 describe('stepLogger()', () => {
 	describe('should allow to log messages', () => {

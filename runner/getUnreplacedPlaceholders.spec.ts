@@ -1,8 +1,8 @@
-import { StepKeyword } from '@bdd-markdown/parser'
+import { StepKeyword } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders'
+import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
 
 describe('getUnreplacedPlaceholders()', () => {
 	it('should detect unreplaced placeholders in the title', () =>

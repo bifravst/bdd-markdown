@@ -1,10 +1,10 @@
-import { Scenario } from '@bdd-markdown/parser'
+import { Scenario } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { loadFeatureFile } from './parseFeaturesInFolder'
-import { runStep } from './runStep'
-import { LogLevel } from './stepLogger'
+import { loadFeatureFile } from './parseFeaturesInFolder.js'
+import { runStep } from './runStep.js'
+import { LogLevel } from './stepLogger.js'
 
 const f = async () =>
 	(

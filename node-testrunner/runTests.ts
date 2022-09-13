@@ -2,9 +2,9 @@ import chalk from 'chalk'
 import { spawn } from 'child_process'
 import os from 'os'
 import path from 'path'
-import { findFilesInFolder } from '../runner/findTestFiles'
-import { formatTapErrors } from './tap/formatTapErrors'
-import { complete, summarize } from './tap/summary'
+import { findFilesInFolder } from '../runner/findTestFiles.js'
+import { formatTapErrors } from './tap/formatTapErrors.js'
+import { complete, summarize } from './tap/summary.js'
 
 export const runTests = async (baseDir: string): Promise<void> => {
 	const testFiles = await findFilesInFolder(baseDir, '.spec.ts')

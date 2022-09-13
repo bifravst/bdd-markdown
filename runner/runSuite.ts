@@ -1,7 +1,7 @@
 import { ParsedPath } from 'path'
-import { FeatureFile } from './parseFeaturesInFolder'
-import { FeatureResult, runFeature } from './runFeature'
-import { StepRunner } from './runStep'
+import { FeatureFile } from './parseFeaturesInFolder.js'
+import { FeatureResult, runFeature } from './runFeature.js'
+import { StepRunner } from './runStep.js'
 
 type Summary = {
 	total: number

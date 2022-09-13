@@ -1,6 +1,6 @@
 import os from 'os'
-import { TokenStream } from '../tokenStream'
-import { whiteSpace } from './whiteSpace'
+import { TokenStream } from '../tokenStream.js'
+import { whiteSpace } from './whiteSpace.js'
 
 export const sentence = (s: TokenStream): string | null => {
 	whiteSpace(s)

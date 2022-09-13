@@ -1,5 +1,5 @@
-import { TokenStream } from '../tokenStream'
-import { toErrorPosition } from './toErrorPosition'
+import { TokenStream } from '../tokenStream.js'
+import { toErrorPosition } from './toErrorPosition.js'
 
 export class InvalidSyntaxError extends Error {
 	constructor(stream: TokenStream, error: string) {

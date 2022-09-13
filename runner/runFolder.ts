@@ -1,5 +1,5 @@
-import { parseFeaturesInFolder } from './parseFeaturesInFolder'
-import { Runner, runSuite } from './runSuite'
+import { parseFeaturesInFolder } from './parseFeaturesInFolder.js'
+import { Runner, runSuite } from './runSuite.js'
 
 export const runFolder = async <Context extends Record<string, any>>(
 	folderWithFeatures: string,

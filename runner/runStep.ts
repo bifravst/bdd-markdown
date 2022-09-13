@@ -1,8 +1,12 @@
-import { Feature, Scenario, Step } from '@bdd-markdown/parser/grammar'
-import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders'
-import { replaceFromContext } from './replaceFromContext'
-import { ScenarioExecution } from './runFeature'
-import { Logger, StepLog, stepLogger } from './stepLogger'
+import {
+	Feature,
+	Scenario,
+	Step,
+} from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
+import { replaceFromContext } from './replaceFromContext.js'
+import { ScenarioExecution } from './runFeature.js'
+import { Logger, StepLog, stepLogger } from './stepLogger.js'
 
 export type StepResult = {
 	ok: boolean

@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import path, { parse } from 'path'
-import { TokenStream, tokenStream } from '../tokenStream'
+import { TokenStream, tokenStream } from '../tokenStream.js'
 
 export const testData =
 	(testFilename: string) =>

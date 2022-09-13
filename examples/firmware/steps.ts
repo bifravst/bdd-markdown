@@ -3,7 +3,7 @@ import {
 	StepRunner,
 	StepRunnerArgs,
 	StepRunResult,
-} from '@bdd-markdown/runner'
+} from '@nordicsemiconductor/bdd-markdown/runner'
 import assert from 'assert/strict'
 import os from 'os'
 

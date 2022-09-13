@@ -1,7 +1,7 @@
-import { StepKeyword } from '@bdd-markdown/parser'
+import { StepKeyword } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { replaceFromExamples } from './replaceFromExamples'
+import { replaceFromExamples } from './replaceFromExamples.js'
 
 describe('replaceFromExamples()', () => {
 	it('should replace placeholders in a step title with the provided example data', async () => {

@@ -1,9 +1,9 @@
-import { consoleReporter } from '@bdd-markdown/reporter'
-import { runFolder } from '@bdd-markdown/runner'
+import { consoleReporter } from '@nordicsemiconductor/bdd-markdown/reporter'
+import { runFolder } from '@nordicsemiconductor/bdd-markdown/runner'
 import { readFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
-import { FirmwareCIRunContext, steps } from './steps'
+import { FirmwareCIRunContext, steps } from './steps.js'
 
 const runner = await runFolder<FirmwareCIRunContext>(
 	path.join(process.cwd(), 'examples', 'firmware'),

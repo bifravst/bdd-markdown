@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { tokenStream } from '../tokenStream'
-import { step } from './step'
+import { tokenStream } from '../tokenStream.js'
+import { step } from './step.js'
 
 describe('step()', () => {
 	it('should parse step definitions', () => {

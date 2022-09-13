@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it as test } from 'node:test'
 import os from 'os'
-import { EndOfStreamError } from './errors/EndOfStreamError'
-import { tokenStream } from './tokenStream'
+import { EndOfStreamError } from './errors/EndOfStreamError.js'
+import { tokenStream } from './tokenStream.js'
 
 describe('tokenStream()', () => {
 	test('defaults with non-empty string', () => {

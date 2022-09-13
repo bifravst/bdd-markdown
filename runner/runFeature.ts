@@ -1,7 +1,12 @@
-import { Feature, Keyword, Row, Scenario } from '@bdd-markdown/parser/grammar'
-import { replaceFromExamples } from './replaceFromExamples'
-import { runScenario, ScenarioResult } from './runScenario'
-import { StepRunner } from './runStep'
+import {
+	Feature,
+	Keyword,
+	Row,
+	Scenario,
+} from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { replaceFromExamples } from './replaceFromExamples.js'
+import { runScenario, ScenarioResult } from './runScenario.js'
+import { StepRunner } from './runStep.js'
 
 export type ScenarioExecution = Scenario & {
 	example?: Row
@@ -65,7 +70,7 @@ export const runFeature = async <Context extends Record<string, any>>(
 		} else {
 			if (aborted) {
 				scenarioResults.push([
-					scenario as Scenario,
+					scenario,
 					{
 						ok: false,
 						skipped: true,
@@ -78,7 +83,7 @@ export const runFeature = async <Context extends Record<string, any>>(
 			const result = await runScenario(
 				stepRunners,
 				feature,
-				scenario as Scenario,
+				scenario,
 				// Re-use the same context
 				context,
 				getRelativeTs,

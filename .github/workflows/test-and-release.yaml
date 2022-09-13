@@ -1,4 +1,4 @@
-name: Test
+name: Test and Release
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
 env:
   # For chalk: https://github.com/chalk/chalk#supportscolor
   FORCE_COLOR: 3
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
   tests:
@@ -40,3 +42,7 @@ jobs:
         run: |
           npx tsx examples/mars-rover/tests.ts
           npx tsx examples/firmware/tests.ts
+
+      - name: Semantic release
+        continue-on-error: true
+        run: npx semantic-release

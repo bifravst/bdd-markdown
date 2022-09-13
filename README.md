@@ -1,6 +1,7 @@
-# BDD Markdown
+# BDD Markdown [![npm version](https://img.shields.io/npm/v/@nordicsemiconductor/bdd-markdown.svg)](https://www.npmjs.com/package/@nordicsemiconductor/bdd-markdown)
 
-[![Test](https://github.com/coderbyheart/bdd-markdown/actions/workflows/test.yaml/badge.svg)](https://github.com/coderbyheart/bdd-markdown/actions/workflows/test.yaml)
+[![Test and Release](https://github.com/coderbyheart/bdd-markdown/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/coderbyheart/bdd-markdown/actions/workflows/test-and-release.yaml)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
 [![Mergify Status](https://img.shields.io/endpoint.svg?url=https://api.mergify.com/v1/badges/coderbyheart/bdd-markdown)](https://mergify.io)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)

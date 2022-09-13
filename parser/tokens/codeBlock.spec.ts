@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { testData } from '../test-data/testData'
-import { codeBlock } from './codeBlock'
+import { testData } from '../test-data/testData.js'
+import { codeBlock } from './codeBlock.js'
 
 const l = testData(import.meta.url)
 

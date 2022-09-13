@@ -1,9 +1,9 @@
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError'
-import { getLineNumber } from '../errors/toErrorPosition'
-import { Step, StepKeyword, steps } from '../grammar'
-import { TokenStream } from '../tokenStream'
-import { sentence } from './sentence'
-import { word } from './word'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
+import { getLineNumber } from '../errors/toErrorPosition.js'
+import { Step, StepKeyword, steps } from '../grammar.js'
+import { TokenStream } from '../tokenStream.js'
+import { sentence } from './sentence.js'
+import { word } from './word.js'
 
 export const step = (s: TokenStream): Step | null => {
 	const stepWord = word(s)

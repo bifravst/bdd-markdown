@@ -1,9 +1,9 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { Keyword } from '../grammar'
-import { testData } from '../test-data/testData'
-import { keyword } from './keyword'
-import { whiteSpace } from './whiteSpace'
+import { Keyword } from '../grammar.js'
+import { testData } from '../test-data/testData.js'
+import { keyword } from './keyword.js'
+import { whiteSpace } from './whiteSpace.js'
 
 const l = testData(import.meta.url)
 

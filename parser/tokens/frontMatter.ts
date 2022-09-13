@@ -1,7 +1,7 @@
 import os from 'os'
 import { parse } from 'yaml'
-import { TokenStream } from '../tokenStream'
-import { line } from './line'
+import { TokenStream } from '../tokenStream.js'
+import { line } from './line.js'
 
 const readFence = (s: TokenStream): boolean => {
 	const index = s.index()

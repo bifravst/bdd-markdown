@@ -1,4 +1,8 @@
-import { LogLevel, StepResult, SuiteResult } from '@bdd-markdown/runner'
+import {
+	LogLevel,
+	StepResult,
+	SuiteResult,
+} from '@nordicsemiconductor/bdd-markdown/runner'
 import chalk, { ChalkInstance } from 'chalk'
 import os from 'os'
 

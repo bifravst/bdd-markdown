@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { Feature, Keyword, Scenario } from '../grammar'
-import { testData } from '../test-data/testData'
-import { keywordDefinition } from './keywordDefinition'
+import { Feature, Keyword, Scenario } from '../grammar.js'
+import { testData } from '../test-data/testData.js'
+import { keywordDefinition } from './keywordDefinition.js'
 
 const l = testData(import.meta.url)
 const feature = l('feature')

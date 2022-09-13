@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { tokenStream } from '../tokenStream'
-import { line } from './line'
+import { tokenStream } from '../tokenStream.js'
+import { line } from './line.js'
 
 describe('line()', () => {
 	it('should read one line', () =>

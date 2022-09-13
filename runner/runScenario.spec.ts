@@ -1,10 +1,10 @@
-import { Scenario } from '@bdd-markdown/parser'
+import { Scenario } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { loadFeatureFile } from './parseFeaturesInFolder'
-import { runScenario } from './runScenario'
-import { noMatch } from './runStep'
+import { loadFeatureFile } from './parseFeaturesInFolder.js'
+import { runScenario } from './runScenario.js'
+import { noMatch } from './runStep.js'
 
 const f = async () =>
 	(

@@ -3,7 +3,7 @@ import { parse } from 'node:path'
 import { feature } from 'parser/feature'
 import { Feature } from 'parser/grammar'
 import { tokenStream } from 'parser/tokenStream'
-import { findFilesInFolder } from './findTestFiles'
+import { findFilesInFolder } from './findTestFiles.js'
 
 export type FeatureFile = {
 	file: ReturnType<typeof parse>

@@ -1,9 +1,9 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { loadFeatureFile } from './parseFeaturesInFolder'
-import { runFeature } from './runFeature'
-import { noMatch } from './runStep'
+import { loadFeatureFile } from './parseFeaturesInFolder.js'
+import { runFeature } from './runFeature.js'
+import { noMatch } from './runStep.js'
 
 const loadExampleFeature = async () =>
 	(

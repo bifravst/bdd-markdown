@@ -1,5 +1,9 @@
-import { Feature, Scenario, Step } from '@bdd-markdown/parser/grammar'
-import { runStep, StepResult, StepRunner } from './runStep'
+import {
+	Feature,
+	Scenario,
+	Step,
+} from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { runStep, StepResult, StepRunner } from './runStep.js'
 
 export type ScenarioResult = {
 	ok: boolean

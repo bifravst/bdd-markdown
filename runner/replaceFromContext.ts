@@ -1,5 +1,5 @@
-import { Step } from '@bdd-markdown/parser'
-import { replacePlaceholders } from './replaceFromExamples'
+import { Step } from '@nordicsemiconductor/bdd-markdown/parser'
+import { replacePlaceholders } from './replaceFromExamples.js'
 
 export const replaceFromContext =
 	(context: Record<string, any>) =>

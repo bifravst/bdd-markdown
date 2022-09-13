@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { loadFeatureFile } from './parseFeaturesInFolder'
-import { runSuite } from './runSuite'
+import { loadFeatureFile } from './parseFeaturesInFolder.js'
+import { runSuite } from './runSuite.js'
 
 describe('runSuite()', () => {
 	it('should run a simple test suite', async () => {
