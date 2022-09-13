@@ -17,23 +17,23 @@ export const parseFeaturesInFolder = async (
 		'.feature.md',
 	)
 
-	const featuresFromFiles = await Promise.all(
-		featureFiles.map(async (sourceFile) => {
-			const source = tokenStream(await readFile(sourceFile, 'utf-8'))
-			try {
-				const parsedFeature = feature(source)
-				return {
-					file: parse(sourceFile),
-					feature: parsedFeature,
-				}
-			} catch (error) {
-				throw new Error(
-					`Failed to parse feature file ${sourceFile}: ${
-						(error as Error).message
-					}`,
-				)
-			}
-		}),
-	)
+	const featuresFromFiles = await Promise.all(featureFiles.map(loadFeatureFile))
 	return featuresFromFiles
+}
+
+export const loadFeatureFile = async (
+	sourceFile: string,
+): Promise<FeatureFile> => {
+	const source = tokenStream(await readFile(sourceFile, 'utf-8'))
+	try {
+		const parsedFeature = feature(source)
+		return {
+			file: parse(sourceFile),
+			feature: parsedFeature,
+		}
+	} catch (error) {
+		throw new Error(
+			`Failed to parse feature file ${sourceFile}: ${(error as Error).message}`,
+		)
+	}
 }

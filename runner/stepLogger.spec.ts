@@ -12,8 +12,8 @@ describe('stepLogger()', () => {
 
 			expected.push({
 				level: LogLevel.DEBUG,
-				message: [`A debug message`, `with two parts`],
 				ts: 42,
+				message: [`A debug message`, `with two parts`],
 			})
 			assert.deepEqual(logger.getLogs(), expected)
 		})

@@ -51,6 +51,18 @@ export const runStep = async <Context extends Record<string, any>>(
 	const startTs = Date.now()
 	try {
 		for (const stepRunner of stepRunners) {
+			if (typeof stepRunner !== 'function') {
+				logs.error({
+					message: `All step runners must be a function, encountered ${JSON.stringify(
+						stepRunner,
+					)}`,
+				})
+				return {
+					logs: logs.getLogs(),
+					ok: false,
+					duration: 0,
+				}
+			}
 			const maybeRun = await stepRunner({
 				step,
 				context,
