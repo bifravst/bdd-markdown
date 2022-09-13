@@ -2,7 +2,6 @@ import { IncompleteParseError } from './errors/IncompleteParseError'
 import { InvalidSyntaxError } from './errors/InvalidSyntaxError'
 import {
 	Background,
-	Example,
 	Feature,
 	Keyword,
 	KeywordDefinition,
@@ -92,7 +91,7 @@ export const feature = (s: TokenStream): Feature => {
  */
 const featureChildren = (
 	s: TokenStream,
-): Background | Rule | Scenario | ScenarioOutline | Example | null => {
+): Background | Rule | Scenario | ScenarioOutline | null => {
 	const def = keywordDefinition(
 		s,
 		[Keyword.Rule, Keyword.Scenario, Keyword.Example, Keyword.ScenarioOutline],
@@ -127,7 +126,7 @@ const parseRule = (s: TokenStream, def: KeywordDefinition): Rule => {
 const featureChildSteps = (
 	s: TokenStream,
 	def: KeywordDefinition,
-): Background | Rule | Scenario | ScenarioOutline | Example => {
+): Background | Rule | Scenario | ScenarioOutline => {
 	const steps = parseSteps(s)
 	if (def.keyword === Keyword.ScenarioOutline) {
 		return {
@@ -136,16 +135,10 @@ const featureChildSteps = (
 			steps,
 			examples: parseExamples(s, 3),
 		}
-	} else if (def.keyword === Keyword.Example) {
+	} else if ([Keyword.Scenario, Keyword.Example].includes(def.keyword)) {
 		return {
 			...def,
-			keyword: Keyword.Example,
-			steps,
-		}
-	} else if (def.keyword === Keyword.Scenario) {
-		return {
-			...def,
-			keyword: Keyword.Scenario,
+			keyword: def.keyword as Keyword.Scenario | Keyword.Example,
 			steps,
 		}
 	} else if (def.keyword === Keyword.Background) {
@@ -169,8 +162,8 @@ const featureChildSteps = (
  */
 const parseRuleChildren = (
 	s: TokenStream,
-): (Scenario | ScenarioOutline | Example)[] | null => {
-	const children: (Scenario | ScenarioOutline | Example)[] = []
+): (Scenario | ScenarioOutline)[] | null => {
+	const children: (Scenario | ScenarioOutline)[] = []
 
 	while (true) {
 		const def = keywordDefinition(
@@ -181,23 +174,17 @@ const parseRuleChildren = (
 		if (def === null) break
 
 		const steps = parseSteps(s)
-		if (def.keyword === Keyword.Example) {
-			children.push({
-				...def,
-				keyword: Keyword.Example,
-				steps,
-			})
-		} else if (def.keyword === Keyword.ScenarioOutline) {
+		if (def.keyword === Keyword.ScenarioOutline) {
 			children.push({
 				...def,
 				keyword: Keyword.ScenarioOutline,
 				steps,
 				examples: parseExamples(s, 4),
 			})
-		} else if (def.keyword === Keyword.Scenario) {
+		} else if ([Keyword.Scenario, Keyword.Example].includes(def.keyword)) {
 			children.push({
 				...def,
-				keyword: Keyword.Scenario,
+				keyword: def.keyword as Keyword.Scenario | Keyword.Example,
 				steps,
 			})
 		} else {

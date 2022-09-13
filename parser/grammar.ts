@@ -1,7 +1,8 @@
 export enum Keyword {
 	Feature = 'Feature',
-	Example = 'Example',
 	Scenario = 'Scenario',
+	// Alias for 'Scenario'
+	Example = 'Example',
 	Background = 'Background',
 	ScenarioOutline = 'Scenario Outline',
 	ScenarioOutlineExamples = 'Examples',
@@ -24,7 +25,7 @@ export type KeywordDefinition = {
 	comment?: string
 }
 
-export type Scenarios = (Scenario | ScenarioOutline | Example)[]
+export type Scenarios = (Scenario | ScenarioOutline)[]
 
 export type Feature = KeywordDefinition & {
 	keyword: Keyword.Feature
@@ -43,15 +44,7 @@ export type Rule = KeywordDefinition & {
 }
 
 export type Scenario = KeywordDefinition & {
-	keyword: Keyword.Scenario
-	steps: Step[]
-}
-/**
- * Same as Scenario
- * FIXME: get rid of extra type
- */
-export type Example = KeywordDefinition & {
-	keyword: Keyword.Example
+	keyword: Keyword.Scenario | Keyword.Example
 	steps: Step[]
 }
 
