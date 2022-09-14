@@ -1,5 +1,5 @@
 export type Logger = {
-	debug: (...args: any[]) => void
+	debug: (...args: string[]) => void
 	info: (...args: string[]) => void
 	error: (error: ErrorInfo) => void
 	progress: (...args: string[]) => void

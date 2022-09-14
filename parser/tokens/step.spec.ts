@@ -4,7 +4,7 @@ import { tokenStream } from '../tokenStream.js'
 import { step } from './step.js'
 
 describe('step()', () => {
-	it('should parse step definitions', () => {
+	it('should parse step definitions (Given, When, Then, Soon)', () => {
 		assert.deepEqual(
 			step(
 				tokenStream('Given the Maker has started a game with the word "silky"'),
@@ -29,6 +29,15 @@ describe('step()', () => {
 			step(tokenStream('Then the Breaker must guess a word with 5 characters')),
 			{
 				keyword: 'Then',
+				title: 'the Breaker must guess a word with 5 characters',
+				line: 1,
+			},
+		)
+
+		assert.deepEqual(
+			step(tokenStream('Soon the Breaker must guess a word with 5 characters')),
+			{
+				keyword: 'Soon',
 				title: 'the Breaker must guess a word with 5 characters',
 				line: 1,
 			},

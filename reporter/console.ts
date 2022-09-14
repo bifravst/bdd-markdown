@@ -4,7 +4,6 @@ import {
 	SuiteResult,
 } from '@nordicsemiconductor/bdd-markdown/runner'
 import chalk, { ChalkInstance } from 'chalk'
-import os from 'os'
 
 const errorMark = chalk.bgRedBright(' EE ')
 const passMark = chalk.bgGreenBright(' OK ')
@@ -135,7 +134,7 @@ const formatRunResult = (result: SuiteResult) => {
 					switch (log.level) {
 						case LogLevel.DEBUG:
 							color = chalk.blue
-							prefix = color(`    🛈 `)
+							prefix = color(`     🛈`)
 							break
 						case LogLevel.ERROR:
 							color = chalk.redBright
@@ -146,7 +145,7 @@ const formatRunResult = (result: SuiteResult) => {
 							prefix = color('     »')
 							break
 					}
-					indent(log.message, log.ts, color, `${line}${prefix}`)
+					indent(log.message, color, `${line}${prefix}`)
 				}
 			})
 		})
@@ -157,16 +156,8 @@ const printResult = (result: StepResult) => {
 	return JSON.stringify(result.result)
 }
 
-const indent = (
-	message: string[],
-	time: number,
-	color: ChalkInstance,
-	prefix: string,
-) => {
-	for (const m of message) {
-		for (const sm of m.split(os.EOL).filter((s) => s.length > 0))
-			console.log(prefix, colorTime(`[${time} ms]`), color(sm))
-	}
+const indent = (message: string[], color: ChalkInstance, prefix: string) => {
+	console.log(prefix, ...message.map((m) => color(m)))
 }
 
 const formatDuration = ({ duration }: { duration: number }) =>

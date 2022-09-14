@@ -27,7 +27,70 @@ so why not use Markdown? It can look
 
 - [Demo of supported syntax](./parser/test-data/feature/Example.feature.md)
 - [Gherkin `Rule` keyword](./parser/test-data/feature/Highlander.feature.md)
-- [Mars Rover Kata](./examples/mars-rover/MarsRover.feature.md)  
+- [Mars Rover Kata](./examples/mars-rover/MarsRover.feature.md) (this
+  demonstrates the `Soon` keyword which retries steps)  
   Run: `npx tsx examples/mars-rover/tests.ts`
 - [Firmware UART log assertions](./examples/firmware/)  
   Run: `npx tsx examples/firmware/tests.ts`
+
+## Test eventual consistent systems using the `Soon` keyword
+
+Let's have a look at this scenario:
+
+```markdown
+# To Do List
+
+## Create a new todo list item
+
+Given I create a new task named `My item`
+
+Then the list of tasks should contain `My item`
+```
+
+What if you are testing a todo list system, that is eventually consistent?
+
+More specifically: creating a new task happens through a `POST` request to an
+API that returns a `202 Accepted` status code.
+
+The system does not guarantee that task you've just created is _immediately_
+available.
+
+The `Then` assertion will fail, because it is executed immediately.
+
+For testing eventual consistent systems, we need to either wait a reasonable
+enough time or retry the assertion.
+
+However, if there are many similar assertions in your test suite will quickly
+add up to long run times.
+
+Therefore the most efficient solution is to retry the assertion until it passes,
+or times out. This way a back-off algorithm can be used to wait increasing
+longer times and many tries during the test run will have the least amount of
+impact on the run time.
+
+The `Soon` keyword can be used to retry a step until a timeout is reached. It
+can be configured through the `@retry` tag in a comment preceding the step, the
+scenario. Pass one or multiple settings to override the default behavior.
+Example: `@retry:tries=3,initialDelay=50,delayFactor=2`.
+
+```markdown
+---
+# Configure the retry settings for the entire feature
+retry:
+  tries: 10
+  initialDelay: 250
+  delayFactor: 2
+---
+
+# To Do List
+
+<!-- This @retry:tries=5 applies to all steps in the scenario. -->
+
+## Create a new todo list item
+
+Given I create a new task named `My item`
+
+<!-- This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step. -->
+
+Soon the list of tasks should contain `My item`
+```

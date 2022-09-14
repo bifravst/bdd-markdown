@@ -39,7 +39,7 @@ export const keywordDefinition = (
 		line,
 	}
 	if (d !== null) kw.description = d
-	if (c !== null) kw.comment = c
+	if (c !== null) kw.comment = c.comment
 
 	return kw
 }

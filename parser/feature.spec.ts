@@ -57,7 +57,7 @@ describe('feature()', () => {
 							line: 34,
 						},
 						{
-							keyword: 'And',
+							keyword: 'When',
 							title: 'I add `5`',
 							line: 36,
 						},
@@ -148,7 +148,7 @@ describe('feature()', () => {
 							steps: [
 								{ keyword: 'Given', title: 'there are 3 ninjas', line: 9 },
 								{
-									keyword: 'And',
+									keyword: 'Given',
 									title: 'there are more than one ninja alive',
 									line: 11,
 								},
@@ -163,7 +163,7 @@ describe('feature()', () => {
 									line: 15,
 								},
 								{
-									keyword: 'And',
+									keyword: 'Then',
 									title: 'there is one ninja less alive',
 									line: 17,
 								},

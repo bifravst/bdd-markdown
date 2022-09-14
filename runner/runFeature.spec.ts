@@ -45,11 +45,11 @@ describe('runFeature()', () => {
 	it('should skip subsequent scenarios if a scenario failed', async () => {
 		const featureResult = await runFeature<{ foo?: string }>(
 			[
-				async ({ step: { title }, context }) => {
+				async ({ step: { title } }) => {
 					if (!/^I am run$/.test(title)) return noMatch
 					throw new Error(`Some error!`)
 				},
-				async ({ step: { title }, context }) => {
+				async ({ step: { title } }) => {
 					if (!/^I am also run$/.test(title)) return noMatch
 					return { matched: true }
 				},
@@ -73,15 +73,16 @@ describe('runFeature()', () => {
 		)
 
 		assert.equal(featureResult.ok, true)
-		const createdScenarios = featureResult.results.map(
-			([{ title, example, steps }]) => ({
+
+		const createdScenarios = featureResult.results
+			.filter(([{ title }]) => title?.includes('Move the rover forward'))
+			.map(([{ title, example, steps }]) => ({
 				title,
 				example,
 				replacedStep: steps.find((s) =>
 					s.title.includes('I set the initial direction'),
 				)?.title,
-			}),
-		)
+			}))
 		assert.deepEqual(createdScenarios, [
 			{
 				title: 'Move the rover forward',

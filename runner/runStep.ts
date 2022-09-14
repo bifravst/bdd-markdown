@@ -2,7 +2,9 @@ import {
 	Feature,
 	Scenario,
 	Step,
+	StepKeyword,
 } from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { formatRetryConfig, getRetryConfig } from './getRetryConfig.js'
 import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
 import { replaceFromContext } from './replaceFromContext.js'
 import { ScenarioExecution } from './runFeature.js'
@@ -70,6 +72,20 @@ export const runStep = async <Context extends Record<string, any>>(
 		}
 	}
 
+	// Retry configuration
+	let tries = 1
+	let initialDelay = 0
+	let delayFactor = 0
+	const retriesEnabled = step.keyword === StepKeyword.Soon
+	if (retriesEnabled) {
+		const retryConfig = getRetryConfig(step)
+		logs.debug(formatRetryConfig(retryConfig))
+		tries = retryConfig.tries
+		initialDelay = retryConfig.initialDelay
+		delayFactor = retryConfig.delayFactor
+	}
+	let delay = initialDelay
+
 	const startTs = Date.now()
 	try {
 		for (const stepRunner of stepRunners) {
@@ -85,22 +101,33 @@ export const runStep = async <Context extends Record<string, any>>(
 					duration: 0,
 				}
 			}
-			const maybeRun = await stepRunner({
-				step: replacedStep,
-				context,
-				feature,
-				scenario,
-				log: logs,
-				previousResults,
-				previousResult: previousResults[previousResults.length - 1]?.[1],
-			})
-			if (maybeRun.matched === false) continue
-			return {
-				logs: logs.getLogs(),
-				ok: true,
-				result: (maybeRun as StepMatched).result,
-				printable: (maybeRun as StepMatched).printable,
-				duration: Date.now() - startTs,
+
+			for (let i = 0; i < Math.max(1, tries); i++) {
+				try {
+					const maybeRun = await stepRunner({
+						step: replacedStep,
+						context,
+						feature,
+						scenario,
+						log: logs,
+						previousResults,
+						previousResult: previousResults[previousResults.length - 1]?.[1],
+					})
+					if (maybeRun.matched === false) break
+					return {
+						logs: logs.getLogs(),
+						ok: true,
+						result: (maybeRun as StepMatched).result,
+						printable: (maybeRun as StepMatched).printable,
+						duration: Date.now() - startTs,
+					}
+				} catch (err) {
+					if (!retriesEnabled) throw err
+					// it did not not-match, but threw an error
+					await new Promise((resolve) => setTimeout(resolve, delay))
+					delay = delay * delayFactor
+					logs.progress(`Retrying ... (${i + 2})`)
+				}
 			}
 		}
 	} catch (err) {

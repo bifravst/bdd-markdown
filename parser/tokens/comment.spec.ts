@@ -6,18 +6,53 @@ import { comment } from './comment.js'
 
 describe('comment()', () => {
 	it('should read a sentence', () =>
-		assert.equal(
-			comment(tokenStream('<!-- This is a comment. -->')),
-			'This is a comment.',
-		))
+		assert.deepEqual(comment(tokenStream('<!-- This is a comment. -->')), {
+			comment: 'This is a comment.',
+		}))
 
 	it('should stop at EOL', () =>
-		assert.equal(
+		assert.deepEqual(
 			comment(
 				tokenStream(
 					['<!-- This is a comment. -->', 'Second line'].join(os.EOL),
 				),
 			),
-			'This is a comment.',
+			{ comment: 'This is a comment.' },
+		))
+
+	it('should parse tags', () =>
+		assert.deepEqual(
+			comment(
+				tokenStream(
+					'<!-- This is a comment which has some tags: @tag1, @tag2. -->',
+				),
+			),
+			{
+				comment: 'This is a comment which has some tags: @tag1, @tag2.',
+				tags: {
+					tag1: true,
+					tag2: true,
+				},
+			},
+		))
+
+	it('should parse tags with properties', () =>
+		assert.deepEqual(
+			comment(
+				tokenStream(
+					'<!-- This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step. -->',
+				),
+			),
+			{
+				comment:
+					'This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step.',
+				tags: {
+					retry: {
+						tries: '3',
+						initialDelay: '100',
+						delayFactor: '1.5',
+					},
+				},
+			},
 		))
 })

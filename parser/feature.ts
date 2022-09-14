@@ -9,6 +9,7 @@ import {
 	Scenario,
 	ScenarioOutline,
 	Step,
+	StepKeyword,
 	Table,
 } from './grammar.js'
 import { codeBlock } from './tokens/codeBlock.js'
@@ -202,7 +203,7 @@ const parseRuleChildren = (
  * Each step can have a comment and a code-block.
  */
 const parseSteps = (s: TokenStream): Step[] => {
-	const steps = []
+	const steps: Step[] = []
 
 	while (true) {
 		const stepComment = comment(s)
@@ -212,8 +213,24 @@ const parseSteps = (s: TokenStream): Step[] => {
 		const code = codeBlock(s)
 		whiteSpace(s)
 		if (st === null) break
-		steps.push(st)
-		if (stepComment !== null) st.comment = stepComment
+		// Resolve `And`ed keyword
+		if (st.keyword === StepKeyword.And) {
+			// Use previous keyword
+			const andedKeyword: StepKeyword | undefined =
+				steps[steps.length - 1]?.keyword
+			if (andedKeyword === undefined)
+				throw new InvalidSyntaxError(
+					s,
+					`Encountered And step without preceding specifying keyword.`,
+				)
+			steps.push({
+				...st,
+				keyword: andedKeyword,
+			})
+		} else {
+			steps.push(st as Step)
+		}
+		if (stepComment !== null) st.comment = stepComment.comment
 		if (code !== null) st.codeBlock = code
 	}
 

@@ -5,7 +5,9 @@ import { TokenStream } from '../tokenStream.js'
 import { sentence } from './sentence.js'
 import { word } from './word.js'
 
-export const step = (s: TokenStream): Step | null => {
+type ParsedStep = Omit<Step, 'keyword'> & { keyword: StepKeyword }
+
+export const step = (s: TokenStream): ParsedStep | null => {
 	const stepWord = word(s)
 	const line = getLineNumber(s)
 	if (stepWord === null) return null
@@ -18,7 +20,7 @@ export const step = (s: TokenStream): Step | null => {
 	if (title === null)
 		throw new InvalidSyntaxError(s, `Incomplete step definition!`)
 
-	const step: Step = {
+	const step: ParsedStep = {
 		keyword: stepWord as StepKeyword,
 		title,
 		line,

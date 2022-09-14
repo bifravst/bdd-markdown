@@ -64,17 +64,26 @@ export enum StepKeyword {
 	When = 'When',
 	Then = 'Then',
 	And = 'And',
+	// Then, but with retry
+	Soon = 'Soon',
 }
 
 export const steps = [
 	StepKeyword.Given,
 	StepKeyword.When,
 	StepKeyword.Then,
+	StepKeyword.Soon,
 	StepKeyword.And,
 ]
 
+export type EffectiveStepKeyword =
+	| StepKeyword.Given
+	| StepKeyword.When
+	| StepKeyword.Then
+	| StepKeyword.Soon
+
 export type Step = {
-	keyword: StepKeyword
+	keyword: EffectiveStepKeyword
 	title: string
 	line: number
 	comment?: string
@@ -88,3 +97,7 @@ export type CodeBlock = {
 
 export type Row = Record<string, string>
 export type Table = Row[]
+
+export type Tags = Record<string, Record<string, string | true> | true>
+
+export type Comment = { comment: string; tags?: Tags }

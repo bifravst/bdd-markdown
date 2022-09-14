@@ -19,6 +19,9 @@ const f = async () =>
 		)
 	).feature
 
+/**
+ * TODO: test retries
+ */
 describe('runStep()', () => {
 	it('should run a step', async () => {
 		const feature = await f()
