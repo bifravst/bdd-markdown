@@ -3,6 +3,7 @@ import {
 	Scenario,
 	Step,
 } from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { LogEntry, logger, Logger } from './logger.js'
 import { runStep, StepResult, StepRunner } from './runStep.js'
 
 export type ScenarioResult = {
@@ -10,16 +11,26 @@ export type ScenarioResult = {
 	skipped: boolean
 	results: [Step, StepResult][]
 	duration: number
+	logs: LogEntry[]
 }
 
-export const runScenario = async <Context extends Record<string, any>>(
-	stepRunners: StepRunner<Context>[],
-	feature: Feature,
-	scenario: Scenario,
-	context: Context,
-	getRelativeTs: () => number,
-): Promise<Omit<ScenarioResult, 'skipped'>> => {
+export const runScenario = async <Context extends Record<string, any>>({
+	stepRunners,
+	feature,
+	scenario,
+	context,
+	getRelativeTs,
+	featureLogger,
+}: {
+	stepRunners: StepRunner<Context>[]
+	feature: Feature
+	scenario: Scenario
+	context: Context
+	featureLogger: Logger
+	getRelativeTs: () => number
+}): Promise<Omit<ScenarioResult, 'skipped'>> => {
 	const startTs = Date.now()
+	const scenarioLogger = logger({ getRelativeTs })
 	const stepResults: [Step, StepResult][] = []
 
 	let aborted = false
@@ -37,16 +48,20 @@ export const runScenario = async <Context extends Record<string, any>>(
 			continue
 		}
 
-		const stepRunResult = await runStep(
+		const stepRunResult = await runStep({
 			stepRunners,
 			feature,
 			scenario,
 			step,
-			// Re-use the same context
 			context,
-			stepResults.map(([step, stepResult]) => [step, stepResult.result]),
+			previousResults: stepResults.map(([step, stepResult]) => [
+				step,
+				stepResult.result,
+			]),
 			getRelativeTs,
-		)
+			featureLogger,
+			scenarioLogger,
+		})
 		stepResults.push([
 			step,
 			{
@@ -64,5 +79,7 @@ export const runScenario = async <Context extends Record<string, any>>(
 		),
 		results: stepResults,
 		duration: Date.now() - startTs,
+		// TODO: Test scenario logs
+		logs: scenarioLogger.getLogs(),
 	}
 }

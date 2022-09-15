@@ -4,6 +4,7 @@ import {
 	Row,
 	Scenario,
 } from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { LogEntry, logger } from './logger.js'
 import { replaceFromExamples } from './replaceFromExamples.js'
 import { runScenario, ScenarioResult } from './runScenario.js'
 import { StepRunner } from './runStep.js'
@@ -16,6 +17,7 @@ export type FeatureResult = {
 	ok: boolean
 	results: [ScenarioExecution, ScenarioResult][]
 	duration: number
+	logs: LogEntry[]
 }
 
 export const runFeature = async <Context extends Record<string, any>>(
@@ -26,12 +28,13 @@ export const runFeature = async <Context extends Record<string, any>>(
 	const scenarioResults: [ScenarioExecution, ScenarioResult][] = []
 	const startTs = Date.now()
 	const getRelativeTs = () => Date.now() - startTs
+	const featureLogger = logger({ getRelativeTs })
 
 	let aborted = false
 	for (const scenario of feature.scenarios) {
 		if (scenario.keyword === Keyword.ScenarioOutline) {
 			for (const row of scenario.examples) {
-				const { examples, ...scenarioRest } = scenario
+				const { examples: _, ...scenarioRest } = scenario
 				const scenarioFromExample: ScenarioExecution = {
 					...scenarioRest,
 					keyword: Keyword.Scenario,
@@ -46,18 +49,20 @@ export const runFeature = async <Context extends Record<string, any>>(
 							skipped: true,
 							results: [],
 							duration: 0,
+							logs: [],
 						},
 					])
 					continue
 				}
-				const result = await runScenario(
+				const result = await runScenario({
 					stepRunners,
 					feature,
-					scenarioFromExample,
+					scenario: scenarioFromExample,
 					// Re-use the same context
 					context,
 					getRelativeTs,
-				)
+					featureLogger,
+				})
 				scenarioResults.push([
 					scenarioFromExample,
 					{
@@ -76,18 +81,20 @@ export const runFeature = async <Context extends Record<string, any>>(
 						skipped: true,
 						results: [],
 						duration: 0,
+						logs: [],
 					},
 				])
 				continue
 			}
-			const result = await runScenario(
+			const result = await runScenario({
 				stepRunners,
 				feature,
 				scenario,
 				// Re-use the same context
 				context,
 				getRelativeTs,
-			)
+				featureLogger,
+			})
 			scenarioResults.push([
 				scenario as ScenarioExecution,
 				{
@@ -106,5 +113,7 @@ export const runFeature = async <Context extends Record<string, any>>(
 		),
 		results: scenarioResults,
 		duration: Date.now() - startTs,
+		// TODO: test feature logs
+		logs: featureLogger.getLogs(),
 	}
 }

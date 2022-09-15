@@ -33,7 +33,7 @@ export const runTests = async (baseDir: string): Promise<void> => {
 				}),
 		),
 	)
-	result.map(({ log, success, file }) => {
+	result.map(({ log, success, file, err }) => {
 		if (success) {
 			console.log(
 				chalk.greenBright('  OK  '),
@@ -45,6 +45,7 @@ export const runTests = async (baseDir: string): Promise<void> => {
 				chalk.whiteBright(file.replace(baseDir + path.sep, '')),
 			)
 			formatTapErrors(log)
+			formatErrorLog(err)
 		}
 	})
 
@@ -72,4 +73,17 @@ export const runTests = async (baseDir: string): Promise<void> => {
 		)
 	)
 		process.exit(1)
+}
+
+const formatErrorLog = (errorLog: string) => {
+	console.error('')
+	console.error(
+		chalk.red(
+			errorLog
+				.split(os.EOL)
+				.map((s) => `      ${s}`)
+				.join(os.EOL),
+		),
+	)
+	console.error('')
 }

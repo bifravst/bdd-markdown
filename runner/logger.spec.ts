@@ -1,25 +1,27 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { LogLevel, StepLog, stepLogger } from './stepLogger.js'
+import { LogEntry, logger, LogLevel } from './logger.js'
 
-describe('stepLogger()', () => {
+describe('logger()', () => {
 	describe('should allow to log messages', () => {
-		const logger = stepLogger({ getRelativeTs: () => 42 })
-		const expected: StepLog[] = []
+		const { progress, debug, error, getLogs, info } = logger({
+			getRelativeTs: () => 42,
+		})
+		const expected: LogEntry[] = []
 
 		it('should allow to store debug messages', () => {
-			logger.debug(`A debug message`, `with two parts`)
+			debug(`A debug message`, `with two parts`)
 
 			expected.push({
 				level: LogLevel.DEBUG,
 				ts: 42,
 				message: [`A debug message`, `with two parts`],
 			})
-			assert.deepEqual(logger.getLogs(), expected)
+			assert.deepEqual(getLogs(), expected)
 		})
 
 		it(`should allow to store error messages`, () => {
-			logger.error({ message: `Some error` })
+			error({ message: `Some error` })
 
 			expected.push({
 				level: LogLevel.ERROR,
@@ -27,11 +29,11 @@ describe('stepLogger()', () => {
 				message: [`Some error`],
 			})
 
-			assert.deepEqual(logger.getLogs(), expected)
+			assert.deepEqual(getLogs(), expected)
 		})
 
 		it(`should allow to store info messages`, () => {
-			logger.info(`An info`)
+			info(`An info`)
 
 			expected.push({
 				level: LogLevel.INFO,
@@ -39,11 +41,11 @@ describe('stepLogger()', () => {
 				message: [`An info`],
 			})
 
-			assert.deepEqual(logger.getLogs(), expected)
+			assert.deepEqual(getLogs(), expected)
 		})
 
 		it(`should allow to store progress messages`, () => {
-			logger.progress(`Doing something`, `the thing`)
+			progress(`Doing something`, `the thing`)
 
 			expected.push({
 				level: LogLevel.PROGRESS,
@@ -51,7 +53,7 @@ describe('stepLogger()', () => {
 				message: [`Doing something`, `the thing`],
 			})
 
-			assert.deepEqual(logger.getLogs(), expected)
+			assert.deepEqual(getLogs(), expected)
 		})
 	})
 })

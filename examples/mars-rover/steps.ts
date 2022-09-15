@@ -18,18 +18,21 @@ export type RoverContext = {
 export const steps: StepRunner<RoverContext>[] = [
 	async ({
 		step,
-		log: { progress },
+		log: {
+			scenario: { progress },
+			step: { progress: stepProgress },
+		},
 		context,
 	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
 		if (!/^I have a Mars Rover$/.test(step.title)) return noMatch
-		progress('Creating a new rover')
+		stepProgress('Creating a new rover')
 		const r = rover({
 			canMoveTo: ([x, y]) =>
 				(context.obstacles ?? []).find(([oX, oY]) => oX === x && oY === y) ===
 				undefined,
 			debug: (...args) => progress('Rover', ...args),
 		})
-		progress('Rover created')
+		stepProgress('Rover created')
 		context.rover = r
 		return {
 			matched: true,
@@ -126,7 +129,9 @@ export const steps: StepRunner<RoverContext>[] = [
 	async ({
 		step,
 		context,
-		log: { debug },
+		log: {
+			step: { debug },
+		},
 	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
 		const match =
 			/^the Mars Rover should report an obstacle at `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/.exec(

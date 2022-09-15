@@ -17,7 +17,9 @@ export type FirmwareCIRunContext = {
 export const steps: StepRunner<FirmwareCIRunContext>[] = [
 	async ({
 		step,
-		log: { progress },
+		log: {
+			step: { progress },
+		},
 		context: { deviceLog },
 	}: StepRunnerArgs<FirmwareCIRunContext>): Promise<StepRunResult> => {
 		if (!/^the Firmware CI run device log should contain$/.test(step.title))

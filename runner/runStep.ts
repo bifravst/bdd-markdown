@@ -6,9 +6,9 @@ import {
 } from '@nordicsemiconductor/bdd-markdown/parser/grammar'
 import { formatRetryConfig, getRetryConfig } from './getRetryConfig.js'
 import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
+import { LogEntry, logger, Logger } from './logger.js'
 import { replaceFromContext } from './replaceFromContext.js'
 import { ScenarioExecution } from './runFeature.js'
-import { Logger, StepLog, stepLogger } from './stepLogger.js'
 
 export type StepResult = {
 	ok: boolean
@@ -18,7 +18,7 @@ export type StepResult = {
 	 * The printable version of the result, if present, will be used instead of the result.
 	 */
 	printable?: string
-	logs: StepLog[]
+	logs: LogEntry[]
 	duration: number
 }
 
@@ -38,7 +38,11 @@ export type StepRunnerArgs<Context extends Record<string, any>> = {
 	scenario: ScenarioExecution
 	feature: Feature
 	context: Context
-	log: Logger
+	log: {
+		step: Logger
+		scenario: Logger
+		feature: Logger
+	}
 	previousResult?: [Step, any]
 	previousResults: [Step, any][]
 }
@@ -46,28 +50,40 @@ export type StepRunner<Context extends Record<string, any>> = (
 	args: StepRunnerArgs<Context>,
 ) => Promise<StepRunResult>
 
-export const runStep = async <Context extends Record<string, any>>(
-	stepRunners: StepRunner<Context>[],
-	feature: Feature,
-	scenario: Scenario,
-	step: Step,
-	context: Context,
-	previousResults: [Step, any][],
-	getRelativeTs: () => number,
-): Promise<Omit<StepResult, 'skipped'>> => {
-	const logs = stepLogger({ getRelativeTs })
+export const runStep = async <Context extends Record<string, any>>({
+	stepRunners,
+	feature,
+	scenario,
+	step,
+	context,
+	previousResults,
+	getRelativeTs,
+	featureLogger,
+	scenarioLogger,
+}: {
+	stepRunners: StepRunner<Context>[]
+	feature: Feature
+	scenario: Scenario
+	step: Step
+	context: Context
+	previousResults: [Step, any][]
+	getRelativeTs: () => number
+	featureLogger: Logger
+	scenarioLogger: Logger
+}): Promise<Omit<StepResult, 'skipped'>> => {
+	const stepLogger = logger({ getRelativeTs })
 
 	const replacedStep = replaceFromContext(context)(step)
 
 	const unreplaced = getUnreplacedPlaceholders(replacedStep)
 	if (unreplaced.length > 0) {
-		logs.error({
+		stepLogger.error({
 			message: `Step has unreplaced placeholders: ${unreplaced.join(', ')}`,
 			detail: unreplaced,
 		})
 		return {
 			ok: false,
-			logs: logs.getLogs(),
+			logs: stepLogger.getLogs(),
 			duration: 0,
 		}
 	}
@@ -79,7 +95,7 @@ export const runStep = async <Context extends Record<string, any>>(
 	const retriesEnabled = step.keyword === StepKeyword.Soon
 	if (retriesEnabled) {
 		const retryConfig = getRetryConfig(step)
-		logs.debug(formatRetryConfig(retryConfig))
+		stepLogger.debug(formatRetryConfig(retryConfig))
 		tries = retryConfig.tries
 		initialDelay = retryConfig.initialDelay
 		delayFactor = retryConfig.delayFactor
@@ -90,13 +106,13 @@ export const runStep = async <Context extends Record<string, any>>(
 	try {
 		for (const stepRunner of stepRunners) {
 			if (typeof stepRunner !== 'function') {
-				logs.error({
+				stepLogger.error({
 					message: `All step runners must be a function, encountered ${JSON.stringify(
 						stepRunner,
 					)}`,
 				})
 				return {
-					logs: logs.getLogs(),
+					logs: stepLogger.getLogs(),
 					ok: false,
 					duration: 0,
 				}
@@ -109,13 +125,17 @@ export const runStep = async <Context extends Record<string, any>>(
 						context,
 						feature,
 						scenario,
-						log: logs,
+						log: {
+							step: stepLogger,
+							scenario: scenarioLogger,
+							feature: featureLogger,
+						},
 						previousResults,
 						previousResult: previousResults[previousResults.length - 1]?.[1],
 					})
 					if (maybeRun.matched === false) break
 					return {
-						logs: logs.getLogs(),
+						logs: stepLogger.getLogs(),
 						ok: true,
 						result: (maybeRun as StepMatched).result,
 						printable: (maybeRun as StepMatched).printable,
@@ -123,29 +143,30 @@ export const runStep = async <Context extends Record<string, any>>(
 					}
 				} catch (err) {
 					if (!retriesEnabled) throw err
+					// TODO: test retries
 					// it did not not-match, but threw an error
 					await new Promise((resolve) => setTimeout(resolve, delay))
 					delay = delay * delayFactor
-					logs.progress(`Retrying ... (${i + 2})`)
+					stepLogger.progress(`Retrying ... (${i + 2})`)
 				}
 			}
 		}
 	} catch (err) {
-		logs.error({
+		stepLogger.error({
 			message: (err as Error).message,
 		})
 		return {
-			logs: logs.getLogs(),
+			logs: stepLogger.getLogs(),
 			ok: false,
 			duration: Date.now() - startTs,
 		}
 	}
-	logs.error({
+	stepLogger.error({
 		message: `No runner defined for step: ${replacedStep.title}`,
 	})
 	return {
 		ok: false,
-		logs: logs.getLogs(),
+		logs: stepLogger.getLogs(),
 		duration: 0,
 	}
 }

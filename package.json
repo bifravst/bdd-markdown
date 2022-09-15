@@ -24,6 +24,7 @@
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.125",
     "@types/node": "18.7.16",
+    "check-node-version": "4.2.1",
     "eslint-import-resolver-typescript": "3.5.1",
     "eslint-plugin-import": "2.26.0",
     "husky": "8.0.1",
@@ -38,7 +39,7 @@
   },
   "scripts": {
     "test": "npx tsx tests.ts",
-    "prepare": "husky install",
+    "prepare": "husky install && check-node-version --node '>=18.8.0'",
     "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
   },
   "lint-staged": {

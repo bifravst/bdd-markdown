@@ -1,10 +1,12 @@
 import { Scenario } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
-import { describe, it } from 'node:test'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore FIXME: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/pull/62274 is merged
+import { beforeEach, describe, it } from 'node:test'
 import path from 'path'
+import { logger, LogLevel } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runStep } from './runStep.js'
-import { LogLevel } from './stepLogger.js'
 
 const f = async () =>
 	(
@@ -19,69 +21,58 @@ const f = async () =>
 		)
 	).feature
 
-/**
- * TODO: test retries
- */
 describe('runStep()', () => {
-	it('should run a step', async () => {
+	let runStepArgs: Parameters<typeof runStep>[0]
+	beforeEach(async () => {
 		const feature = await f()
-		const stepResult = await runStep(
-			[async () => ({ matched: true })],
+		const getRelativeTs = () => 42
+		runStepArgs = {
+			stepRunners: [],
 			feature,
-			feature.scenarios[0] as Scenario,
-			feature.scenarios[0].steps[0],
-			{},
-			[],
-			() => 42,
-		)
+			scenario: feature.scenarios[0] as Scenario,
+			step: feature.scenarios[0].steps[0],
+			context: {},
+			previousResults: [],
+			getRelativeTs: getRelativeTs,
+			featureLogger: logger({ getRelativeTs }),
+			scenarioLogger: logger({ getRelativeTs }),
+		}
+	})
+
+	it('should run a step', async () => {
+		const stepResult = await runStep({
+			...runStepArgs,
+			stepRunners: [async () => ({ matched: true })],
+		})
 
 		assert.equal(stepResult.ok, true)
 		assert.equal('duration' in stepResult, true)
 	})
 
 	it('should return the result of a step', async () => {
-		const feature = await f()
-		const stepResult = await runStep(
-			[async () => ({ matched: true, result: 17 })],
-			feature,
-			feature.scenarios[0] as Scenario,
-			feature.scenarios[0].steps[0],
-			{},
-			[],
-			() => 42,
-		)
+		const stepResult = await runStep({
+			...runStepArgs,
+			stepRunners: [async () => ({ matched: true, result: 17 })],
+		})
 
 		assert.equal(stepResult.ok, true)
 		assert.equal(stepResult.result, 17)
 	})
 
 	it('should return a printable variant of the step result', async () => {
-		const feature = await f()
-		const stepResult = await runStep(
-			[async () => ({ matched: true, result: 17, printable: '17' })],
-			feature,
-			feature.scenarios[0] as Scenario,
-			feature.scenarios[0].steps[0],
-			{},
-			[],
-			() => 42,
-		)
+		const stepResult = await runStep({
+			...runStepArgs,
+			stepRunners: [
+				async () => ({ matched: true, result: 17, printable: '17' }),
+			],
+		})
 
 		assert.equal(stepResult.ok, true)
 		assert.equal(stepResult.printable, '17')
 	})
 
 	it('should fail if there are no matching steps', async () => {
-		const feature = await f()
-		const stepResult = await runStep(
-			[],
-			feature,
-			feature.scenarios[0] as Scenario,
-			feature.scenarios[0].steps[0],
-			{},
-			[],
-			() => 42,
-		)
+		const stepResult = await runStep({ ...runStepArgs, stepRunners: [] })
 
 		assert.equal(stepResult.ok, false)
 		assert.deepEqual(stepResult.logs, [
@@ -94,10 +85,14 @@ describe('runStep()', () => {
 	})
 
 	it('should return the logs from the step runner', async () => {
-		const feature = await f()
-		const stepResult = await runStep(
-			[
-				async ({ log: { debug, error, info, progress } }) => {
+		const stepResult = await runStep({
+			...runStepArgs,
+			stepRunners: [
+				async ({
+					log: {
+						step: { debug, error, info, progress },
+					},
+				}) => {
 					debug(`A debug message`, `with two parts`)
 					error({ message: `Some error` })
 					info(`An info`)
@@ -105,13 +100,7 @@ describe('runStep()', () => {
 					return { matched: true }
 				},
 			],
-			feature,
-			feature.scenarios[0] as Scenario,
-			feature.scenarios[0].steps[0],
-			{},
-			[],
-			() => 42,
-		)
+		})
 
 		assert.equal(stepResult.ok, true)
 		assert.deepEqual(stepResult.logs, [
@@ -139,19 +128,14 @@ describe('runStep()', () => {
 	})
 
 	it('should complain about unreplaced placeholders', async () => {
-		const feature = await f()
-		const stepResult = await runStep(
-			[async () => ({ matched: true })],
-			feature,
-			feature.scenarios[0] as Scenario,
-			{
-				...feature.scenarios[0].steps[0],
+		const stepResult = await runStep({
+			...runStepArgs,
+			stepRunners: [async () => ({ matched: true })],
+			step: {
+				...runStepArgs.feature.scenarios[0].steps[0],
 				title: 'I echo ${unreplaced}',
 			},
-			{},
-			[],
-			() => 42,
-		)
+		})
 
 		assert.equal(stepResult.ok, false)
 		assert.deepEqual(stepResult.logs, [
@@ -164,27 +148,23 @@ describe('runStep()', () => {
 	})
 
 	it('should complain replaced placeholders with data from context', async () => {
-		const feature = await f()
 		let replacedTitle = ''
-		const stepResult = await runStep(
-			[
+		const stepResult = await runStep({
+			...runStepArgs,
+			stepRunners: [
 				async ({ step: { title } }) => {
 					replacedTitle = title
 					return { matched: true }
 				},
 			],
-			feature,
-			feature.scenarios[0] as Scenario,
-			{
-				...feature.scenarios[0].steps[0],
+			step: {
+				...runStepArgs.feature.scenarios[0].steps[0],
 				title: 'I echo ${foo}',
 			},
-			{
+			context: {
 				foo: 'bar',
 			},
-			[],
-			() => 42,
-		)
+		})
 
 		assert.equal(stepResult.ok, true)
 		assert.equal(replacedTitle, 'I echo bar')

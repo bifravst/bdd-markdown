@@ -10,7 +10,9 @@ env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
-  tests:
+  examples:
+    name: "Run examples on Node.js 16"
+
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +20,42 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: 16
+
+      - name: Keep npm cache around to speed up installs
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci --no-audit --ignore-scripts
+
+      - name: Parse examples
+        run: |
+          npx tsx parse.ts parser/test-data/feature/Example.feature.md
+          npx tsx parse.ts parser/test-data/feature/Highlander.feature.md
+          npx tsx parse.ts examples/mars-rover/MarsRover.feature.md
+
+      - name: Run examples
+        run: |
+          npx tsx examples/mars-rover/tests.ts
+          npx tsx examples/firmware/tests.ts
+
+  tests:
+    name: "Test and Release"
+
+    needs: [examples]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Need Node.js >=18.8.0 for node:test features
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ">=18.8.0"
 
       - name: Keep npm cache around to speed up installs
         uses: actions/cache@v3

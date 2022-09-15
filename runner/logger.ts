@@ -17,7 +17,7 @@ export enum LogLevel {
 	PROGRESS = 'progress',
 }
 
-export type StepLog = {
+export type LogEntry = {
 	level: LogLevel
 	message: string[]
 	/**
@@ -26,12 +26,12 @@ export type StepLog = {
 	ts: number
 }
 
-export const stepLogger = ({
+export const logger = ({
 	getRelativeTs,
 }: {
 	getRelativeTs: () => number
-}): Logger & { getLogs: () => StepLog[] } => {
-	const logs: StepLog[] = []
+}): Logger & { getLogs: () => LogEntry[] } => {
+	const logs: LogEntry[] = []
 	return {
 		debug: (...message) =>
 			logs.push({

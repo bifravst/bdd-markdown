@@ -1,4 +1,5 @@
 import {
+	LogEntry,
 	LogLevel,
 	StepResult,
 	SuiteResult,
@@ -66,6 +67,8 @@ const formatRunResult = (result: SuiteResult) => {
 			)
 		}
 
+		printLogs(featureResult.logs, colorLine(`     ${featureLine}  │  `))
+
 		featureResult.results.forEach(([scenario, scenarioResult], i, results) => {
 			const lastScenario = i === results.length - 1
 			const scenarioLine = lastScenario ? ' ' : '│'
@@ -84,7 +87,7 @@ const formatRunResult = (result: SuiteResult) => {
 			)
 			if (scenario.example !== undefined) {
 				console.log(
-					colorLine(`     ${featureLine}  ${scenarioLine}  │       `),
+					colorLine(`     ${featureLine}  ${scenarioLine}  │ `),
 					colorComment('⌘'),
 					Object.entries(scenario.example)
 						.map(
@@ -93,6 +96,13 @@ const formatRunResult = (result: SuiteResult) => {
 						.join(colorToken(', ')),
 				)
 			}
+
+			printLogs(
+				scenarioResult.logs,
+				colorLine(`     ${featureLine}  ${scenarioLine}  │  `),
+			)
+
+			console.log(colorLine(`     ${featureLine}  ${scenarioLine}  │ `))
 
 			scenarioResult.results.forEach(([step, stepResult], i, results) => {
 				const lastStep = i === results.length - 1
@@ -125,28 +135,12 @@ const formatRunResult = (result: SuiteResult) => {
 					)
 				}
 
-				for (const log of stepResult.logs) {
-					let color = chalk.gray
-					const line = colorLine(
-						`     ${featureLine}  ${scenarioLine}  ${stepLine}   `,
-					)
-					let prefix = '    '
-					switch (log.level) {
-						case LogLevel.DEBUG:
-							color = chalk.blue
-							prefix = color(`     🛈`)
-							break
-						case LogLevel.ERROR:
-							color = chalk.redBright
-							prefix = color(`     ⚠️`)
-							break
-						case LogLevel.PROGRESS:
-							color = chalk.blueBright
-							prefix = color('     »')
-							break
-					}
-					indent(log.message, color, `${line}${prefix}`)
-				}
+				printLogs(
+					stepResult.logs,
+					colorLine(
+						`     ${featureLine}  ${scenarioLine}  ${stepLine}        `,
+					),
+				)
 			})
 		})
 	})
@@ -158,6 +152,32 @@ const printResult = (result: StepResult) => {
 
 const indent = (message: string[], color: ChalkInstance, prefix: string) => {
 	console.log(prefix, ...message.map((m) => color(m)))
+}
+
+const printLogs = (logs: LogEntry[], line: string) => {
+	for (const log of logs) {
+		let color = chalk.gray
+		let prefix = ' '
+		switch (log.level) {
+			case LogLevel.INFO:
+				color = chalk.yellow
+				prefix = color(`🛈`)
+				break
+			case LogLevel.DEBUG:
+				color = chalk.magentaBright
+				prefix = color(`🗲`)
+				break
+			case LogLevel.ERROR:
+				color = chalk.redBright
+				prefix = color(`⚠️`)
+				break
+			case LogLevel.PROGRESS:
+				color = chalk.blue.dim
+				prefix = color('»')
+				break
+		}
+		indent(log.message, color, `${line}${prefix}`)
+	}
 }
 
 const formatDuration = ({ duration }: { duration: number }) =>
