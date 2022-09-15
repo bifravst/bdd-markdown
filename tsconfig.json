@@ -10,6 +10,8 @@
     "baseUrl": ".",
     "paths": {
       "@nordicsemiconductor/bdd-markdown": ["index.ts"],
+      "@nordicsemiconductor/bdd-markdown/order": ["order/index.ts"],
+      "@nordicsemiconductor/bdd-markdown/order/*": ["order/*"],
       "@nordicsemiconductor/bdd-markdown/parser": ["parser/index.ts"],
       "@nordicsemiconductor/bdd-markdown/parser/*": ["parser/*"],
       "@nordicsemiconductor/bdd-markdown/runner": ["runner/index.ts"],

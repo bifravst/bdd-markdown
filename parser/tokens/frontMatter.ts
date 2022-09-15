@@ -2,6 +2,7 @@ import os from 'os'
 import { parse } from 'yaml'
 import { TokenStream } from '../tokenStream.js'
 import { line } from './line.js'
+import { whiteSpace } from './whiteSpace.js'
 
 const readFence = (s: TokenStream): boolean => {
 	const index = s.index()
@@ -40,6 +41,7 @@ export const frontMatter = (s: TokenStream): Record<string, any> | null => {
 		if (l === '---') break
 		yamlLines.push(l)
 	}
+	whiteSpace(s)
 
 	return parse(yamlLines.join(os.EOL))
 }

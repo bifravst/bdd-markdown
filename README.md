@@ -94,3 +94,102 @@ Given I create a new task named `My item`
 
 Soon the list of tasks should contain `My item`
 ```
+
+## Control feature execution order via dependencies
+
+By default the features are loaded in no particular order. You _may_ attempt to
+order them using a naming convention, however this can enforce a forced ranking
+of all features, and over time files might need to get renamed to make room for
+new features.
+
+In this project, features can specify a dependency to one or more other features
+in their front matter, and after parsing all features files, they will be sorted
+[topologically](https://en.wikipedia.org/wiki/Topological_sorting).
+
+Features can define their dependencies via the `needs` keyword:
+
+```markdown
+---
+needs:
+  - First feature
+---
+
+# Second
+
+## Scenario
+
+Given this is the first step
+```
+
+This feature will be run after a feature with the name `First feature`
+
+## Running features _first_ and _last_
+
+In addition, features can specify whether they should be run before all other
+features, or after all. Multiple keywords can have this flag, but dependencies
+will take precedence.
+
+### Example: running a feature before all others
+
+```markdown
+---
+run: first
+---
+
+# Runs before all others
+
+## Scenario
+
+Given this is the first step
+```
+
+### Example: running a feature after all others:
+
+```markdown
+---
+run: last
+---
+
+# Runs before all others
+
+## Scenario
+
+Given this is the first step
+```
+
+## Skipping features
+
+Features can be skipped, this will also skip all dependent features.
+
+### Example: skipping a feature
+
+```markdown
+---
+run: never
+---
+
+# This feature never runs
+
+## Scenario
+
+Given this is the first step
+```
+
+## Running only specific features
+
+Features can be run exclusively, this will also run all dependent features. All
+other features not marked as `run: only` will be skipped.
+
+### Example: running only a specific feature
+
+```markdown
+---
+run: only
+---
+
+# This feature runs, all other features are skipped
+
+## Scenario
+
+Given this is the first step
+```

@@ -21,11 +21,13 @@
     "ajv": "8.11.0",
     "chalk": "5.0.1",
     "tap-parser": "11.0.1",
+    "toposort": "2.0.2",
     "yaml": "2.1.1"
   },
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.125",
     "@types/node": "18.7.18",
+    "@types/toposort": "2.0.3",
     "check-node-version": "4.2.1",
     "eslint-import-resolver-typescript": "3.5.1",
     "eslint-plugin-import": "2.26.0",
