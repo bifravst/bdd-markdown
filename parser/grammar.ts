@@ -22,7 +22,7 @@ export type KeywordDefinition = {
 	title?: string
 	line: number
 	description?: string[]
-	comment?: string
+	comment?: Comment
 }
 
 export type Scenarios = (Scenario | ScenarioOutline)[]
@@ -86,7 +86,7 @@ export type Step = {
 	keyword: EffectiveStepKeyword
 	title: string
 	line: number
-	comment?: string
+	comment?: Comment
 	codeBlock?: CodeBlock
 }
 
@@ -98,6 +98,7 @@ export type CodeBlock = {
 export type Row = Record<string, string>
 export type Table = Row[]
 
-export type Tags = Record<string, Record<string, string | true> | true>
+export type Tag = Record<string, string | true> | true
+export type Tags = Record<string, Tag>
 
-export type Comment = { comment: string; tags?: Tags }
+export type Comment = { text: string; tags?: Tags }

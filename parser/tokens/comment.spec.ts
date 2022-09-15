@@ -7,7 +7,7 @@ import { comment } from './comment.js'
 describe('comment()', () => {
 	it('should read a sentence', () =>
 		assert.deepEqual(comment(tokenStream('<!-- This is a comment. -->')), {
-			comment: 'This is a comment.',
+			text: 'This is a comment.',
 		}))
 
 	it('should stop at EOL', () =>
@@ -17,7 +17,7 @@ describe('comment()', () => {
 					['<!-- This is a comment. -->', 'Second line'].join(os.EOL),
 				),
 			),
-			{ comment: 'This is a comment.' },
+			{ text: 'This is a comment.' },
 		))
 
 	it('should parse tags', () =>
@@ -28,7 +28,7 @@ describe('comment()', () => {
 				),
 			),
 			{
-				comment: 'This is a comment which has some tags: @tag1, @tag2.',
+				text: 'This is a comment which has some tags: @tag1, @tag2.',
 				tags: {
 					tag1: true,
 					tag2: true,
@@ -44,8 +44,7 @@ describe('comment()', () => {
 				),
 			),
 			{
-				comment:
-					'This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step.',
+				text: 'This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step.',
 				tags: {
 					retry: {
 						tries: '3',

@@ -94,7 +94,7 @@ export const runStep = async <Context extends Record<string, any>>({
 	let delayFactor = 0
 	const retriesEnabled = step.keyword === StepKeyword.Soon
 	if (retriesEnabled) {
-		const retryConfig = getRetryConfig(step)
+		const retryConfig = getRetryConfig(step, scenario, feature)
 		stepLogger.debug(formatRetryConfig(retryConfig))
 		tries = retryConfig.tries
 		initialDelay = retryConfig.initialDelay

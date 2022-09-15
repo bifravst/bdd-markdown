@@ -41,15 +41,17 @@ describe('feature()', () => {
 						'This is a description for the scenario, which can span multiple lines. This paragraph is intentionally very long so we hit the prettier auto-format wrapping the long line.',
 						'And line-breaks should be allowed in the description.',
 					],
-					comment:
-						'Comments on separate lines are supported. They will be associated with the following keyword.',
+					comment: {
+						text: 'Comments on separate lines are supported. They will be associated with the following keyword.',
+					},
 					steps: [
 						{
 							keyword: 'Given',
 							title: 'a calculator',
 							line: 32,
-							comment:
-								'Comments can also precede steps and they will be associated with them.',
+							comment: {
+								text: 'Comments can also precede steps and they will be associated with them.',
+							},
 						},
 						{
 							keyword: 'When',
@@ -86,7 +88,9 @@ describe('feature()', () => {
 							keyword: 'Then',
 							title: 'the response status code should be `202`',
 							line: 50,
-							comment: 'This is the response from API Gateway',
+							comment: {
+								text: 'This is the response from API Gateway',
+							},
 						},
 					],
 				},
@@ -134,7 +138,9 @@ describe('feature()', () => {
 			keyword: 'Feature',
 			title: 'Highlander',
 			line: 3,
-			comment: 'see https://cucumber.io/docs/gherkin/reference/#rule',
+			comment: {
+				text: 'see https://cucumber.io/docs/gherkin/reference/#rule',
+			},
 			rules: [
 				{
 					keyword: 'Rule',

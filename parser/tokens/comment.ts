@@ -37,7 +37,7 @@ export const comment = (s: TokenStream): Comment | null => {
 		.trim()
 	if (commentText.length === 0) return null
 
-	const c: Comment = { comment: commentText }
+	const c: Comment = { text: commentText }
 
 	const tags = parseTags(commentText)
 

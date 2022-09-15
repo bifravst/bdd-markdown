@@ -230,7 +230,7 @@ const parseSteps = (s: TokenStream): Step[] => {
 		} else {
 			steps.push(st as Step)
 		}
-		if (stepComment !== null) st.comment = stepComment.comment
+		if (stepComment !== null) st.comment = stepComment
 		if (code !== null) st.codeBlock = code
 	}
 
