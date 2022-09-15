@@ -4,7 +4,7 @@ import assert from 'assert/strict'
 // @ts-ignore FIXME: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/pull/62274 is merged
 import { beforeEach, describe, it } from 'node:test'
 import path from 'path'
-import { logger } from './logger.js'
+import { logger, LogLevel } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runScenario } from './runScenario.js'
 import { noMatch } from './runStep.js'
@@ -108,5 +108,65 @@ describe('runScenario()', () => {
 		assert.equal(scenarioResult.results[0][1].ok, false)
 		assert.equal(scenarioResult.results[1][1].skipped, true)
 		assert.equal(scenarioResult.results[1][1].ok, false)
+	})
+
+	it('should return the logs from step runners logging to the scenario', async () => {
+		const feature = (
+			await loadFeatureFile(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'runFeature',
+					'OneStep.feature.md',
+				),
+			)
+		).feature
+		const getRelativeTs = () => 42
+
+		const scenarioResult = await runScenario({
+			stepRunners: [
+				async ({
+					log: {
+						scenario: { debug, error, info, progress },
+					},
+				}) => {
+					debug(`A debug message`, `with two parts`)
+					error({ message: `Some error` })
+					info(`An info`)
+					progress(`Doing something`, `the thing`)
+					return { matched: true }
+				},
+			],
+			feature,
+			scenario: feature.scenarios[0] as Scenario,
+			context: {},
+			getRelativeTs: getRelativeTs,
+			featureLogger: logger({ getRelativeTs }),
+		})
+
+		assert.equal(scenarioResult.ok, true)
+		assert.deepEqual(scenarioResult.logs, [
+			{
+				level: LogLevel.DEBUG,
+				ts: 42,
+				message: [`A debug message`, `with two parts`],
+			},
+			{
+				level: LogLevel.ERROR,
+				ts: 42,
+				message: [`Some error`],
+			},
+			{
+				level: LogLevel.INFO,
+				ts: 42,
+				message: [`An info`],
+			},
+			{
+				level: LogLevel.PROGRESS,
+				ts: 42,
+				message: [`Doing something`, `the thing`],
+			},
+		])
 	})
 })
