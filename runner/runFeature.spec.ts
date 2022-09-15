@@ -1,6 +1,7 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
+import { LogLevel } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runFeature } from './runFeature.js'
 import { noMatch } from './runStep.js'
@@ -32,19 +33,19 @@ const loadOutlineExample = async () =>
 
 describe('runFeature()', () => {
 	it('should run a feature', async () => {
-		const featureResult = await runFeature(
-			[async () => ({ matched: true })],
-			await loadExampleFeature(),
-			{},
-		)
+		const featureResult = await runFeature({
+			stepRunners: [async () => ({ matched: true })],
+			feature: await loadExampleFeature(),
+			context: {},
+		})
 
 		assert.equal(featureResult.ok, true)
 		assert.equal('duration' in featureResult, true)
 	})
 
 	it('should skip subsequent scenarios if a scenario failed', async () => {
-		const featureResult = await runFeature<{ foo?: string }>(
-			[
+		const featureResult = await runFeature<{ foo?: string }>({
+			stepRunners: [
 				async ({ step: { title } }) => {
 					if (!/^I am run$/.test(title)) return noMatch
 					throw new Error(`Some error!`)
@@ -54,9 +55,9 @@ describe('runFeature()', () => {
 					return { matched: true }
 				},
 			],
-			await loadExampleFeature(),
-			{},
-		)
+			feature: await loadExampleFeature(),
+			context: {},
+		})
 
 		assert.equal(featureResult.ok, false)
 		assert.equal(featureResult.results[0][1].skipped, false)
@@ -66,11 +67,11 @@ describe('runFeature()', () => {
 	})
 
 	it('should expand Scenario Outlines', async () => {
-		const featureResult = await runFeature(
-			[async () => ({ matched: true })],
-			await loadOutlineExample(),
-			{},
-		)
+		const featureResult = await runFeature({
+			stepRunners: [async () => ({ matched: true })],
+			feature: await loadOutlineExample(),
+			context: {},
+		})
 
 		assert.equal(featureResult.ok, true)
 
@@ -119,6 +120,61 @@ describe('runFeature()', () => {
 					y: '0',
 				},
 				replacedStep: 'I set the initial direction to `W`',
+			},
+		])
+	})
+
+	it('should return the logs from step runners logging to the feature', async () => {
+		const featureResult = await runFeature({
+			stepRunners: [
+				async ({
+					log: {
+						feature: { debug, error, info, progress },
+					},
+				}) => {
+					debug(`A debug message`, `with two parts`)
+					error({ message: `Some error` })
+					info(`An info`)
+					progress(`Doing something`, `the thing`)
+					return { matched: true }
+				},
+			],
+			feature: (
+				await loadFeatureFile(
+					path.join(
+						process.cwd(),
+						'runner',
+						'test-data',
+						'runFeature',
+						'OneStep.feature.md',
+					),
+				)
+			).feature,
+			context: {},
+			getRelativeTs: () => 42,
+		})
+
+		assert.equal(featureResult.ok, true)
+		assert.deepEqual(featureResult.logs, [
+			{
+				level: LogLevel.DEBUG,
+				ts: 42,
+				message: [`A debug message`, `with two parts`],
+			},
+			{
+				level: LogLevel.ERROR,
+				ts: 42,
+				message: [`Some error`],
+			},
+			{
+				level: LogLevel.INFO,
+				ts: 42,
+				message: [`An info`],
+			},
+			{
+				level: LogLevel.PROGRESS,
+				ts: 42,
+				message: [`Doing something`, `the thing`],
 			},
 		])
 	})

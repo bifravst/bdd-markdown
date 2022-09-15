@@ -20,15 +20,21 @@ export type FeatureResult = {
 	logs: LogEntry[]
 }
 
-export const runFeature = async <Context extends Record<string, any>>(
-	stepRunners: StepRunner<Context>[],
-	feature: Feature,
-	context: Context,
-): Promise<FeatureResult> => {
+export const runFeature = async <Context extends Record<string, any>>({
+	stepRunners,
+	feature,
+	context,
+	getRelativeTs,
+}: {
+	stepRunners: StepRunner<Context>[]
+	feature: Feature
+	context: Context
+	getRelativeTs?: () => number
+}): Promise<FeatureResult> => {
 	const scenarioResults: [ScenarioExecution, ScenarioResult][] = []
 	const startTs = Date.now()
-	const getRelativeTs = () => Date.now() - startTs
-	const featureLogger = logger({ getRelativeTs })
+	const relTs = getRelativeTs ?? (() => Date.now() - startTs)
+	const featureLogger = logger({ getRelativeTs: relTs })
 
 	let aborted = false
 	for (const scenario of feature.scenarios) {
@@ -60,7 +66,7 @@ export const runFeature = async <Context extends Record<string, any>>(
 					scenario: scenarioFromExample,
 					// Re-use the same context
 					context,
-					getRelativeTs,
+					getRelativeTs: relTs,
 					featureLogger,
 				})
 				scenarioResults.push([
@@ -92,7 +98,7 @@ export const runFeature = async <Context extends Record<string, any>>(
 				scenario,
 				// Re-use the same context
 				context,
-				getRelativeTs,
+				getRelativeTs: relTs,
 				featureLogger,
 			})
 			scenarioResults.push([
@@ -113,7 +119,6 @@ export const runFeature = async <Context extends Record<string, any>>(
 		),
 		results: scenarioResults,
 		duration: Date.now() - startTs,
-		// TODO: test feature logs
 		logs: featureLogger.getLogs(),
 	}
 }

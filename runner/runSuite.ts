@@ -34,12 +34,12 @@ export const runSuite = <Context extends Record<string, any>>(
 			for (const { file, feature } of featureFiles) {
 				featureResults.push([
 					file,
-					await runFeature(
+					await runFeature({
 						stepRunners,
 						feature,
 						// Create a new context per feature
-						JSON.parse(JSON.stringify(context ?? {})),
-					),
+						context: JSON.parse(JSON.stringify(context ?? {})),
+					}),
 				])
 			}
 
