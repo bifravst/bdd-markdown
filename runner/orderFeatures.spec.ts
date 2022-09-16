@@ -1,13 +1,19 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { parseFeaturesInFolder } from '../runner/parseFeaturesInFolder.js'
 import { orderFeatures } from './orderFeatures.js'
+import { parseFeaturesInFolder } from './parseFeaturesInFolder.js'
 
 describe('orderFeatures()', () => {
 	it('should order the features according to their dependencies and whether they should run first or last', async () => {
 		const features = await parseFeaturesInFolder(
-			path.join(process.cwd(), 'order', 'test-data', 'required-order'),
+			path.join(
+				process.cwd(),
+				'runner',
+				'test-data',
+				'orderFeatures',
+				'required-order',
+			),
 		)
 		const executionOrder = orderFeatures(features).map(
 			({ feature }) => feature.title,
@@ -23,7 +29,13 @@ describe('orderFeatures()', () => {
 
 	it('should throw an error if an dependency does not exist', async () => {
 		const features = await parseFeaturesInFolder(
-			path.join(process.cwd(), 'order', 'test-data', 'invalid-dependency'),
+			path.join(
+				process.cwd(),
+				'runner',
+				'test-data',
+				'orderFeatures',
+				'invalid-dependency',
+			),
 		)
 		assert.throws(
 			() => orderFeatures(features),
@@ -31,15 +43,23 @@ describe('orderFeatures()', () => {
 		)
 	})
 
-	/** 
 	it('should skip dependent features', async () => {
 		const features = await parseFeaturesInFolder(
-			path.join(process.cwd(), 'order', 'test-data', 'skip'),
+			path.join(process.cwd(), 'runner', 'test-data', 'orderFeatures', 'skip'),
 		)
-		const executionOrder = orderFeatures(features).map(
-			({ feature }) => feature.title,
-		)
+		const executionOrder = orderFeatures(features)
+			.filter(({ skip }) => skip !== true)
+			.map(({ feature }) => feature.title)
 		assert.deepEqual(executionOrder, ['Run this feature'])
 	})
-	*/
+
+	it('should skip dependent features', async () => {
+		const features = await parseFeaturesInFolder(
+			path.join(process.cwd(), 'runner', 'test-data', 'orderFeatures', 'only'),
+		)
+		const executionOrder = orderFeatures(features)
+			.filter(({ skip }) => skip !== true)
+			.map(({ feature }) => feature.title)
+		assert.deepEqual(executionOrder, ['Run this feature'])
+	})
 })

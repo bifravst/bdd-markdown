@@ -1,57 +1,24 @@
 import {
 	Comment,
 	Feature,
+	PartialRetryConfig,
+	RetryConfig,
+	RetryConfigSchema,
 	Scenario,
 	Step,
 	StepKeyword,
 	Tag,
 } from '@nordicsemiconductor/bdd-markdown'
-import { Static, Type } from '@sinclair/typebox'
 import { InvalidSettingsError } from './errors/InvalidSettingsError.js'
 import { validateWithJSONSchema } from './validateWithJSONSchema.js'
 
-const retryConfigSchema = Type.Object(
-	{
-		tries: Type.Optional(
-			Type.Integer({
-				description: 'How many times to retry the step',
-				minimum: 1,
-				examples: [3],
-				default: 5,
-			}),
-		),
-		initialDelay: Type.Optional(
-			Type.Integer({
-				description: 'The initial retry delay in milliseconds',
-				minimum: 1,
-				examples: [500],
-				default: 250,
-			}),
-		),
-		delayFactor: Type.Optional(
-			Type.Number({
-				description: 'The factor to apply to the delay for every retry.',
-				minimum: 0,
-				examples: [1.5],
-				default: 2,
-			}),
-		),
-	},
-	{
-		additionalProperties: false,
-	},
-)
-
-export type PartialRetryConfig = Static<typeof retryConfigSchema>
-export type RetryConfig = Required<PartialRetryConfig>
-
 export const defaultRetryConfig: RetryConfig = {
-	tries: retryConfigSchema.properties.tries.default,
-	initialDelay: retryConfigSchema.properties.initialDelay.default,
-	delayFactor: retryConfigSchema.properties.delayFactor.default,
+	tries: RetryConfigSchema.properties.tries.default,
+	initialDelay: RetryConfigSchema.properties.initialDelay.default,
+	delayFactor: RetryConfigSchema.properties.delayFactor.default,
 }
 
-const validator = validateWithJSONSchema(retryConfigSchema)
+const validator = validateWithJSONSchema(RetryConfigSchema)
 
 /**
  * FIXME: use retry config from step, scenario, or feature

@@ -1,3 +1,5 @@
+import { Static, Type } from '@sinclair/typebox'
+
 export enum Keyword {
 	Feature = 'Feature',
 	Scenario = 'Scenario',
@@ -32,7 +34,11 @@ export type Feature = KeywordDefinition & {
 	background?: Background
 	scenarios: Scenarios
 	rules?: Rule[]
-	frontMatter?: Record<string, any>
+	frontMatter?: Record<string, any> & {
+		run?: 'never' | 'only' | 'first' | 'last'
+		retry?: PartialRetryConfig
+		needs?: string[]
+	}
 }
 
 /**
@@ -102,3 +108,59 @@ export type Tag = Record<string, string | true> | true
 export type Tags = Record<string, Tag>
 
 export type Comment = { text: string; tags?: Tags }
+
+export const RetryConfigSchema = Type.Object(
+	{
+		tries: Type.Optional(
+			Type.Integer({
+				description: 'How many times to retry the step',
+				minimum: 1,
+				examples: [3],
+				default: 5,
+			}),
+		),
+		initialDelay: Type.Optional(
+			Type.Integer({
+				description: 'The initial retry delay in milliseconds',
+				minimum: 1,
+				examples: [500],
+				default: 250,
+			}),
+		),
+		delayFactor: Type.Optional(
+			Type.Number({
+				description: 'The factor to apply to the delay for every retry.',
+				minimum: 0,
+				examples: [1.5],
+				default: 2,
+			}),
+		),
+	},
+	{
+		additionalProperties: false,
+	},
+)
+
+export type PartialRetryConfig = Static<typeof RetryConfigSchema>
+export type RetryConfig = Required<PartialRetryConfig>
+
+enum Run {
+	never = 'never',
+	only = 'only',
+	first = 'first',
+	last = 'last',
+}
+export const RunConfigSchema = Type.Object({
+	run: Type.Optional(Type.Enum(Run)),
+	needs: Type.Optional(
+		Type.Array(
+			Type.String({
+				minLength: 1,
+			}),
+			{ minItems: 1 },
+		),
+	),
+})
+
+export type PartialRunConfig = Static<typeof RunConfigSchema>
+export type RunConfig = Required<PartialRunConfig>

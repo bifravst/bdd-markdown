@@ -1,6 +1,8 @@
 import {
 	Feature,
 	Keyword,
+	PartialRetryConfig,
+	RetryConfig,
 	Scenario,
 	Step,
 	StepKeyword,
@@ -8,12 +10,7 @@ import {
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import { parseTags } from '../parser/tokens/parseTags.js'
-import {
-	defaultRetryConfig,
-	getRetryConfig,
-	PartialRetryConfig,
-	RetryConfig,
-} from './getRetryConfig.js'
+import { defaultRetryConfig, getRetryConfig } from './getRetryConfig.js'
 
 const commentTests: [comment: string, expected: RetryConfig][] = [
 	// Full config

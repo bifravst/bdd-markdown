@@ -159,7 +159,8 @@ Given this is the first step
 
 ## Skipping features
 
-Features can be skipped, this will also skip all dependent features.
+Features can be skipped, this will also skip all dependent and transiently
+dependent features.
 
 ### Example: skipping a feature
 
@@ -177,8 +178,9 @@ Given this is the first step
 
 ## Running only specific features
 
-Features can be run exclusively, this will also run all dependent features. All
-other features not marked as `run: only` will be skipped.
+Features can be run exclusively, this will also run all dependent and
+transiently dependent features. All other features not marked as `run: only`
+will be skipped.
 
 ### Example: running only a specific feature
 

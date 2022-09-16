@@ -10,6 +10,7 @@ import { findFilesInFolder } from './findTestFiles.js'
 export type FeatureFile = {
 	file: ReturnType<typeof parse>
 	feature: Feature
+	skip?: boolean
 }
 export const parseFeaturesInFolder = async (
 	folderWithFeatures: string,
