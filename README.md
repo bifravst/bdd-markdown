@@ -30,7 +30,10 @@ so why not use Markdown? It can look
 - [Mars Rover Kata](./examples/mars-rover/MarsRover.feature.md) (this
   demonstrates the `Soon` keyword which retries steps)  
   Run: `npx tsx examples/mars-rover/tests.ts`
-- [Firmware UART log assertions](./examples/firmware/)  
+- [Firmware UART log assertions](./examples/firmware/RunFirmware.feature.md)
+  (this demonstrates the use of the `Context`, which is a global object
+  available to provide run-time settings to the test run, which replace
+  placeholders in step titles and codeblocks.)  
   Run: `npx tsx examples/firmware/tests.ts`
 
 ## Test eventual consistent systems using the `Soon` keyword
