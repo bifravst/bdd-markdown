@@ -53,19 +53,14 @@ const formatRunResult = (result: SuiteResult) => {
 		const lastFeature = i === results.length - 1
 		const featureLine = lastFeature ? ' ' : '│'
 		console.log(colorLine('     │ '))
-		if (lastFeature) {
-			console.log(
-				colorLine('     └─'),
-				chalk.white(file.name),
-				formatDuration(featureResult),
-			)
-		} else {
-			console.log(
-				colorLine('     ├─'),
-				chalk.white(file.name),
-				formatDuration(featureResult),
-			)
+		const prefix = lastFeature ? colorLine('     └─') : colorLine('     ├─')
+
+		if (featureResult.skipped) {
+			console.log(prefix, colorSkipped(file.name))
+			return
 		}
+
+		console.log(prefix, chalk.white(file.name), formatDuration(featureResult))
 
 		printLogs(featureResult.logs, colorLine(`     ${featureLine}  │  `))
 
@@ -75,7 +70,7 @@ const formatRunResult = (result: SuiteResult) => {
 			if (scenarioResult.skipped) {
 				console.log(
 					colorLine(`        ${lastScenario ? '└' : '├'}─`),
-					chalk.gray.strikethrough(scenario.title),
+					colorSkipped(scenario.title),
 				)
 				return
 			}
@@ -112,9 +107,7 @@ const formatRunResult = (result: SuiteResult) => {
 						colorLine(
 							`     ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 						),
-						chalk.gray.strikethrough(
-							`${step.keyword.padEnd(5, ' ')}${step.title}`,
-						),
+						colorSkipped(`${step.keyword.padEnd(5, ' ')}${step.title}`),
 					)
 					return
 				}
@@ -191,3 +184,4 @@ const colorTime = chalk.blue.dim
 const colorLine = chalk.blue
 const colorSuccess = chalk.green
 const colorFailure = chalk.red
+const colorSkipped = chalk.gray.strikethrough

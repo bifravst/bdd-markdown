@@ -62,4 +62,20 @@ describe('orderFeatures()', () => {
 			.map(({ feature }) => feature.title)
 		assert.deepEqual(executionOrder, ['Run this feature'])
 	})
+
+	it('dependencies override order', async () => {
+		const features = await parseFeaturesInFolder(
+			path.join(
+				process.cwd(),
+				'runner',
+				'test-data',
+				'orderFeatures',
+				'last-with-dependency',
+			),
+		)
+		const executionOrder = orderFeatures(features).map(
+			({ feature }) => feature.title,
+		)
+		assert.deepEqual(executionOrder, ['Last', 'First'])
+	})
 })

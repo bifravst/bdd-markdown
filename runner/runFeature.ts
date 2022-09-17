@@ -15,6 +15,7 @@ export type ScenarioExecution = Scenario & {
 
 export type FeatureResult = {
 	ok: boolean
+	skipped: boolean
 	results: [ScenarioExecution, ScenarioResult][]
 	duration: number
 	logs: LogEntry[]
@@ -120,5 +121,6 @@ export const runFeature = async <Context extends Record<string, any>>({
 		results: scenarioResults,
 		duration: Date.now() - startTs,
 		logs: featureLogger.getLogs(),
+		skipped: false,
 	}
 }
