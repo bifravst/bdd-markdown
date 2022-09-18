@@ -1,8 +1,6 @@
 import {
 	CodeBlock,
 	FeatureResult,
-	LogEntry,
-	LogLevel,
 	ScenarioExecution,
 	ScenarioResult,
 	Step,
@@ -13,6 +11,7 @@ import os from 'os'
 import { ParsedPath } from 'path'
 import prettier from 'prettier'
 import { inputTable } from './markdown/inputTable.js'
+import { logEntry } from './markdown/logEntry.js'
 
 export const markdownReporter = (result: SuiteResult): string =>
 	prettier.format(
@@ -65,7 +64,7 @@ const featureMd = ([path, result]: [ParsedPath, FeatureResult]): string[] => {
 		featureMd.push(
 			...details(
 				'Feature log',
-				result.logs.map((s, i, logs) => logMd(s, i === logs.length - 1)),
+				result.logs.map((s, i, logs) => logEntry(s, i === logs.length - 1)),
 			),
 		)
 	}
@@ -102,7 +101,7 @@ const scenarioMd = ([execution, result]: [
 		scenarioMd.push(
 			...details(
 				'Scenario log',
-				result.logs.map((s, i, logs) => logMd(s, i === logs.length - 1)),
+				result.logs.map((s, i, logs) => logEntry(s, i === logs.length - 1)),
 			),
 		)
 	}
@@ -124,7 +123,7 @@ const stepMd = ([, result]: [Step, StepResult]): string[] => {
 		stepMd.push(
 			...details(
 				'Step log',
-				result.logs.map((s, i, logs) => logMd(s, i === logs.length - 1)),
+				result.logs.map((s, i, logs) => logEntry(s, i === logs.length - 1)),
 			),
 		)
 	}
@@ -147,38 +146,6 @@ const codeBlockMd = (codeBlock: CodeBlock): string[] => [
 	...codeBlock.code.split(os.EOL),
 	'```',
 ]
-
-// eslint-disable-next-line no-irregular-whitespace
-const zeroWidthSpace = `​`
-
-const logMd = (logEntry: LogEntry, isLast: boolean): string => {
-	let prefix = ''
-	switch (logEntry.level) {
-		case LogLevel.DEBUG:
-			prefix = ':zap:'
-			break
-		case LogLevel.ERROR:
-			prefix = ':bangbang:'
-			break
-		case LogLevel.INFO:
-			prefix = ':information_source:'
-			break
-		case LogLevel.PROGRESS:
-			prefix = ':fast_forward:'
-			break
-	}
-
-	const logmsg = logEntry.message
-		.map((m) => {
-			const numBackTicks = Math.max(1, m.match(/`/g)?.length ?? 0)
-			return `${'`'.repeat(
-				numBackTicks,
-			)}${zeroWidthSpace}${m}${zeroWidthSpace}${'`'.repeat(numBackTicks)}`
-		})
-		.join(' ')
-
-	return `  ${prefix} ${logmsg} _@ ${logEntry.ts} ms_${isLast ? '' : '  '}`
-}
 
 const details = (title: string, content: string[]): string[] => [
 	'<details>',
