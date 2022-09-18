@@ -3,7 +3,7 @@ This folder uses snapshots.
 For updating the result snapshots, run:
 
     npx tsx examples/mars-rover/tests.ts > reporter/test-data/mars-rover.json
-    npx tsx examples/firmware/tests.ts > reporter/test-data/firmwarejson
+    npx tsx examples/firmware/tests.ts > reporter/test-data/firmware.json
 
 For updating the report snapshots, run:
 

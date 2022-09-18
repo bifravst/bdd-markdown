@@ -43,7 +43,7 @@
                   {
                     "logs": [],
                     "ok": true,
-                    "duration": 0,
+                    "duration": 1,
                     "executed": {
                       "keyword": "Then",
                       "title": "the Firmware CI run device log should contain",

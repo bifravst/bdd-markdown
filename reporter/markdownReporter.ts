@@ -94,6 +94,10 @@ const scenarioMd = ([execution, result]: [
 		'',
 	]
 
+	if (execution.example !== undefined) {
+		scenarioMd.push(...details('Input', inputTable(execution.example)))
+	}
+
 	if (result.logs.length !== 0) {
 		scenarioMd.push(
 			...details(
@@ -103,16 +107,12 @@ const scenarioMd = ([execution, result]: [
 		)
 	}
 
-	if (execution.example !== undefined) {
-		scenarioMd.push(...details('Input', inputTable(execution.example)))
-	}
-
 	scenarioMd.push(...result.results.map(stepMd).flat(), '')
 
 	return scenarioMd
 }
 
-const stepMd = ([step, result]: [Step, StepResult]): string[] => {
+const stepMd = ([, result]: [Step, StepResult]): string[] => {
 	const stepMd = [
 		`${result.ok ? ':heavy_check_mark:' : ':x:'} **${
 			result.executed.keyword
@@ -148,6 +148,9 @@ const codeBlockMd = (codeBlock: CodeBlock): string[] => [
 	'```',
 ]
 
+// eslint-disable-next-line no-irregular-whitespace
+const zeroWidthSpace = `​`
+
 const logMd = (logEntry: LogEntry, isLast: boolean): string => {
 	let prefix = ''
 	switch (logEntry.level) {
@@ -164,9 +167,17 @@ const logMd = (logEntry: LogEntry, isLast: boolean): string => {
 			prefix = ':fast_forward:'
 			break
 	}
-	return `  ${prefix} \`${logEntry.message.join(' ')}\` _@ ${logEntry.ts} ms_${
-		isLast ? '' : '  '
-	}`
+
+	const logmsg = logEntry.message
+		.map((m) => {
+			const numBackTicks = Math.max(1, m.match(/`/g)?.length ?? 0)
+			return `${'`'.repeat(
+				numBackTicks,
+			)}${zeroWidthSpace}${m}${zeroWidthSpace}${'`'.repeat(numBackTicks)}`
+		})
+		.join(' ')
+
+	return `  ${prefix} ${logmsg} _@ ${logEntry.ts} ms_${isLast ? '' : '  '}`
 }
 
 const details = (title: string, content: string[]): string[] => [
