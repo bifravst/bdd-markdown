@@ -4,23 +4,30 @@ import {
 	StepResult,
 	SuiteResult,
 } from '@nordicsemiconductor/bdd-markdown/runner'
-import chalk, { ChalkInstance } from 'chalk'
+import chalk from 'chalk'
+import os from 'os'
 
 const errorMark = chalk.bgRedBright(' EE ')
 const passMark = chalk.bgGreenBright(' OK ')
 
-export const consoleReporter = (result: SuiteResult): void => {
-	console.log('')
-	formatRunResult(result)
-	console.log('')
-	summarizeRunResult(result)
+export const consoleReporter = (
+	result: SuiteResult,
+	print: (...args: string[]) => void,
+): void => {
+	print('')
+	formatRunResult(result, print)
+	print('')
+	summarizeRunResult(result, print)
 }
 
-const summarizeRunResult = (result: SuiteResult) => {
+const summarizeRunResult = (
+	result: SuiteResult,
+	print: (...args: string[]) => void,
+) => {
 	const numPass = result.results.filter(([, { ok }]) => ok === true).length
 	const numFail = result.results.filter(([, { ok }]) => ok !== true).length
 	const allPass = numFail === 0
-	console.log(
+	print(
 		chalk.gray(' Failed:   '),
 		(allPass ? colorSuccess : colorFailure)(`${numFail}`.padStart(6, ' ')),
 		chalk.gray(' Passed:   '),
@@ -30,7 +37,7 @@ const summarizeRunResult = (result: SuiteResult) => {
 		(total, [, result]) => total + result.duration,
 		0,
 	)
-	console.log(
+	print(
 		chalk.gray(' Total:    '),
 		chalk.white(`${result.results.length}`.padStart(6, ' ')),
 		chalk.gray(' Duration: '),
@@ -38,50 +45,53 @@ const summarizeRunResult = (result: SuiteResult) => {
 	)
 }
 
-const formatRunResult = (result: SuiteResult) => {
+const formatRunResult = (
+	result: SuiteResult,
+	print: (...args: string[]) => void,
+) => {
 	const testSuiteDuration = result.results.reduce(
 		(total, [, { duration }]) => total + duration,
 		0,
 	)
-	console.log(
+	print(
 		result.ok ? passMark : errorMark,
-		`${chalk.white('Test suite')}`,
+		`${chalk.white(result.name)}`,
 		formatDuration({ duration: testSuiteDuration }),
 	)
 
 	result.results.forEach(([file, featureResult], i, results) => {
 		const lastFeature = i === results.length - 1
 		const featureLine = lastFeature ? ' ' : '│'
-		console.log(colorLine('     │ '))
+		print(colorLine('     │ '))
 		const prefix = lastFeature ? colorLine('     └─') : colorLine('     ├─')
 
 		if (featureResult.skipped) {
-			console.log(prefix, colorSkipped(file.name))
+			print(prefix, colorSkipped(file.name))
 			return
 		}
 
-		console.log(prefix, chalk.white(file.name), formatDuration(featureResult))
+		print(prefix, chalk.white(file.name), formatDuration(featureResult))
 
-		printLogs(featureResult.logs, colorLine(`     ${featureLine}  │  `))
+		printLogs(featureResult.logs, colorLine(`     ${featureLine}  │  `), print)
 
 		featureResult.results.forEach(([scenario, scenarioResult], i, results) => {
 			const lastScenario = i === results.length - 1
 			const scenarioLine = lastScenario ? ' ' : '│'
 			if (scenarioResult.skipped) {
-				console.log(
+				print(
 					colorLine(`        ${lastScenario ? '└' : '├'}─`),
 					colorSkipped(scenario.title),
 				)
 				return
 			}
-			console.log(colorLine(`     ${featureLine}  │`))
-			console.log(
+			print(colorLine(`     ${featureLine}  │`))
+			print(
 				colorLine(`        ${lastScenario ? '└' : '├'}─`),
 				chalk.white(scenario.title),
 				formatDuration(scenarioResult),
 			)
 			if (scenario.example !== undefined) {
-				console.log(
+				print(
 					colorLine(`     ${featureLine}  ${scenarioLine}  │ `),
 					colorComment('⌘'),
 					Object.entries(scenario.example)
@@ -95,32 +105,47 @@ const formatRunResult = (result: SuiteResult) => {
 			printLogs(
 				scenarioResult.logs,
 				colorLine(`     ${featureLine}  ${scenarioLine}  │  `),
+				print,
 			)
 
-			console.log(colorLine(`     ${featureLine}  ${scenarioLine}  │ `))
+			print(colorLine(`     ${featureLine}  ${scenarioLine}  │ `))
 
 			scenarioResult.results.forEach(([step, stepResult], i, results) => {
 				const lastStep = i === results.length - 1
 				const stepLine = lastStep ? ' ' : '│'
 				if (stepResult.skipped) {
-					console.log(
+					print(
 						colorLine(
 							`     ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 						),
-						colorSkipped(`${step.keyword.padEnd(5, ' ')}${step.title}`),
+						colorSkipped(
+							`${step.keyword.padEnd(5, ' ')}${stepResult.executed.title}`,
+						),
 					)
 					return
 				}
-				console.log(
+				print(
 					colorLine(
 						`     ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 					),
 					chalk.gray(step.keyword.padEnd(5, ' ')),
-					(stepResult.ok ? colorSuccess : colorFailure)(step.title),
+					(stepResult.ok ? colorSuccess : colorFailure)(
+						stepResult.executed.title,
+					),
 					formatDuration(stepResult),
 				)
+				if (stepResult.executed.codeBlock !== undefined) {
+					stepResult.executed.codeBlock.code
+						.split(os.EOL)
+						.forEach((line) =>
+							print(
+								colorLine(`     ${featureLine}  ${scenarioLine}  ${stepLine} `),
+								colorCode(line),
+							),
+						)
+				}
 				if (stepResult.result !== undefined) {
-					console.log(
+					print(
 						colorLine(
 							`     ${featureLine}  ${scenarioLine}  ${stepLine}        ❮`,
 						),
@@ -133,6 +158,7 @@ const formatRunResult = (result: SuiteResult) => {
 					colorLine(
 						`     ${featureLine}  ${scenarioLine}  ${stepLine}        `,
 					),
+					print,
 				)
 			})
 		})
@@ -143,11 +169,11 @@ const printResult = (result: StepResult) => {
 	return JSON.stringify(result.result)
 }
 
-const indent = (message: string[], color: ChalkInstance, prefix: string) => {
-	console.log(prefix, ...message.map((m) => color(m)))
-}
-
-const printLogs = (logs: LogEntry[], line: string) => {
+const printLogs = (
+	logs: LogEntry[],
+	line: string,
+	print: (...args: string[]) => void,
+) => {
 	for (const log of logs) {
 		let color = chalk.gray
 		let prefix = ' '
@@ -169,7 +195,7 @@ const printLogs = (logs: LogEntry[], line: string) => {
 				prefix = color('»')
 				break
 		}
-		indent(log.message, color, `${line}${prefix}`)
+		print(`${line}${prefix}`, ...log.message.map((m) => color(m)))
 	}
 }
 
@@ -185,3 +211,4 @@ const colorLine = chalk.blue
 const colorSuccess = chalk.green
 const colorFailure = chalk.red
 const colorSkipped = chalk.gray.strikethrough
+const colorCode = chalk.cyanBright

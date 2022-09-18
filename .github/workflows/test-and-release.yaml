@@ -37,10 +37,17 @@ jobs:
           npx tsx parse.ts parser/test-data/feature/Highlander.feature.md
           npx tsx parse.ts examples/mars-rover/MarsRover.feature.md
 
-      - name: Run examples
+      - name: Mars Rover Example
         run: |
-          npx tsx examples/mars-rover/tests.ts
-          npx tsx examples/firmware/tests.ts
+          npx tsx examples/mars-rover/tests.ts > mars-rover.json
+          cat mars-rover.json | npx tsx reporter/console-cli.ts
+          cat mars-rover.json | npx tsx reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
+
+      - name: Firmware Example
+        run: |
+          npx tsx examples/firmware/tests.ts > firmware.json
+          cat firmware.json | npx tsx reporter/console-cli.ts
+          cat firmware.json | npx tsx reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
 
   tests:
     name: "Test and Release"

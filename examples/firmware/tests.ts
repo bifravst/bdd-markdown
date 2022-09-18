@@ -1,13 +1,13 @@
-import { consoleReporter } from '@nordicsemiconductor/bdd-markdown/reporter'
 import { runFolder } from '@nordicsemiconductor/bdd-markdown/runner'
 import { readFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { FirmwareCIRunContext, steps } from './steps.js'
 
-const runner = await runFolder<FirmwareCIRunContext>(
-	path.join(process.cwd(), 'examples', 'firmware'),
-)
+const runner = await runFolder<FirmwareCIRunContext>({
+	name: 'Firmware',
+	folder: path.join(process.cwd(), 'examples', 'firmware'),
+})
 
 runner.addStepRunners(...steps)
 
@@ -23,6 +23,6 @@ const res = await runner.run({
 	).split(os.EOL),
 })
 
-consoleReporter(res)
+console.log(JSON.stringify(res, null, 2))
 
 if (!res.ok) process.exit(1)

@@ -20,6 +20,10 @@ export type StepResult = {
 	printable?: string
 	logs: LogEntry[]
 	duration: number
+	/**
+	 * The executed step with all replacements applied
+	 */
+	executed: Step
 }
 
 export const noMatch = { matched: false }
@@ -74,7 +78,6 @@ export const runStep = async <Context extends Record<string, any>>({
 	const stepLogger = logger({ getRelativeTs })
 
 	const replacedStep = replaceFromContext(context)(step)
-
 	const unreplaced = getUnreplacedPlaceholders(replacedStep)
 	if (unreplaced.length > 0) {
 		stepLogger.error({
@@ -85,6 +88,7 @@ export const runStep = async <Context extends Record<string, any>>({
 			ok: false,
 			logs: stepLogger.getLogs(),
 			duration: 0,
+			executed: replacedStep,
 		}
 	}
 
@@ -115,6 +119,7 @@ export const runStep = async <Context extends Record<string, any>>({
 					logs: stepLogger.getLogs(),
 					ok: false,
 					duration: 0,
+					executed: step,
 				}
 			}
 
@@ -140,6 +145,7 @@ export const runStep = async <Context extends Record<string, any>>({
 						result: (maybeRun as StepMatched).result,
 						printable: (maybeRun as StepMatched).printable,
 						duration: Date.now() - startTs,
+						executed: replacedStep,
 					}
 				} catch (err) {
 					if (!retriesEnabled) throw err
@@ -159,6 +165,7 @@ export const runStep = async <Context extends Record<string, any>>({
 			logs: stepLogger.getLogs(),
 			ok: false,
 			duration: Date.now() - startTs,
+			executed: replacedStep,
 		}
 	}
 	stepLogger.error({
@@ -168,5 +175,6 @@ export const runStep = async <Context extends Record<string, any>>({
 		ok: false,
 		logs: stepLogger.getLogs(),
 		duration: 0,
+		executed: replacedStep,
 	}
 }

@@ -1,0 +1,1675 @@
+{
+  "ok": true,
+  "results": [
+    [
+      {
+        "root": "/",
+        "dir": "/home/m/git/bdd/examples/mars-rover",
+        "base": "MarsRover.feature.md",
+        "ext": ".md",
+        "name": "MarsRover.feature"
+      },
+      {
+        "ok": true,
+        "results": [
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover forward",
+              "line": 9,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 11
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 13
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `N`",
+                  "line": 15
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `forward` 1 square",
+                  "line": 17
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `0,-1`",
+                  "line": 19
+                }
+              ],
+              "example": {
+                "direction": "N",
+                "x": "0",
+                "y": "-1"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 11
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 1
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 1
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 11
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 13
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 13
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `N`",
+                    "line": 15
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 N",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `N`",
+                      "line": 15
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `forward` 1 square",
+                    "line": 17
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 N",
+                    "duration": 1,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `forward` 1 square",
+                      "line": 17
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `0,-1`",
+                    "line": 19
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 2
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 254
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 252,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `0,-1`",
+                      "line": 19
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 254,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to 0,-1"],
+                  "level": "progress",
+                  "ts": 102
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover forward",
+              "line": 9,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 11
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 13
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `S`",
+                  "line": 15
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `forward` 1 square",
+                  "line": 17
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `0,1`",
+                  "line": 19
+                }
+              ],
+              "example": {
+                "direction": "S",
+                "x": "0",
+                "y": "1"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 11
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 254
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 254
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 11
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 13
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 13
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `S`",
+                    "line": 15
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 S",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `S`",
+                      "line": 15
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `forward` 1 square",
+                    "line": 17
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 S",
+                    "duration": 1,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `forward` 1 square",
+                      "line": 17
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `0,1`",
+                    "line": 19
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 255
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 506
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 251,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `0,1`",
+                      "line": 19
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 252,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to 0,1"],
+                  "level": "progress",
+                  "ts": 354
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover forward",
+              "line": 9,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 11
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 13
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `E`",
+                  "line": 15
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `forward` 1 square",
+                  "line": 17
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `1,0`",
+                  "line": 19
+                }
+              ],
+              "example": {
+                "direction": "E",
+                "x": "1",
+                "y": "0"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 11
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 506
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 506
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 11
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 13
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 13
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `E`",
+                    "line": 15
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 E",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `E`",
+                      "line": 15
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `forward` 1 square",
+                    "line": 17
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 E",
+                    "duration": 1,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `forward` 1 square",
+                      "line": 17
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `1,0`",
+                    "line": 19
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 507
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 757
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 250,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `1,0`",
+                      "line": 19
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 251,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to 1,0"],
+                  "level": "progress",
+                  "ts": 606
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover forward",
+              "line": 9,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 11
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 13
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `W`",
+                  "line": 15
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `forward` 1 square",
+                  "line": 17
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `-1,0`",
+                  "line": 19
+                }
+              ],
+              "example": {
+                "direction": "W",
+                "x": "-1",
+                "y": "0"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 11
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 758
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 758
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 11
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 13
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 13
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `W`",
+                    "line": 15
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 W",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `W`",
+                      "line": 15
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `forward` 1 square",
+                    "line": 17
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 W",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `forward` 1 square",
+                      "line": 17
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `-1,0`",
+                    "line": 19
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 758
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 1009
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 251,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `-1,0`",
+                      "line": 19
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 251,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to -1,0"],
+                  "level": "progress",
+                  "ts": 858
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover backward",
+              "line": 30,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 32
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 34
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `N`",
+                  "line": 36
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `backward` 1 square",
+                  "line": 38
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `0,1`",
+                  "line": 40
+                }
+              ],
+              "example": {
+                "direction": "N",
+                "x": "0",
+                "y": "1"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 32
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 1009
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 1009
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 32
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 34
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 34
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `N`",
+                    "line": 36
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 N",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `N`",
+                      "line": 36
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `backward` 1 square",
+                    "line": 38
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 N",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `backward` 1 square",
+                      "line": 38
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `0,1`",
+                    "line": 40
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 1009
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 1260
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 251,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `0,1`",
+                      "line": 40
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 251,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to 0,1"],
+                  "level": "progress",
+                  "ts": 1109
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover backward",
+              "line": 30,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 32
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 34
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `S`",
+                  "line": 36
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `backward` 1 square",
+                  "line": 38
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `0,-1`",
+                  "line": 40
+                }
+              ],
+              "example": {
+                "direction": "S",
+                "x": "0",
+                "y": "-1"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 32
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 1260
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 1260
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 32
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 34
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 34
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `S`",
+                    "line": 36
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 S",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `S`",
+                      "line": 36
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `backward` 1 square",
+                    "line": 38
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 S",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `backward` 1 square",
+                      "line": 38
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `0,-1`",
+                    "line": 40
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 1260
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 1511
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 251,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `0,-1`",
+                      "line": 40
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 251,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to 0,-1"],
+                  "level": "progress",
+                  "ts": 1360
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover backward",
+              "line": 30,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 32
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 34
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `E`",
+                  "line": 36
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `backward` 1 square",
+                  "line": 38
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `-1,0`",
+                  "line": 40
+                }
+              ],
+              "example": {
+                "direction": "E",
+                "x": "-1",
+                "y": "0"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 32
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 1511
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 1511
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 32
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 34
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 34
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `E`",
+                    "line": 36
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 E",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `E`",
+                      "line": 36
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `backward` 1 square",
+                    "line": 38
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 E",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `backward` 1 square",
+                      "line": 38
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `-1,0`",
+                    "line": 40
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 1511
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 1761
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 250,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `-1,0`",
+                      "line": 40
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 250,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to -1,0"],
+                  "level": "progress",
+                  "ts": 1611
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Move the rover backward",
+              "line": 30,
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 32
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 34
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `W`",
+                  "line": 36
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `backward` 1 square",
+                  "line": 38
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `1,0`",
+                  "line": 40
+                }
+              ],
+              "example": {
+                "direction": "W",
+                "x": "1",
+                "y": "0"
+              }
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 32
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 1762
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 1762
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 32
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 34
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 34
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `W`",
+                    "line": 36
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 W",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `W`",
+                      "line": 36
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `backward` 1 square",
+                    "line": 38
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 W",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `backward` 1 square",
+                      "line": 38
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `1,0`",
+                    "line": 40
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 1762
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 2012
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 250,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `1,0`",
+                      "line": 40
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 250,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to 1,0"],
+                  "level": "progress",
+                  "ts": 1862
+                }
+              ],
+              "skipped": false
+            }
+          ],
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Hit an obstacle",
+              "line": 51,
+              "description": [
+                "If a given sequence of commands encounters an obstacle, the rover moves up to the last possible point, aborts the sequence and reports the obstacle."
+              ],
+              "steps": [
+                {
+                  "keyword": "Given",
+                  "title": "I have a Mars Rover",
+                  "line": 56
+                },
+                {
+                  "keyword": "Given",
+                  "title": "there is an obstacle at `0,-5`",
+                  "line": 58
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial starting point to `0,0`",
+                  "line": 60
+                },
+                {
+                  "keyword": "When",
+                  "title": "I set the initial direction to `N`",
+                  "line": 62
+                },
+                {
+                  "keyword": "When",
+                  "title": "I move the Mars Rover `forward` 10 squares",
+                  "line": 64
+                },
+                {
+                  "keyword": "Soon",
+                  "title": "the current position should be `0,-4`",
+                  "line": 66
+                },
+                {
+                  "keyword": "Then",
+                  "title": "the Mars Rover should report an obstacle at `0,-5`",
+                  "line": 68
+                }
+              ]
+            },
+            {
+              "ok": true,
+              "results": [
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "I have a Mars Rover",
+                    "line": 56
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["Creating a new rover"],
+                        "level": "progress",
+                        "ts": 2012
+                      },
+                      {
+                        "message": ["Rover created"],
+                        "level": "progress",
+                        "ts": 2012
+                      }
+                    ],
+                    "ok": true,
+                    "result": {},
+                    "printable": "undefined,undefined undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "I have a Mars Rover",
+                      "line": 56
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Given",
+                    "title": "there is an obstacle at `0,-5`",
+                    "line": 58
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "duration": 1,
+                    "executed": {
+                      "keyword": "Given",
+                      "title": "there is an obstacle at `0,-5`",
+                      "line": 58
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial starting point to `0,0`",
+                    "line": 60
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 undefined",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial starting point to `0,0`",
+                      "line": 60
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I set the initial direction to `N`",
+                    "line": 62
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 N",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I set the initial direction to `N`",
+                      "line": 62
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I move the Mars Rover `forward` 10 squares",
+                    "line": 64
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "result": {},
+                    "printable": "0,0 N",
+                    "duration": 0,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I move the Mars Rover `forward` 10 squares",
+                      "line": 64
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Soon",
+                    "title": "the current position should be `0,-4`",
+                    "line": 66
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": [
+                          "@retry:tries=5,initialDelay=250,delayFactor=2"
+                        ],
+                        "level": "debug",
+                        "ts": 2013
+                      },
+                      {
+                        "message": ["Retrying ... (2)"],
+                        "level": "progress",
+                        "ts": 2263
+                      },
+                      {
+                        "message": ["Retrying ... (3)"],
+                        "level": "progress",
+                        "ts": 2764
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 751,
+                    "executed": {
+                      "keyword": "Soon",
+                      "title": "the current position should be `0,-4`",
+                      "line": 66
+                    },
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Then",
+                    "title": "the Mars Rover should report an obstacle at `0,-5`",
+                    "line": 68
+                  },
+                  {
+                    "logs": [
+                      {
+                        "message": ["knownObstacles", "[[0,-5]]"],
+                        "level": "debug",
+                        "ts": 2765
+                      }
+                    ],
+                    "ok": true,
+                    "duration": 1,
+                    "executed": {
+                      "keyword": "Then",
+                      "title": "the Mars Rover should report an obstacle at `0,-5`",
+                      "line": 68
+                    },
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 753,
+              "logs": [
+                {
+                  "message": ["Rover", "Moving to 0,-1"],
+                  "level": "progress",
+                  "ts": 2113
+                },
+                {
+                  "message": ["Rover", "Moving to 0,-2"],
+                  "level": "progress",
+                  "ts": 2213
+                },
+                {
+                  "message": ["Rover", "Moving to 0,-3"],
+                  "level": "progress",
+                  "ts": 2313
+                },
+                {
+                  "message": ["Rover", "Moving to 0,-4"],
+                  "level": "progress",
+                  "ts": 2413
+                }
+              ],
+              "skipped": false
+            }
+          ]
+        ],
+        "duration": 2765,
+        "logs": [],
+        "skipped": false
+      }
+    ]
+  ],
+  "summary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "duration": 2765,
+    "skipped": 1
+  },
+  "name": "Mars Rover"
+}

@@ -18,13 +18,14 @@ describe('runSuite()', () => {
 				'Example.feature.md',
 			),
 		)
-		const runner = runSuite([simpleFeature])
+		const runner = runSuite([simpleFeature], 'Example')
 
 		runner.addStepRunners(async () => ({ matched: true }))
 
 		const result = await runner.run()
 
 		assert.equal(result.ok, true)
+		assert.equal(result.name, 'Example')
 		assert.deepEqual(result.summary.failed, 0)
 		assert.deepEqual(result.summary.passed, 1)
 		assert.deepEqual(result.summary.total, 1)
@@ -42,6 +43,7 @@ describe('runSuite()', () => {
 					'skip-if-dependency-failed',
 				),
 			),
+			'Example',
 		)
 		runner.addStepRunners(async () => {
 			throw new Error(`Fail!`)
@@ -49,6 +51,7 @@ describe('runSuite()', () => {
 
 		const result = await runner.run()
 		assert.equal(result.ok, false)
+		assert.equal(result.name, 'Example')
 		assert.deepEqual(result.summary.failed, 1)
 		assert.deepEqual(result.summary.passed, 0)
 		assert.deepEqual(result.summary.skipped, 1)

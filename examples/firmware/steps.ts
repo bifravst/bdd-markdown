@@ -17,9 +17,6 @@ export type FirmwareCIRunContext = {
 export const steps: StepRunner<FirmwareCIRunContext>[] = [
 	async ({
 		step,
-		log: {
-			step: { progress },
-		},
 		context: { deviceLog },
 	}: StepRunnerArgs<FirmwareCIRunContext>): Promise<StepRunResult> => {
 		if (!/^the Firmware CI run device log should contain$/.test(step.title))
@@ -29,7 +26,6 @@ export const steps: StepRunner<FirmwareCIRunContext>[] = [
 			throw new Error(`Must provide content to match against!`)
 
 		for (const line of shouldContain) {
-			progress(line)
 			try {
 				assert.equal(
 					deviceLog.find((s) => s.includes(line)) !== undefined,

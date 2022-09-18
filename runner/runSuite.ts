@@ -15,6 +15,7 @@ export type SuiteResult = {
 	ok: boolean
 	results: [ParsedPath, FeatureResult][]
 	summary: Summary
+	name: string
 }
 export type Runner<Context extends Record<string, any>> = {
 	run: (context?: Context) => Promise<SuiteResult>
@@ -22,6 +23,7 @@ export type Runner<Context extends Record<string, any>> = {
 }
 export const runSuite = <Context extends Record<string, any>>(
 	featureFiles: FeatureFile[],
+	name: string,
 ): Runner<Context> => {
 	const stepRunners: StepRunner<Context>[] = []
 
@@ -66,6 +68,7 @@ export const runSuite = <Context extends Record<string, any>>(
 				),
 				results: featureResults,
 				summary: summarize(featureResults.map(([, f]) => f)),
+				name,
 			}
 		},
 	}
