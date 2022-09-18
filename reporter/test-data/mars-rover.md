@@ -59,8 +59,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Move the rover forward
 
 <details>
@@ -113,8 +113,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Move the rover forward
 
 <details>
@@ -167,8 +167,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Move the rover forward
 
 <details>
@@ -221,8 +221,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Move the rover backward
 
 <details>
@@ -275,8 +275,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Move the rover backward
 
 <details>
@@ -329,8 +329,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Move the rover backward
 
 <details>
@@ -383,8 +383,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Move the rover backward
 
 <details>
@@ -437,8 +437,8 @@
 
 </details>
 
-
 ---
+
 ### :heavy_check_mark: Hit an obstacle
 
 <details>
@@ -496,5 +496,3 @@
   :zap: `knownObstacles [[0,-5]]` _@ 2765 ms_
 
 </details>
-
-

@@ -11,22 +11,28 @@ import {
 } from '@nordicsemiconductor/bdd-markdown'
 import os from 'os'
 import { ParsedPath } from 'path'
+import prettier from 'prettier'
 import { inputTable } from './markdown/inputTable.js'
 
 export const markdownReporter = (result: SuiteResult): string =>
-	[
-		...titleMd(result),
-		'',
-		...summaryMd(result),
-		'',
-		...result.results
-			.map((feature, i, features) => {
-				const r = [...featureMd(feature)]
-				if (i !== features.length - 1) r.push('---')
-				return r
-			})
-			.flat(),
-	].join(os.EOL)
+	prettier.format(
+		[
+			...titleMd(result),
+			'',
+			...summaryMd(result),
+			'',
+			...result.results
+				.map((feature, i, features) => {
+					const r = [...featureMd(feature)]
+					if (i !== features.length - 1) r.push('---')
+					return r
+				})
+				.flat(),
+		].join(os.EOL),
+		{
+			parser: 'markdown',
+		},
+	)
 
 const titleMd = (result: SuiteResult): string[] => [
 	`# ${result.ok ? ':heavy_check_mark:' : ':x:'} ${result.name}`,

@@ -19,5 +19,3 @@ azure_iot_hub_integration: cloud_wrap_init:  Cloud:        Azure IoT Hub
 azure_iot_hub_integration: cloud_wrap_init:  DPS endpoint: global.azure-devices-provisioning.net
 azure_iot_hub_integration: cloud_wrap_init:  ID scope:     0n283efa
 ```
-
-
