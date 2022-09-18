@@ -137,20 +137,36 @@ const formatRunResult = (
 				if (stepResult.executed.codeBlock !== undefined) {
 					stepResult.executed.codeBlock.code
 						.split(os.EOL)
-						.forEach((line) =>
+						.forEach((line, i, lines) =>
 							print(
-								colorLine(`     ${featureLine}  ${scenarioLine}  ${stepLine} `),
+								colorLine(
+									`     ${featureLine}  ${scenarioLine}  ${stepLine}       `,
+								),
+								i === 0
+									? colorCode('❯')
+									: i === lines.length - 1
+									? colorCode('└')
+									: colorCode('│'),
 								colorCode(line),
 							),
 						)
 				}
 				if (stepResult.result !== undefined) {
-					print(
-						colorLine(
-							`     ${featureLine}  ${scenarioLine}  ${stepLine}        ❮`,
-						),
-						colorValue(printResult(stepResult)),
-					)
+					printResult(stepResult)
+						.split(os.EOL)
+						.forEach((line, i, lines) =>
+							print(
+								colorLine(
+									`     ${featureLine}  ${scenarioLine}  ${stepLine}       `,
+								),
+								i === 0
+									? colorValue('❮')
+									: i === lines.length - 1
+									? colorValue('└')
+									: colorValue('│'),
+								colorValue(line),
+							),
+						)
 				}
 
 				printLogs(
@@ -195,7 +211,23 @@ const printLogs = (
 				prefix = color('»')
 				break
 		}
-		print(`${line}${prefix}`, ...log.message.map((m) => color(m)))
+		log.message.forEach((message) => {
+			message
+				.trim()
+				.split(os.EOL)
+				.forEach((m, i, messages) =>
+					print(
+						`${line}${
+							i === 0
+								? prefix
+								: i === messages.length - 1
+								? color('└')
+								: color('│')
+						}`,
+						color(m),
+					),
+				)
+		})
 	}
 }
 
