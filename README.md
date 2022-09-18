@@ -198,3 +198,11 @@ run: only
 
 Given this is the first step
 ```
+
+## Markdown Reporter
+
+It includes a markdown reporter, which will turn the suite result into markdown,
+suitable for displaying it as
+[GitHub Actions job summaries](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary).
+
+Example: [Mars Rover Report](./reporter/test-data/mars-rover.md)
