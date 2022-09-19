@@ -213,6 +213,8 @@ const parseSteps = (s: TokenStream): Step[] => {
 		const code = codeBlock(s)
 		whiteSpace(s)
 		if (st === null) break
+		if (code !== null) st.codeBlock = code
+		if (stepComment !== null) st.comment = stepComment
 		// Resolve `And`ed keyword
 		if (st.keyword === StepKeyword.And) {
 			// Use previous keyword
@@ -230,8 +232,6 @@ const parseSteps = (s: TokenStream): Step[] => {
 		} else {
 			steps.push(st as Step)
 		}
-		if (stepComment !== null) st.comment = stepComment
-		if (code !== null) st.codeBlock = code
 	}
 
 	if (steps.length === 0)

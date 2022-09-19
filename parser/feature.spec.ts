@@ -1,7 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
+import os from 'os'
 import { feature } from './feature.js'
-import { Feature } from './grammar.js'
+import { CodeBlock, Comment, Feature } from './grammar.js'
 import { testData } from './test-data/testData.js'
 
 const l = testData(import.meta.url)
@@ -222,4 +223,20 @@ describe('feature()', () => {
 			() => feature(l('NoScenario')),
 			/Features must define at least one scenario./,
 		))
+
+	it('should parse a code block on the last step', () => {
+		const parsed = feature(l('CodeBlockOnLastStep'))
+		const expectedCodeBlock: CodeBlock = {
+			code: [`{`, `  "foo": "bar"`, `}`].join(os.EOL),
+			language: 'json',
+		}
+		const expectedComment: Comment = {
+			text: 'The next step should have a comment, too',
+		}
+		const lastScenario = parsed.scenarios[parsed.scenarios.length - 1]
+		const lastStep = lastScenario.steps[lastScenario.steps.length - 1]
+
+		assert.deepEqual(lastStep.codeBlock, expectedCodeBlock)
+		assert.deepEqual(lastStep.comment, expectedComment)
+	})
 })
