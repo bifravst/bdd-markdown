@@ -64,18 +64,18 @@
                       {
                         "message": ["Creating a new rover"],
                         "level": "progress",
-                        "ts": 0
+                        "ts": 1
                       },
                       {
                         "message": ["Rover created"],
                         "level": "progress",
-                        "ts": 0
+                        "ts": 1
                       }
                     ],
                     "ok": true,
                     "result": {},
                     "printable": "undefined,undefined undefined",
-                    "duration": 0,
+                    "duration": 1,
                     "executed": {
                       "keyword": "Given",
                       "title": "I have a Mars Rover",
@@ -115,7 +115,7 @@
                     "ok": true,
                     "result": {},
                     "printable": "0,0 N",
-                    "duration": 1,
+                    "duration": 0,
                     "executed": {
                       "keyword": "When",
                       "title": "I set the initial direction to `N`",
@@ -157,7 +157,7 @@
                           "@retry:tries=5,initialDelay=250,delayFactor=2"
                         ],
                         "level": "debug",
-                        "ts": 1
+                        "ts": 2
                       },
                       {
                         "message": ["Retrying ... (2)"],
@@ -166,7 +166,7 @@
                       }
                     ],
                     "ok": true,
-                    "duration": 254,
+                    "duration": 253,
                     "executed": {
                       "keyword": "Soon",
                       "title": "the current position should be `0,-1`",
@@ -181,7 +181,7 @@
                 {
                   "message": ["Rover", "Moving to 0,-1"],
                   "level": "progress",
-                  "ts": 101
+                  "ts": 102
                 }
               ],
               "skipped": false
@@ -337,11 +337,11 @@
                       {
                         "message": ["Retrying ... (2)"],
                         "level": "progress",
-                        "ts": 506
+                        "ts": 507
                       }
                     ],
                     "ok": true,
-                    "duration": 251,
+                    "duration": 252,
                     "executed": {
                       "keyword": "Soon",
                       "title": "the current position should be `0,1`",
@@ -351,12 +351,12 @@
                   }
                 ]
               ],
-              "duration": 251,
+              "duration": 252,
               "logs": [
                 {
                   "message": ["Rover", "Moving to 0,1"],
                   "level": "progress",
-                  "ts": 356
+                  "ts": 355
                 }
               ],
               "skipped": false
@@ -414,12 +414,12 @@
                       {
                         "message": ["Creating a new rover"],
                         "level": "progress",
-                        "ts": 506
+                        "ts": 507
                       },
                       {
                         "message": ["Rover created"],
                         "level": "progress",
-                        "ts": 506
+                        "ts": 507
                       }
                     ],
                     "ok": true,
@@ -507,7 +507,7 @@
                           "@retry:tries=5,initialDelay=250,delayFactor=2"
                         ],
                         "level": "debug",
-                        "ts": 506
+                        "ts": 507
                       },
                       {
                         "message": ["Retrying ... (2)"],
@@ -516,7 +516,7 @@
                       }
                     ],
                     "ok": true,
-                    "duration": 251,
+                    "duration": 250,
                     "executed": {
                       "keyword": "Soon",
                       "title": "the current position should be `1,0`",
@@ -526,12 +526,12 @@
                   }
                 ]
               ],
-              "duration": 251,
+              "duration": 250,
               "logs": [
                 {
                   "message": ["Rover", "Moving to 1,0"],
                   "level": "progress",
-                  "ts": 606
+                  "ts": 608
                 }
               ],
               "skipped": false
@@ -660,7 +660,7 @@
                     "ok": true,
                     "result": {},
                     "printable": "0,0 W",
-                    "duration": 0,
+                    "duration": 1,
                     "executed": {
                       "keyword": "When",
                       "title": "I move the Mars Rover `forward` 1 square",
@@ -682,7 +682,7 @@
                           "@retry:tries=5,initialDelay=250,delayFactor=2"
                         ],
                         "level": "debug",
-                        "ts": 757
+                        "ts": 758
                       },
                       {
                         "message": ["Retrying ... (2)"],
@@ -691,7 +691,7 @@
                       }
                     ],
                     "ok": true,
-                    "duration": 251,
+                    "duration": 250,
                     "executed": {
                       "keyword": "Soon",
                       "title": "the current position should be `-1,0`",
@@ -764,12 +764,12 @@
                       {
                         "message": ["Creating a new rover"],
                         "level": "progress",
-                        "ts": 1008
+                        "ts": 1009
                       },
                       {
                         "message": ["Rover created"],
                         "level": "progress",
-                        "ts": 1008
+                        "ts": 1009
                       }
                     ],
                     "ok": true,
@@ -857,12 +857,12 @@
                           "@retry:tries=5,initialDelay=250,delayFactor=2"
                         ],
                         "level": "debug",
-                        "ts": 1008
+                        "ts": 1009
                       },
                       {
                         "message": ["Retrying ... (2)"],
                         "level": "progress",
-                        "ts": 1259
+                        "ts": 1260
                       }
                     ],
                     "ok": true,
@@ -939,12 +939,12 @@
                       {
                         "message": ["Creating a new rover"],
                         "level": "progress",
-                        "ts": 1259
+                        "ts": 1260
                       },
                       {
                         "message": ["Rover created"],
                         "level": "progress",
-                        "ts": 1259
+                        "ts": 1260
                       }
                     ],
                     "ok": true,
@@ -1010,7 +1010,7 @@
                     "ok": true,
                     "result": {},
                     "printable": "0,0 S",
-                    "duration": 1,
+                    "duration": 0,
                     "executed": {
                       "keyword": "When",
                       "title": "I move the Mars Rover `backward` 1 square",
@@ -1037,11 +1037,11 @@
                       {
                         "message": ["Retrying ... (2)"],
                         "level": "progress",
-                        "ts": 1510
+                        "ts": 1511
                       }
                     ],
                     "ok": true,
-                    "duration": 250,
+                    "duration": 251,
                     "executed": {
                       "keyword": "Soon",
                       "title": "the current position should be `0,-1`",
@@ -1056,7 +1056,7 @@
                 {
                   "message": ["Rover", "Moving to 0,-1"],
                   "level": "progress",
-                  "ts": 1359
+                  "ts": 1360
                 }
               ],
               "skipped": false
@@ -1226,7 +1226,7 @@
                   }
                 ]
               ],
-              "duration": 252,
+              "duration": 251,
               "logs": [
                 {
                   "message": ["Rover", "Moving to -1,0"],
@@ -1387,11 +1387,11 @@
                       {
                         "message": ["Retrying ... (2)"],
                         "level": "progress",
-                        "ts": 2013
+                        "ts": 2012
                       }
                     ],
                     "ok": true,
-                    "duration": 251,
+                    "duration": 250,
                     "executed": {
                       "keyword": "Soon",
                       "title": "the current position should be `1,0`",
@@ -1401,12 +1401,12 @@
                   }
                 ]
               ],
-              "duration": 251,
+              "duration": 250,
               "logs": [
                 {
                   "message": ["Rover", "Moving to 1,0"],
                   "level": "progress",
-                  "ts": 1862
+                  "ts": 1861
                 }
               ],
               "skipped": false
@@ -1588,7 +1588,7 @@
                       {
                         "message": ["Retrying ... (2)"],
                         "level": "progress",
-                        "ts": 2263
+                        "ts": 2264
                       },
                       {
                         "message": ["Retrying ... (3)"],
@@ -1631,27 +1631,27 @@
                   }
                 ]
               ],
-              "duration": 751,
+              "duration": 752,
               "logs": [
                 {
                   "message": ["Rover", "Moving to 0,-1"],
                   "level": "progress",
-                  "ts": 2114
+                  "ts": 2112
                 },
                 {
                   "message": ["Rover", "Moving to 0,-2"],
                   "level": "progress",
-                  "ts": 2214
+                  "ts": 2213
                 },
                 {
                   "message": ["Rover", "Moving to 0,-3"],
                   "level": "progress",
-                  "ts": 2314
+                  "ts": 2312
                 },
                 {
                   "message": ["Rover", "Moving to 0,-4"],
                   "level": "progress",
-                  "ts": 2415
+                  "ts": 2412
                 }
               ],
               "skipped": false

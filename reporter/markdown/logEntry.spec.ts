@@ -1,9 +1,10 @@
 import { LogLevel } from '@nordicsemiconductor/bdd-markdown/runner'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { logEntry, ZERO_WIDTH_SPACE } from './logEntry.js'
+import { ZERO_WIDTH_SPACE } from './escapeLogMessage.js'
+import { logEntry } from './logEntry.js'
 
-describe('log Md()', () => {
+describe('logEntry()', () => {
 	it('should escape backticks in log messages', async () => {
 		assert.deepEqual(
 			logEntry(

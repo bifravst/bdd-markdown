@@ -10,6 +10,7 @@ import {
 import os from 'os'
 import { ParsedPath } from 'path'
 import prettier from 'prettier'
+import { escapeLogMessage } from './markdown/escapeLogMessage.js'
 import { inputTable } from './markdown/inputTable.js'
 import { logEntry } from './markdown/logEntry.js'
 
@@ -134,7 +135,11 @@ const stepMd = ([, result]: [Step, StepResult]): string[] => {
 	}
 
 	if (result.result !== undefined) {
-		stepMd.push(`> _Result:_ \`${result.printable ?? JSON.stringify(result)}\``)
+		stepMd.push(
+			`> _Result:_ ${escapeLogMessage(
+				result.printable ?? JSON.stringify(result),
+			)}`,
+		)
 		stepMd.push('')
 	}
 

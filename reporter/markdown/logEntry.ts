@@ -1,7 +1,5 @@
 import { LogEntry, LogLevel } from '@nordicsemiconductor/bdd-markdown'
-
-// eslint-disable-next-line no-irregular-whitespace
-export const ZERO_WIDTH_SPACE = `​`
+import { escapeLogMessage } from './escapeLogMessage.js'
 
 export const logEntry = (logEntry: LogEntry, isLast: boolean): string => {
 	let prefix = ''
@@ -20,14 +18,7 @@ export const logEntry = (logEntry: LogEntry, isLast: boolean): string => {
 			break
 	}
 
-	const logmsg = logEntry.message
-		.map((m) => {
-			const numBackTicks = Math.max(1, m.match(/`/g)?.length ?? 0)
-			return `${'`'.repeat(
-				numBackTicks,
-			)}${ZERO_WIDTH_SPACE}${m}${ZERO_WIDTH_SPACE}${'`'.repeat(numBackTicks)}`
-		})
-		.join(' ')
+	const message = logEntry.message.map(escapeLogMessage).join(' ')
 
-	return `  ${prefix} ${logmsg} _@ ${logEntry.ts} ms_${isLast ? '' : '  '}`
+	return `  ${prefix} ${message} _@ ${logEntry.ts} ms_${isLast ? '' : '  '}`
 }
