@@ -20,7 +20,7 @@ describe('runSuite()', () => {
 		)
 		const runner = runSuite([simpleFeature], 'Example')
 
-		runner.addStepRunners(async () => ({ matched: true }))
+		runner.addStepRunners(async () => undefined)
 
 		const result = await runner.run()
 

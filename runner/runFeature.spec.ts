@@ -34,7 +34,7 @@ const loadOutlineExample = async () =>
 describe('runFeature()', () => {
 	it('should run a feature', async () => {
 		const featureResult = await runFeature({
-			stepRunners: [async () => ({ matched: true })],
+			stepRunners: [async () => undefined],
 			feature: await loadExampleFeature(),
 			context: {},
 		})
@@ -52,7 +52,6 @@ describe('runFeature()', () => {
 				},
 				async ({ step: { title } }) => {
 					if (!/^I am also run$/.test(title)) return noMatch
-					return { matched: true }
 				},
 			],
 			feature: await loadExampleFeature(),
@@ -68,7 +67,7 @@ describe('runFeature()', () => {
 
 	it('should expand Scenario Outlines', async () => {
 		const featureResult = await runFeature({
-			stepRunners: [async () => ({ matched: true })],
+			stepRunners: [async () => undefined],
 			feature: await loadOutlineExample(),
 			context: {},
 		})
@@ -136,7 +135,6 @@ describe('runFeature()', () => {
 					error({ message: `Some error` })
 					info(`An info`)
 					progress(`Doing something`, `the thing`)
-					return { matched: true }
 				},
 			],
 			feature: (

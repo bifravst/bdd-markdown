@@ -42,7 +42,7 @@ describe('runStep()', () => {
 	it('should run a step', async () => {
 		const stepResult = await runStep({
 			...runStepArgs,
-			stepRunners: [async () => ({ matched: true })],
+			stepRunners: [async () => undefined],
 		})
 
 		assert.equal(stepResult.ok, true)
@@ -52,7 +52,7 @@ describe('runStep()', () => {
 	it('should return the result of a step', async () => {
 		const stepResult = await runStep({
 			...runStepArgs,
-			stepRunners: [async () => ({ matched: true, result: 17 })],
+			stepRunners: [async () => ({ result: 17 })],
 		})
 
 		assert.equal(stepResult.ok, true)
@@ -62,9 +62,7 @@ describe('runStep()', () => {
 	it('should return a printable variant of the step result', async () => {
 		const stepResult = await runStep({
 			...runStepArgs,
-			stepRunners: [
-				async () => ({ matched: true, result: 17, printable: '17' }),
-			],
+			stepRunners: [async () => ({ result: 17, printable: '17' })],
 		})
 
 		assert.equal(stepResult.ok, true)
@@ -97,7 +95,6 @@ describe('runStep()', () => {
 					error({ message: `Some error` })
 					info(`An info`)
 					progress(`Doing something`, `the thing`)
-					return { matched: true }
 				},
 			],
 		})
@@ -130,7 +127,7 @@ describe('runStep()', () => {
 	it('should complain about unreplaced placeholders', async () => {
 		const stepResult = await runStep({
 			...runStepArgs,
-			stepRunners: [async () => ({ matched: true })],
+			stepRunners: [async () => undefined],
 			step: {
 				...runStepArgs.feature.scenarios[0].steps[0],
 				title: 'I echo ${unreplaced}',
@@ -154,7 +151,6 @@ describe('runStep()', () => {
 			stepRunners: [
 				async ({ step: { title } }) => {
 					replacedTitle = title
-					return { matched: true }
 				},
 			],
 			step: {

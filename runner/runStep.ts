@@ -10,7 +10,7 @@ export type StepResult = {
 	skipped: boolean
 	result?: any
 	/**
-	 * The printable version of the result, if present, will be used instead of the result.
+	 * The printable version of the result, if present, will be used instead of the undefined
 	 */
 	printable?: string
 	logs: LogEntry[]
@@ -21,17 +21,15 @@ export type StepResult = {
 	executed: Step
 }
 
-export const noMatch = { matched: false }
-export const isMatch = { matched: true }
-export type StepMatched = {
-	matched: true
+export const noMatch = Symbol('Step did not match.')
+export type StepMatched = void | {
 	result?: any
 	/**
 	 * The printable version of the result, if present, will be used instead of the result.
 	 */
 	printable?: string
 }
-export type StepRunResult = typeof noMatch | StepMatched
+export type StepRunResult = typeof noMatch | void | StepMatched
 export type StepRunnerArgs<Context extends Record<string, any>> = {
 	step: Step
 	scenario: ScenarioExecution
@@ -133,12 +131,12 @@ export const runStep = async <Context extends Record<string, any>>({
 						previousResults,
 						previousResult: previousResults[previousResults.length - 1]?.[1],
 					})
-					if (maybeRun.matched === false) break
+					if (maybeRun === noMatch) break
 					return {
 						logs: stepLogger.getLogs(),
 						ok: true,
-						result: (maybeRun as StepMatched).result,
-						printable: (maybeRun as StepMatched).printable,
+						result: (maybeRun )?.result,
+						printable: (maybeRun )?.printable,
 						duration: Date.now() - startTs,
 						executed: replacedStep,
 					}

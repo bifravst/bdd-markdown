@@ -48,7 +48,6 @@ export const steps: StepRunner<RoverContext>[] = [
 		stepProgress('Rover created')
 		context.rover = r
 		return {
-			matched: true,
 			result: context.rover,
 			printable: printRover(r),
 		}
@@ -66,7 +65,6 @@ export const steps: StepRunner<RoverContext>[] = [
 		r.setX(match.x)
 		r.setY(match.y)
 		return {
-			matched: true,
 			result: r,
 			printable: printRover(r),
 		}
@@ -84,7 +82,6 @@ export const steps: StepRunner<RoverContext>[] = [
 		const r = context.rover as ReturnType<typeof rover>
 		r.setDirection(match.direction)
 		return {
-			matched: true,
 			result: r,
 			printable: printRover(r),
 		}
@@ -116,7 +113,7 @@ export const steps: StepRunner<RoverContext>[] = [
 		if (match.direction === MovementDirection.backward)
 			r.backward(match.squares)
 
-		return { matched: true, result: r, printable: printRover(r) }
+		return { result: r, printable: printRover(r) }
 	},
 	async ({
 		step,
@@ -132,8 +129,6 @@ export const steps: StepRunner<RoverContext>[] = [
 
 		assert.deepEqual(r.x(), match.x)
 		assert.deepEqual(r.y(), match.y)
-
-		return { matched: true }
 	},
 	async ({
 		step,
@@ -149,8 +144,6 @@ export const steps: StepRunner<RoverContext>[] = [
 		if (context.obstacles === undefined) context.obstacles = []
 
 		context.obstacles.push([match.x, match.y])
-
-		return { matched: true }
 	},
 	async ({
 		step,
@@ -169,7 +162,5 @@ export const steps: StepRunner<RoverContext>[] = [
 		debug('knownObstacles', JSON.stringify(r.knownObstacles()))
 
 		assert.deepEqual(r.knownObstacles(), [[match.x, match.y]])
-
-		return { matched: true }
 	},
 ]

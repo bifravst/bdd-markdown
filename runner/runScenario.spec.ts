@@ -40,7 +40,7 @@ describe('runScenario()', () => {
 	it('should run a scenario', async () => {
 		const scenarioResult = await runScenario({
 			...runScenarioArgs,
-			stepRunners: [async () => ({ matched: true })],
+			stepRunners: [async () => undefined],
 		})
 
 		assert.equal(scenarioResult.ok, true)
@@ -54,7 +54,7 @@ describe('runScenario()', () => {
 			stepRunners: [
 				async ({ previousResult }) => {
 					prev.push(previousResult)
-					return { matched: true, result: 17 }
+					return { result: 17 }
 				},
 			],
 		})
@@ -73,13 +73,11 @@ describe('runScenario()', () => {
 					if (!/^I am run$/.test(title)) return noMatch
 					// Set a property on the context
 					context.foo = 'bar'
-					return { matched: true }
 				},
 				async ({ step: { title }, context }) => {
 					if (!/^I am also run$/.test(title)) return noMatch
 					// store context for testing
 					c = context
-					return { matched: true }
 				},
 			],
 		})
@@ -98,7 +96,6 @@ describe('runScenario()', () => {
 				},
 				async ({ step: { title } }) => {
 					if (!/^I am also run$/.test(title)) return noMatch
-					return { matched: true }
 				},
 			],
 		})
@@ -135,7 +132,6 @@ describe('runScenario()', () => {
 					error({ message: `Some error` })
 					info(`An info`)
 					progress(`Doing something`, `the thing`)
-					return { matched: true }
 				},
 			],
 			feature,

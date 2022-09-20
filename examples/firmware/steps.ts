@@ -35,6 +35,5 @@ export const steps: StepRunner<FirmwareCIRunContext>[] = [
 				throw new Error(`Device log does not contain "${line}"!`)
 			}
 		}
-		return { matched: true }
 	},
 ]
