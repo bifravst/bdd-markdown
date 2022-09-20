@@ -23,6 +23,20 @@ so why not use Markdown? It can look
 - it has support for embedding source code / JSON payloads, and even tables
 - front matter can be used for feature-level configuration
 
+## History
+
+Work on the original BDD e2e feature runner began in 2018, and the project has
+been proved very useful for testing cloud-native solutions. Read more about the
+original idea
+[here](https://github.com/NordicSemiconductor/cloud-e2e-bdd-test-runner-js#motivation).
+However, the implementation had some shortcomings. Especially understanding test
+results and the way state and retries were handled was not optimal. In addition
+was the old codebase itself not sufficiently covered with tests. Therefore this
+project was initiated in 2022, with four years of experience authoring and
+running tests. With a fresh set of eyes, the way to write test was complete
+changed from Gherkin to Markdown which called for releasing it as a standalone
+project.
+
 ## Examples
 
 - [Demo of supported syntax](./parser/test-data/feature/Example.feature.md)
