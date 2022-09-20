@@ -1,10 +1,7 @@
-import {
-	codeBlockOrThrow,
-	MissingCodeBlockError,
-	StepKeyword,
-} from '@nordicsemiconductor/bdd-markdown'
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
+import { StepKeyword } from '../parser/grammar.js'
+import { codeBlockOrThrow, MissingCodeBlockError } from './codeBlockOrThrow.js'
 
 describe('codeBlockOrThrow()', () => {
 	it('should throw an Exception if a code block is not defined', () =>

@@ -1,11 +1,11 @@
+import assert from 'assert/strict'
+import os from 'os'
 import {
 	noMatch,
 	StepRunner,
 	StepRunnerArgs,
 	StepRunResult,
-} from '@nordicsemiconductor/bdd-markdown/runner'
-import assert from 'assert/strict'
-import os from 'os'
+} from '../../runner/runStep.js'
 
 export type FirmwareCIRunContext = {
 	appVersion: string

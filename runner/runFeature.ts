@@ -1,9 +1,4 @@
-import {
-	Feature,
-	Keyword,
-	Row,
-	Scenario,
-} from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { Feature, Keyword, Row, Scenario } from '../parser/grammar.js'
 import { LogEntry, logger } from './logger.js'
 import { replaceFromExamples } from './replaceFromExamples.js'
 import { runScenario, ScenarioResult } from './runScenario.js'

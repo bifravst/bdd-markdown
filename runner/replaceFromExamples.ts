@@ -1,4 +1,4 @@
-import { Row, Step } from '@nordicsemiconductor/bdd-markdown/parser'
+import { Row, Step } from '../parser/grammar.js'
 
 export const replaceFromExamples =
 	(row: Row) =>

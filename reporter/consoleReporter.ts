@@ -1,11 +1,8 @@
-import {
-	LogEntry,
-	LogLevel,
-	StepResult,
-	SuiteResult,
-} from '@nordicsemiconductor/bdd-markdown/runner'
 import chalk from 'chalk'
 import os from 'os'
+import { LogEntry, LogLevel } from '../runner/logger.js'
+import { StepResult } from '../runner/runStep.js'
+import { SuiteResult } from '../runner/runSuite.js'
 
 const errorMark = chalk.bgRedBright(' EE ')
 const passMark = chalk.bgGreenBright(' OK ')

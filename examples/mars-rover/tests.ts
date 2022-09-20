@@ -1,5 +1,5 @@
-import { runFolder } from '@nordicsemiconductor/bdd-markdown/runner'
 import path from 'path'
+import { runFolder } from '../../runner/runFolder.js'
 import { RoverContext, steps } from './steps.js'
 
 const runner = await runFolder<RoverContext>({

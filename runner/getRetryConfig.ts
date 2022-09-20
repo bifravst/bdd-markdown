@@ -8,7 +8,7 @@ import {
 	Step,
 	StepKeyword,
 	Tag,
-} from '@nordicsemiconductor/bdd-markdown'
+} from '..'
 import { InvalidSettingsError } from './errors/InvalidSettingsError.js'
 import { validateWithJSONSchema } from './validateWithJSONSchema.js'
 

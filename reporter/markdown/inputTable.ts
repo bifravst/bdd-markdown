@@ -1,4 +1,4 @@
-import { Row } from '@nordicsemiconductor/bdd-markdown'
+import { Row } from '../../parser/grammar.js'
 
 export const inputTable = (example: Row): string[] => {
 	const cellSize: number[] = []

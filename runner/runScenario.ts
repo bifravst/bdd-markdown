@@ -1,8 +1,4 @@
-import {
-	Feature,
-	Scenario,
-	Step,
-} from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { Feature, Scenario, Step } from '../parser/grammar.js'
 import { LogEntry, logger, Logger } from './logger.js'
 import { runStep, StepResult, StepRunner } from './runStep.js'
 

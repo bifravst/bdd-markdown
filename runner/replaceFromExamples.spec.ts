@@ -1,6 +1,6 @@
-import { StepKeyword } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
+import { StepKeyword } from '../parser/grammar.js'
 import { replaceFromExamples } from './replaceFromExamples.js'
 
 describe('replaceFromExamples()', () => {

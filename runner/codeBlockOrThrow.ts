@@ -1,4 +1,4 @@
-import { CodeBlock, Step } from '@nordicsemiconductor/bdd-markdown'
+import { CodeBlock, Step } from '../parser/grammar.js'
 
 export class MissingCodeBlockError extends Error {
 	constructor(step: Step) {

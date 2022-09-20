@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
-import { steps } from 'examples/mars-rover/steps'
 import { describe, it } from 'node:test'
 import path from 'path'
+import { steps } from '../examples/mars-rover/steps.js'
 import { runFolder } from './runFolder.js'
 
 describe('runFolder()', () => {

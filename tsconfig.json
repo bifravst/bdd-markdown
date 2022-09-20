@@ -6,16 +6,6 @@
     "module": "ES2022",
     "lib": [],
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node",
-    "baseUrl": ".",
-    "paths": {
-      "@nordicsemiconductor/bdd-markdown": ["index.ts"],
-      "@nordicsemiconductor/bdd-markdown/parser": ["parser/index.ts"],
-      "@nordicsemiconductor/bdd-markdown/parser/*": ["parser/*"],
-      "@nordicsemiconductor/bdd-markdown/runner": ["runner/index.ts"],
-      "@nordicsemiconductor/bdd-markdown/runner/*": ["runner/*"],
-      "@nordicsemiconductor/bdd-markdown/reporter": ["reporter/index.ts"],
-      "@nordicsemiconductor/bdd-markdown/reporter/*": ["reporter/*"]
-    }
+    "moduleResolution": "Node"
   }
 }

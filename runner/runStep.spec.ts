@@ -1,9 +1,9 @@
-import { Scenario } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore FIXME: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/pull/62274 is merged
 import { beforeEach, describe, it } from 'node:test'
 import path from 'path'
+import { Scenario } from '../parser/grammar.js'
 import { logger, LogLevel } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runStep } from './runStep.js'

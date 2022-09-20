@@ -1,7 +1,7 @@
-import { StepKeyword } from '@nordicsemiconductor/bdd-markdown/parser'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
+import { StepKeyword } from '../parser/grammar.js'
 import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
 
 describe('getUnreplacedPlaceholders()', () => {

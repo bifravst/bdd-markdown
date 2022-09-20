@@ -1,7 +1,7 @@
-import { runFolder } from '@nordicsemiconductor/bdd-markdown/runner'
 import { readFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
+import { runFolder } from '../../runner/runFolder.js'
 import { FirmwareCIRunContext, steps } from './steps.js'
 
 const runner = await runFolder<FirmwareCIRunContext>({

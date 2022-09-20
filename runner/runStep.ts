@@ -1,9 +1,4 @@
-import {
-	Feature,
-	Scenario,
-	Step,
-	StepKeyword,
-} from '@nordicsemiconductor/bdd-markdown/parser/grammar'
+import { Feature, Scenario, Step, StepKeyword } from '../parser/grammar.js'
 import { formatRetryConfig, getRetryConfig } from './getRetryConfig.js'
 import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
 import { LogEntry, logger, Logger } from './logger.js'

@@ -1,6 +1,6 @@
-import { LogLevel } from '@nordicsemiconductor/bdd-markdown/runner'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
+import { LogLevel } from '../../runner/logger.js'
 import { ZERO_WIDTH_SPACE } from './escapeLogMessage.js'
 import { logEntry } from './logEntry.js'
 

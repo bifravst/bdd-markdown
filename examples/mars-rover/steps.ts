@@ -1,12 +1,12 @@
+import { Type } from '@sinclair/typebox'
+import assert from 'assert/strict'
+import { matchGroups } from '../../runner/matchGroups.js'
 import {
 	noMatch,
 	StepRunner,
 	StepRunnerArgs,
 	StepRunResult,
-} from '@nordicsemiconductor/bdd-markdown/runner'
-import { matchGroups } from '@nordicsemiconductor/bdd-markdown/runner/matchGroups.js'
-import { Type } from '@sinclair/typebox'
-import assert from 'assert/strict'
+} from '../../runner/runStep.js'
 import { Direction, rover } from './rover.js'
 
 const printRover = (r: ReturnType<typeof rover>): string =>

@@ -1,15 +1,11 @@
-import {
-	CodeBlock,
-	FeatureResult,
-	ScenarioExecution,
-	ScenarioResult,
-	Step,
-	StepResult,
-	SuiteResult,
-} from '@nordicsemiconductor/bdd-markdown'
 import os from 'os'
 import { ParsedPath } from 'path'
 import prettier from 'prettier'
+import { CodeBlock, Step } from '../parser/grammar.js'
+import { FeatureResult, ScenarioExecution } from '../runner/runFeature.js'
+import { ScenarioResult } from '../runner/runScenario.js'
+import { StepResult } from '../runner/runStep.js'
+import { SuiteResult } from '../runner/runSuite.js'
 import { escapeLogMessage } from './markdown/escapeLogMessage.js'
 import { inputTable } from './markdown/inputTable.js'
 import { logEntry } from './markdown/logEntry.js'

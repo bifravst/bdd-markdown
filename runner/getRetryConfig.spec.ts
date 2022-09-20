@@ -1,3 +1,5 @@
+import assert from 'assert/strict'
+import { describe, it } from 'node:test'
 import {
 	Feature,
 	Keyword,
@@ -6,9 +8,7 @@ import {
 	Scenario,
 	Step,
 	StepKeyword,
-} from '@nordicsemiconductor/bdd-markdown/parser'
-import assert from 'assert/strict'
-import { describe, it } from 'node:test'
+} from '../parser/grammar.js'
 import { parseTags } from '../parser/tokens/parseTags.js'
 import { defaultRetryConfig, getRetryConfig } from './getRetryConfig.js'
 

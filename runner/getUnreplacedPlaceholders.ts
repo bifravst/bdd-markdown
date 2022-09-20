@@ -1,5 +1,5 @@
-import { Step } from '@nordicsemiconductor/bdd-markdown/parser'
 import os from 'os'
+import { Step } from '../parser/grammar.js'
 
 const placeholderMatch = /\${[^}]+}/g
 
