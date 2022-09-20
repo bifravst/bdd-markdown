@@ -3,6 +3,18 @@
   "version": "0.0.0-development",
   "description": "Write BDD tests in Markdown.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NordicSemiconductor/bdd-markdown-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NordicSemiconductor/bdd-markdown-js/issues"
+  },
+  "homepage": "https://github.com/NordicSemiconductor/bdd-markdown-js#readme",
+  "keywords": [
+    "nrf-asset-tracker",
+    "bdd"
+  ],
   "author": "Nordic Semiconductor ASA | nordicsemi.no",
   "license": "BSD-3-Clause",
   "typings": "dist/index.d.ts",
