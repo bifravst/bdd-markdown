@@ -33,6 +33,20 @@ export const runSuite = <Context extends Record<string, any>>(
 			return runner
 		},
 		run: async (context?: Context) => {
+			if (featureFiles.length === 0)
+				return {
+					ok: false,
+					results: [],
+					summary: {
+						duration: 0,
+						failed: 0,
+						passed: 0,
+						skipped: 0,
+						total: 0,
+					},
+					name,
+				}
+
 			const featureResults: [ParsedPath, FeatureResult][] = []
 			const featureNameResultMap: Record<string, boolean> = {}
 

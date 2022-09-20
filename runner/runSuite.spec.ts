@@ -57,4 +57,22 @@ describe('runSuite()', () => {
 		assert.deepEqual(result.summary.skipped, 1)
 		assert.deepEqual(result.summary.total, 2)
 	})
+
+	it('should fail if the suite has not features', async () => {
+		const runner = runSuite(
+			await parseFeaturesInFolder(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'runSuite',
+					'no-features',
+				),
+			),
+			'Example',
+		)
+
+		const result = await runner.run()
+		assert.equal(result.ok, false)
+	})
 })
