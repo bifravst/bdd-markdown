@@ -1,5 +1,6 @@
 export * from './codeBlockOrThrow.js'
 export * from './logger.js'
+export * from './matchGroups.js'
 export * from './runFeature.js'
 export * from './runFolder.js'
 export * from './runScenario.js'

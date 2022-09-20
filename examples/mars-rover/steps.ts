@@ -4,6 +4,8 @@ import {
 	StepRunnerArgs,
 	StepRunResult,
 } from '@nordicsemiconductor/bdd-markdown/runner'
+import { matchGroups } from '@nordicsemiconductor/bdd-markdown/runner/matchGroups.js'
+import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
 import { Direction, rover } from './rover.js'
 
@@ -14,6 +16,17 @@ export type RoverContext = {
 	rover?: ReturnType<typeof rover>
 	obstacles?: [x: number, y: number][]
 }
+
+const coordinateMatch = matchGroups(
+	Type.Object({
+		x: Type.Integer(),
+		y: Type.Integer(),
+	}),
+	{
+		x: (s) => parseInt(s, 10),
+		y: (s) => parseInt(s, 10),
+	},
+)
 
 export const steps: StepRunner<RoverContext>[] = [
 	async ({
@@ -44,30 +57,14 @@ export const steps: StepRunner<RoverContext>[] = [
 		step,
 		context,
 	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
-		const match =
-			/^I set the initial starting point to `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/.exec(
-				step.title,
-			)
-		if (match?.groups === undefined) return noMatch
-		const r = context.rover as ReturnType<typeof rover>
-		r.setX(parseInt(match.groups.x ?? '0', 10))
-		r.setY(parseInt(match.groups.y ?? '0', 10))
-		return {
-			matched: true,
-			result: r,
-			printable: printRover(r),
-		}
-	},
-	async ({
-		step,
-		context,
-	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
-		const match = /^I set the initial direction to `(?<direction>[^`]+)`$/.exec(
+		const match = coordinateMatch(
+			/^I set the initial starting point to `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
 			step.title,
 		)
-		if (match?.groups === undefined) return noMatch
+		if (match === null) return noMatch
 		const r = context.rover as ReturnType<typeof rover>
-		r.setDirection(match.groups.direction as Direction)
+		r.setX(match.x)
+		r.setY(match.y)
 		return {
 			matched: true,
 			result: r,
@@ -78,15 +75,46 @@ export const steps: StepRunner<RoverContext>[] = [
 		step,
 		context,
 	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
-		const match =
-			/^I move the Mars Rover `(?<direction>forward|backward)` (?<squares>[0-9]+) squares?$/.exec(
-				step.title,
-			)
-		const { direction, squares } = match?.groups ?? {}
-		if (direction === undefined || squares === undefined) return noMatch
+		const match = matchGroups(Type.Object({ direction: Type.Enum(Direction) }))(
+			/^I set the initial direction to `(?<direction>[^`]+)`$/,
+			step.title,
+		)
+
+		if (match === null) return noMatch
 		const r = context.rover as ReturnType<typeof rover>
-		if (direction === 'forward') r.forward(parseInt(squares, 10))
-		if (direction === 'backward') r.backward(parseInt(squares, 10))
+		r.setDirection(match.direction)
+		return {
+			matched: true,
+			result: r,
+			printable: printRover(r),
+		}
+	},
+	async ({
+		step,
+		context,
+	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
+		enum MovementDirection {
+			forward = 'forward',
+			backward = 'backward',
+		}
+		const match = matchGroups(
+			Type.Object({
+				direction: Type.Enum(MovementDirection),
+				squares: Type.Integer({ minimum: 1 }),
+			}),
+			{
+				squares: (s) => parseInt(s, 10),
+			},
+		)(
+			/^I move the Mars Rover `(?<direction>forward|backward)` (?<squares>[0-9]+) squares?$/,
+			step.title,
+		)
+
+		if (match === null) return noMatch
+		const r = context.rover as ReturnType<typeof rover>
+		if (match.direction === MovementDirection.forward) r.forward(match.squares)
+		if (match.direction === MovementDirection.backward)
+			r.backward(match.squares)
 
 		return { matched: true, result: r, printable: printRover(r) }
 	},
@@ -94,16 +122,16 @@ export const steps: StepRunner<RoverContext>[] = [
 		step,
 		context,
 	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
-		const match =
-			/^the current position should be `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/.exec(
-				step.title,
-			)
-		if (match?.groups === undefined) return noMatch
+		const match = coordinateMatch(
+			/^the current position should be `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
+			step.title,
+		)
+		if (match === null) return noMatch
 
 		const r = context.rover as ReturnType<typeof rover>
 
-		assert.deepEqual(r.x(), parseInt(match.groups.x, 10))
-		assert.deepEqual(r.y(), parseInt(match.groups.y, 10))
+		assert.deepEqual(r.x(), match.x)
+		assert.deepEqual(r.y(), match.y)
 
 		return { matched: true }
 	},
@@ -111,18 +139,16 @@ export const steps: StepRunner<RoverContext>[] = [
 		step,
 		context,
 	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
-		const match =
-			/^there is an obstacle at `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/.exec(
-				step.title,
-			)
-		if (match?.groups === undefined) return noMatch
+		const match = coordinateMatch(
+			/^there is an obstacle at `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
+			step.title,
+		)
+
+		if (match === null) return noMatch
 
 		if (context.obstacles === undefined) context.obstacles = []
 
-		context.obstacles.push([
-			parseInt(match.groups.x, 10),
-			parseInt(match.groups.y, 10),
-		])
+		context.obstacles.push([match.x, match.y])
 
 		return { matched: true }
 	},
@@ -133,19 +159,16 @@ export const steps: StepRunner<RoverContext>[] = [
 			step: { debug },
 		},
 	}: StepRunnerArgs<RoverContext>): Promise<StepRunResult> => {
-		const match =
-			/^the Mars Rover should report an obstacle at `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/.exec(
-				step.title,
-			)
-		if (match?.groups === undefined) return noMatch
-
+		const match = coordinateMatch(
+			/^the Mars Rover should report an obstacle at `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
+			step.title,
+		)
+		if (match === null) return noMatch
 		const r = context.rover as ReturnType<typeof rover>
 
 		debug('knownObstacles', JSON.stringify(r.knownObstacles()))
 
-		assert.deepEqual(r.knownObstacles(), [
-			[parseInt(match.groups.x, 10), parseInt(match.groups.y, 10)],
-		])
+		assert.deepEqual(r.knownObstacles(), [[match.x, match.y]])
 
 		return { matched: true }
 	},
