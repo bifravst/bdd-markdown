@@ -54,4 +54,33 @@ describe('comment()', () => {
 				},
 			},
 		))
+
+	it('should parse multi-line comments', () =>
+		assert.deepEqual(
+			comment(
+				tokenStream(
+					[
+						'<!--',
+						'Comment line 1. @tag1',
+						'Comment line 2. @tag2',
+						'Comment line 3. @tag3',
+						'-->',
+						'',
+						'Second line',
+					].join(os.EOL),
+				),
+			),
+			{
+				text: [
+					'Comment line 1. @tag1',
+					'Comment line 2. @tag2',
+					'Comment line 3. @tag3',
+				].join(os.EOL),
+				tags: {
+					tag1: true,
+					tag2: true,
+					tag3: true,
+				},
+			},
+		))
 })
