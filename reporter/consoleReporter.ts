@@ -76,14 +76,14 @@ const formatRunResult = (
 			const scenarioLine = lastScenario ? ' ' : '│'
 			if (scenarioResult.skipped) {
 				print(
-					colorLine(`        ${lastScenario ? '└' : '├'}─`),
+					colorLine(`     ${featureLine}  ${lastScenario ? '└' : '├'}─`),
 					colorSkipped(scenario.title),
 				)
 				return
 			}
 			print(colorLine(`     ${featureLine}  │`))
 			print(
-				colorLine(`        ${lastScenario ? '└' : '├'}─`),
+				colorLine(`     ${featureLine}  ${lastScenario ? '└' : '├'}─`),
 				chalk.white(scenario.title),
 				formatDuration(scenarioResult),
 			)
