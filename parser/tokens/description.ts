@@ -4,15 +4,21 @@ import { space, whiteSpace } from './whiteSpace.js'
 
 /**
  * A description is a freeform text in quotes.
- * It can be provided for all keywords.
+ * It can be provided for all keywords and steps.
  *
- * Example:
+ * Keyword example:
  *
  * > This is a description for the feature, which can span multiple lines. This
  * > paragraph is intentionally very long so we hit the prettier auto-format
  * > wrapping the long line.
  * >
  * > And line-breaks should be allowed in the description.
+ *
+ * Step example:
+ *
+ * Given this step has a description
+ *
+ * > This description applies to the step above.
  */
 export const description = (s: TokenStream): string[] | null => {
 	let paragraph = 0

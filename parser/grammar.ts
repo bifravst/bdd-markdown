@@ -94,6 +94,7 @@ export type Step = {
 	line: number
 	comment?: Comment
 	codeBlock?: CodeBlock
+	description?: string[]
 }
 
 export type CodeBlock = {

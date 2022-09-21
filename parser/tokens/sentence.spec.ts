@@ -31,7 +31,4 @@ describe('sentence()', () => {
 		space(s)
 		assert.equal(sentence(s), 'This is a short description.')
 	})
-
-	it('should not read headings', () =>
-		assert.equal(sentence(tokenStream('# This is a heading')), null))
 })

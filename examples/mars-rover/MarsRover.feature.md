@@ -63,6 +63,8 @@ And I set the initial direction to `N`
 
 And I move the Mars Rover `forward` 10 squares
 
+> The Rover will encounter the obstacle.
+
 Soon the current position should be `0,-4`
 
 Then the Mars Rover should report an obstacle at `0,-5`

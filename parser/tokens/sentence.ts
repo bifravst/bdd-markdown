@@ -6,7 +6,6 @@ export const sentence = (s: TokenStream): string | null => {
 	while (true) {
 		const char = s.char()
 		if (char === os.EOL) break
-		if (char === '#') break
 		sentenceTokens.push(char)
 		if (s.isEoF()) break
 		s.next()

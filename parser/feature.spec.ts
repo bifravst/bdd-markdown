@@ -248,4 +248,21 @@ describe('feature()', () => {
 			'I enqueue this mock HTTP API response with status code `202` for a `POST` request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
 		)
 	})
+
+	it('should parse features with steps that have notes', () => {
+		const parsed = feature(l('StepDescription'))
+
+		const [step1, step2, step3] = parsed.scenarios[0].steps
+
+		assert.deepEqual(step1.description, [
+			'Provide a bit more explanation to a specific step',
+		])
+		assert.deepEqual(step2.comment, {
+			text: 'comments still work and get applied to the following step',
+		})
+		assert.deepEqual(step2.description, ['Another note'])
+		assert.deepEqual(step3.description, [
+			'**Note**   It can also be used to render [these fancy note boxes](https://github.com/community/community/discussions/16925#discussion-4085374) on GitHub.',
+		])
+	})
 })
