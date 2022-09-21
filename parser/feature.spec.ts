@@ -239,4 +239,13 @@ describe('feature()', () => {
 		assert.deepEqual(lastStep.codeBlock, expectedCodeBlock)
 		assert.deepEqual(lastStep.comment, expectedComment)
 	})
+
+	it('should parse features with wrapped steps', () => {
+		const parsed = feature(l('WrappedLines'))
+
+		assert.equal(
+			parsed.scenarios[0].steps[0].title,
+			'I enqueue this mock HTTP API response with status code `202` for a `POST` request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
+		)
+	})
 })

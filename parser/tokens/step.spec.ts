@@ -1,5 +1,6 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
+import os from 'os'
 import { tokenStream } from '../tokenStream.js'
 import { step } from './step.js'
 
@@ -52,4 +53,24 @@ describe('step()', () => {
 			},
 		)
 	})
+
+	it('should parse wrapped step definitions', () =>
+		assert.deepEqual(
+			step(
+				tokenStream(
+					[
+						'And I enqueue this mock HTTP API response with status code `202` for a `POST`',
+						'request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
+						'',
+						'And this is the next step',
+					].join(os.EOL),
+				),
+			),
+			{
+				keyword: 'And',
+				title:
+					'I enqueue this mock HTTP API response with status code `202` for a `POST` request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
+				line: 1,
+			},
+		))
 })

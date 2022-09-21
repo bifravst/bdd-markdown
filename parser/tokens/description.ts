@@ -1,6 +1,6 @@
 import { TokenStream } from '../tokenStream.js'
 import { sentence } from './sentence.js'
-import { whiteSpace } from './whiteSpace.js'
+import { space, whiteSpace } from './whiteSpace.js'
 
 /**
  * A description is a freeform text in quotes.
@@ -30,6 +30,7 @@ export const description = (s: TokenStream): string[] | null => {
 				description[++paragraph] = []
 			}
 		}
+		space(s)
 		const sn = sentence(s)
 		if (sn === null) break
 		description[paragraph].push(sn)

@@ -2,7 +2,8 @@ import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
 import { getLineNumber } from '../errors/toErrorPosition.js'
 import { Step, StepKeyword, steps } from '../grammar.js'
 import { TokenStream } from '../tokenStream.js'
-import { sentence } from './sentence.js'
+import { paragraph } from './paragraph.js'
+import { space } from './whiteSpace.js'
 import { word } from './word.js'
 
 type ParsedStep = Omit<Step, 'keyword'> & { keyword: StepKeyword }
@@ -16,7 +17,8 @@ export const step = (s: TokenStream): ParsedStep | null => {
 			s,
 			`Unexpected step: ${stepWord}, expected one of ${steps}!`,
 		)
-	const title = sentence(s)
+	space(s)
+	const title = paragraph(s)
 	if (title === null)
 		throw new InvalidSyntaxError(s, `Incomplete step definition!`)
 

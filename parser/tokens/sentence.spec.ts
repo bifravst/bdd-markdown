@@ -3,6 +3,7 @@ import { describe, it } from 'node:test'
 import os from 'os'
 import { tokenStream } from '../tokenStream.js'
 import { sentence } from './sentence.js'
+import { space } from './whiteSpace.js'
 
 describe('sentence()', () => {
 	it('should read a sentence', () =>
@@ -27,6 +28,7 @@ describe('sentence()', () => {
 		s.next() // o
 		s.next() // o
 		s.next() // :
+		space(s)
 		assert.equal(sentence(s), 'This is a short description.')
 	})
 
