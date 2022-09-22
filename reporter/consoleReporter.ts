@@ -3,6 +3,7 @@ import os from 'os'
 import { LogEntry, LogLevel } from '../runner/logger.js'
 import { StepResult } from '../runner/runStep.js'
 import { SuiteResult } from '../runner/runSuite.js'
+import { toString } from './toString.js'
 
 const errorMark = chalk.bgRedBright(' EE ')
 const passMark = chalk.bgGreenBright(' OK ')
@@ -208,23 +209,22 @@ const printLogs = (
 				prefix = color('»')
 				break
 		}
-		log.message.forEach((message) => {
-			message
-				.trim()
-				.split(os.EOL)
-				.forEach((m, i, messages) =>
-					print(
-						`${line}${
-							i === 0
-								? prefix
-								: i === messages.length - 1
-								? color('└')
-								: color('│')
-						}`,
-						color(m),
-					),
-				)
-		})
+
+		for (const message of log.message) {
+			const lines = toString(message).trim().split(os.EOL)
+			lines.forEach((m, i, messages) =>
+				print(
+					`${line}${
+						i === 0
+							? prefix
+							: i === messages.length - 1
+							? color('└')
+							: color('│')
+					}`,
+					color(m),
+				),
+			)
+		}
 	}
 }
 
