@@ -116,9 +116,8 @@ const formatRunResult = (
 						colorLine(
 							`     ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 						),
-						colorSkipped(
-							`${step.keyword.padEnd(5, ' ')}${stepResult.executed.title}`,
-						),
+						colorSkipped(`${step.keyword.padEnd(5, ' ')}`),
+						stepResult.executed.title,
 					)
 					return
 				}
