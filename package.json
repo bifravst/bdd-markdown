@@ -39,7 +39,7 @@
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.127",
     "@types/node": "18.7.18",
-    "@types/prettier": "2.7.0",
+    "@types/prettier": "2.7.1",
     "@types/toposort": "2.0.3",
     "check-node-version": "4.2.1",
     "eslint-import-resolver-typescript": "3.5.1",
