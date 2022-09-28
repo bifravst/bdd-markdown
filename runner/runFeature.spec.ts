@@ -176,4 +176,52 @@ describe('runFeature()', () => {
 			},
 		])
 	})
+
+	describe('observe logs', () => {
+		it('should allow to pass a log observer', async () => {
+			const observedLogs: any[] = []
+			const featureResult = await runFeature({
+				stepRunners: [
+					async ({
+						log: {
+							feature: { debug, error, info, progress },
+						},
+					}) => {
+						debug(`A debug message`, `with two parts`)
+						error({ message: `Some error` })
+						info(`An info`)
+						progress(`Doing something`, `the thing`)
+					},
+				],
+				feature: (
+					await loadFeatureFile(
+						path.join(
+							process.cwd(),
+							'runner',
+							'test-data',
+							'runFeature',
+							'OneStep.feature.md',
+						),
+					)
+				).feature,
+				context: {},
+				getRelativeTs: () => 42,
+				logObserver: {
+					onDebug: (_, ...args) => observedLogs.push([LogLevel.DEBUG, ...args]),
+					onError: (_, error) => observedLogs.push([LogLevel.ERROR, error]),
+					onInfo: (_, ...args) => observedLogs.push([LogLevel.INFO, ...args]),
+					onProgress: (_, ...args) =>
+						observedLogs.push([LogLevel.PROGRESS, ...args]),
+				},
+			})
+
+			assert.equal(featureResult.ok, true)
+			assert.deepEqual(observedLogs, [
+				[LogLevel.DEBUG, `A debug message`, `with two parts`],
+				[LogLevel.ERROR, { message: `Some error` }],
+				[LogLevel.INFO, `An info`],
+				[LogLevel.PROGRESS, `Doing something`, `the thing`],
+			])
+		})
+	})
 })

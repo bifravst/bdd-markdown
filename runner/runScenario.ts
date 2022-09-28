@@ -1,5 +1,5 @@
 import { Feature, Scenario, Step } from '../parser/grammar.js'
-import { LogEntry, logger, Logger } from './logger.js'
+import { LogEntry, logger, Logger, LogObserver } from './logger.js'
 import { runStep, StepResult, StepRunner } from './runStep.js'
 
 export type ScenarioResult = {
@@ -17,16 +17,22 @@ export const runScenario = async <Context extends Record<string, any>>({
 	context,
 	getRelativeTs,
 	featureLogger,
+	logObserver,
 }: {
 	stepRunners: StepRunner<Context>[]
 	feature: Feature
 	scenario: Scenario
 	context: Context
-	featureLogger: Logger
+	featureLogger: Logger<Feature>
 	getRelativeTs: () => number
+	logObserver?: LogObserver
 }): Promise<Omit<ScenarioResult, 'skipped'>> => {
 	const startTs = Date.now()
-	const scenarioLogger = logger({ getRelativeTs })
+	const scenarioLogger = logger({
+		getRelativeTs,
+		context: scenario,
+		...logObserver,
+	})
 	const stepResults: [Step, StepResult][] = []
 
 	let aborted = false
@@ -58,6 +64,7 @@ export const runScenario = async <Context extends Record<string, any>>({
 			getRelativeTs,
 			featureLogger,
 			scenarioLogger,
+			logObserver,
 		})
 		stepResults.push([
 			step,

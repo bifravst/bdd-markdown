@@ -1,4 +1,5 @@
 import { ParsedPath } from 'path'
+import { LogObserver } from './logger.js'
 import { orderFeatures } from './orderFeatures.js'
 import { FeatureFile } from './parseFeaturesInFolder.js'
 import { FeatureResult, runFeature } from './runFeature.js'
@@ -24,6 +25,7 @@ export type Runner<Context extends Record<string, any>> = {
 export const runSuite = <Context extends Record<string, any>>(
 	featureFiles: FeatureFile[],
 	name: string,
+	logObserver?: LogObserver,
 ): Runner<Context> => {
 	const stepRunners: StepRunner<Context>[] = []
 
@@ -70,6 +72,7 @@ export const runSuite = <Context extends Record<string, any>>(
 								feature,
 								// Create a new context per feature
 								context: JSON.parse(JSON.stringify(context ?? {})),
+								logObserver,
 						  })
 				featureResults.push([file, result])
 				featureNameResultMap[feature.title ?? file.name] = result.ok

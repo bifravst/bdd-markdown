@@ -26,16 +26,20 @@ describe('runStep()', () => {
 	beforeEach(async () => {
 		const feature = await f()
 		const getRelativeTs = () => 42
+		const scenario = feature.scenarios[0] as Scenario
 		runStepArgs = {
 			stepRunners: [],
 			feature,
-			scenario: feature.scenarios[0] as Scenario,
+			scenario,
 			step: feature.scenarios[0].steps[0],
 			context: {},
 			previousResults: [],
 			getRelativeTs: getRelativeTs,
-			featureLogger: logger({ getRelativeTs }),
-			scenarioLogger: logger({ getRelativeTs }),
+			featureLogger: logger({ getRelativeTs, context: feature }),
+			scenarioLogger: logger({
+				getRelativeTs,
+				context: scenario,
+			}),
 		}
 	})
 

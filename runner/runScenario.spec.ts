@@ -33,7 +33,7 @@ describe('runScenario()', () => {
 			scenario: feature.scenarios[0] as Scenario,
 			context: {},
 			getRelativeTs: getRelativeTs,
-			featureLogger: logger({ getRelativeTs }),
+			featureLogger: logger({ getRelativeTs, context: feature }),
 		}
 	})
 
@@ -138,7 +138,7 @@ describe('runScenario()', () => {
 			scenario: feature.scenarios[0] as Scenario,
 			context: {},
 			getRelativeTs: getRelativeTs,
-			featureLogger: logger({ getRelativeTs }),
+			featureLogger: logger({ getRelativeTs, context: feature }),
 		})
 
 		assert.equal(scenarioResult.ok, true)
