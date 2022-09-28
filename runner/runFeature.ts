@@ -1,5 +1,5 @@
 import { Feature, Keyword, Row, Scenario } from '../parser/grammar.js'
-import { LogEntry, logger } from './logger.js'
+import { LogEntry, logger, LogObserver } from './logger.js'
 import { replaceFromExamples } from './replaceFromExamples.js'
 import { runScenario, ScenarioResult } from './runScenario.js'
 import { StepRunner } from './runStep.js'
@@ -21,17 +21,22 @@ export const runFeature = async <Context extends Record<string, any>>({
 	feature,
 	context,
 	getRelativeTs,
+	logObserver,
 }: {
 	stepRunners: StepRunner<Context>[]
 	feature: Feature
 	context: Context
 	getRelativeTs?: () => number
+	logObserver?: LogObserver
 }): Promise<FeatureResult> => {
 	const scenarioResults: [ScenarioExecution, ScenarioResult][] = []
 	const startTs = Date.now()
 	const relTs = getRelativeTs ?? (() => Date.now() - startTs)
-	const featureLogger = logger({ getRelativeTs: relTs })
-
+	const featureLogger = logger({
+		getRelativeTs: relTs,
+		context: feature,
+		...logObserver,
+	})
 	let aborted = false
 	for (const scenario of feature.scenarios) {
 		if (scenario.keyword === Keyword.ScenarioOutline) {
@@ -96,6 +101,7 @@ export const runFeature = async <Context extends Record<string, any>>({
 				context,
 				getRelativeTs: relTs,
 				featureLogger,
+				logObserver,
 			})
 			scenarioResults.push([
 				scenario as ScenarioExecution,

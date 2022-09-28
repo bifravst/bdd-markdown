@@ -1,7 +1,7 @@
 import { Feature, Scenario, Step, StepKeyword } from '../parser/grammar.js'
 import { formatRetryConfig, getRetryConfig } from './getRetryConfig.js'
 import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
-import { LogEntry, logger, Logger } from './logger.js'
+import { LogEntry, logger, Logger, LogObserver } from './logger.js'
 import { replaceFromContext } from './replaceFromContext.js'
 import { ScenarioExecution } from './runFeature.js'
 
@@ -36,9 +36,9 @@ export type StepRunnerArgs<Context extends Record<string, any>> = {
 	feature: Feature
 	context: Context
 	log: {
-		step: Logger
-		scenario: Logger
-		feature: Logger
+		step: Logger<Step>
+		scenario: Logger<Scenario>
+		feature: Logger<Feature>
 	}
 	previousResult?: [Step, any]
 	previousResults: [Step, any][]
@@ -57,6 +57,7 @@ export const runStep = async <Context extends Record<string, any>>({
 	getRelativeTs,
 	featureLogger,
 	scenarioLogger,
+	logObserver,
 }: {
 	stepRunners: StepRunner<Context>[]
 	feature: Feature
@@ -65,10 +66,11 @@ export const runStep = async <Context extends Record<string, any>>({
 	context: Context
 	previousResults: [Step, any][]
 	getRelativeTs: () => number
-	featureLogger: Logger
-	scenarioLogger: Logger
+	featureLogger: Logger<Feature>
+	scenarioLogger: Logger<Scenario>
+	logObserver?: LogObserver
 }): Promise<Omit<StepResult, 'skipped'>> => {
-	const stepLogger = logger({ getRelativeTs })
+	const stepLogger = logger({ getRelativeTs, context: step, ...logObserver })
 
 	const replacedStep = replaceFromContext(context)(step)
 	const unreplaced = getUnreplacedPlaceholders(replacedStep)
