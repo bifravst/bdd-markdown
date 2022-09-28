@@ -7,7 +7,7 @@ describe('logger()', () => {
 	describe('should allow to log messages', () => {
 		const step = {} as Step
 		const { progress, debug, error, getLogs, info, context } = logger({
-			context: step ,
+			context: step,
 			getRelativeTs: () => 42,
 		})
 		const expected: LogEntry[] = []
