@@ -135,8 +135,8 @@ export const runStep = async <Context extends Record<string, any>>({
 					return {
 						logs: stepLogger.getLogs(),
 						ok: true,
-						result: (maybeRun )?.result,
-						printable: (maybeRun )?.printable,
+						result: maybeRun?.result,
+						printable: maybeRun?.printable,
 						duration: Date.now() - startTs,
 						executed: replacedStep,
 					}
