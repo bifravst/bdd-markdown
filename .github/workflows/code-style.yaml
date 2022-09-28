@@ -21,7 +21,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18.x"
 
       - name: Keep npm cache around to speed up installs
         uses: actions/cache@v3
@@ -36,10 +36,6 @@ jobs:
         run: npx tsc
 
       - name: Check source code with eslint
-        run: npx eslint --fix --ext .js,.ts,.jsx,.tsx ./
-
-      - name: Check source code with eslint (dev)
-        working-directory: dev
         run: npx eslint --fix --ext .js,.ts,.jsx,.tsx ./
 
       - name: Format source code with prettier
