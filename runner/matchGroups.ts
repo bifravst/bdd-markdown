@@ -64,7 +64,9 @@ export const matchGroups =
 		const valid = validateWithJSONSchema(schema)(converted)
 		if ('errors' in valid)
 			throw new MatchError(
-				`Result matched from "${input}" is not valid: ${valid.errors
+				`Result '${JSON.stringify(
+					converted,
+				)}' matched from '${input}' is not valid: ${valid.errors
 					.map(({ instancePath, message }) => `${instancePath}: ${message}`)
 					.join(', ')}!`,
 			)
