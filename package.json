@@ -34,7 +34,7 @@
     "chalk": "5.0.1",
     "tap-parser": "11.0.1",
     "toposort": "2.0.2",
-    "yaml": "2.1.1"
+    "yaml": "2.1.2"
   },
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.130",
