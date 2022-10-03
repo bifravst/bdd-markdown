@@ -84,7 +84,6 @@ export const runScenario = async <Context extends Record<string, any>>({
 		),
 		results: stepResults,
 		duration: Date.now() - startTs,
-		// TODO: Test scenario logs
 		logs: scenarioLogger.getLogs(),
 	}
 }
