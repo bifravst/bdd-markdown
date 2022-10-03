@@ -1,5 +1,11 @@
 import { consoleReporter } from './consoleReporter.js'
 
+const chunks: string[] = []
+
 process.stdin.on('data', (data) => {
-	consoleReporter(JSON.parse(data.toString()), console.log)
+	chunks.push(data.toString())
+})
+
+process.stdin.on('end', () => {
+	consoleReporter(JSON.parse(chunks.join('')), console.log)
 })
