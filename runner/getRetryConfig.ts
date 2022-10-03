@@ -20,9 +20,6 @@ export const defaultRetryConfig: RetryConfig = {
 
 const validator = validateWithJSONSchema(RetryConfigSchema)
 
-/**
- * FIXME: use retry config from step, scenario, or feature
- */
 export const getRetryConfig = (
 	step: Step,
 	scenario: Scenario,
