@@ -3,7 +3,9 @@ import assert from 'assert/strict'
 // @ts-ignore FIXME: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/pull/62274 is merged
 import { beforeEach, describe, it } from 'node:test'
 import path from 'path'
-import { Scenario } from '../parser/grammar.js'
+import { Feature, Keyword, Scenario, StepKeyword } from '../parser/grammar.js'
+import { comment } from '../parser/tokens/comment.js'
+import { tokenStream } from '../parser/tokenStream.js'
 import { logger, LogLevel } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runStep } from './runStep.js'
@@ -168,5 +170,54 @@ describe('runStep()', () => {
 
 		assert.equal(stepResult.ok, true)
 		assert.equal(replacedTitle, 'I echo bar')
+	})
+
+	it('should retry a step', async () => {
+		const getRelativeTs = () => 42
+		const feature: Feature = {
+			keyword: Keyword.Feature,
+			line: 1,
+			scenarios: [],
+		}
+		const scenario: Scenario = {
+			keyword: Keyword.Scenario,
+			line: 1,
+			steps: [],
+		}
+
+		const stepResult = await runStep({
+			feature,
+			scenario,
+			step: {
+				keyword: StepKeyword.Soon,
+				line: 1,
+				title: 'I have the result',
+				comment:
+					comment(
+						tokenStream('<!-- @retry:tries=5,initialDelay=1,delayFactor=1 -->'),
+					) ?? undefined,
+			},
+			context: {},
+			stepRunners: [
+				async () => {
+					throw new Error(`Always fails!`)
+				},
+			],
+			getRelativeTs: () => 42,
+			featureLogger: logger({ getRelativeTs, context: feature }),
+			scenarioLogger: logger({
+				getRelativeTs,
+				context: scenario,
+			}),
+			previousResults: [],
+		})
+
+		assert.equal(stepResult.ok, false)
+		assert.equal(stepResult.tries, 5)
+		assert.deepEqual(stepResult.logs.pop(), {
+			message: ['Always fails!'],
+			level: 'error',
+			ts: 42,
+		})
 	})
 })

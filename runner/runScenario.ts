@@ -46,6 +46,7 @@ export const runScenario = async <Context extends Record<string, any>>({
 					skipped: true,
 					duration: 0,
 					executed: step,
+					tries: 0,
 				},
 			])
 			continue

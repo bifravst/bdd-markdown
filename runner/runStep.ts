@@ -19,6 +19,7 @@ export type StepResult = {
 	 * The executed step with all replacements applied
 	 */
 	executed: Step
+	tries: number
 }
 
 export const noMatch = Symbol('Step did not match.')
@@ -84,6 +85,7 @@ export const runStep = async <Context extends Record<string, any>>({
 			logs: stepLogger.getLogs(),
 			duration: 0,
 			executed: replacedStep,
+			tries: 0,
 		}
 	}
 
@@ -102,8 +104,10 @@ export const runStep = async <Context extends Record<string, any>>({
 	let delay = initialDelay
 
 	const startTs = Date.now()
+	let numTry = 0
 	try {
 		for (const stepRunner of stepRunners) {
+			numTry = 0
 			if (typeof stepRunner !== 'function') {
 				stepLogger.error({
 					message: `All step runners must be a function, encountered ${JSON.stringify(
@@ -115,11 +119,15 @@ export const runStep = async <Context extends Record<string, any>>({
 					ok: false,
 					duration: 0,
 					executed: step,
+					tries: 0,
 				}
 			}
 
-			for (let i = 0; i < Math.max(1, tries); i++) {
+			const maxTries = Math.max(1, tries)
+			for (let i = 0; i < maxTries; i++) {
 				try {
+					numTry++
+					if (numTry > 1) stepLogger.progress(`Retrying ... (${numTry})`)
 					const maybeRun = await stepRunner({
 						step: replacedStep,
 						context,
@@ -141,14 +149,14 @@ export const runStep = async <Context extends Record<string, any>>({
 						printable: maybeRun?.printable,
 						duration: Date.now() - startTs,
 						executed: replacedStep,
+						tries: numTry,
 					}
 				} catch (err) {
 					if (!retriesEnabled) throw err
-					// TODO: test retries
+					if (i + 1 === maxTries) throw err // Retries exhausted
 					// it did not not-match, but threw an error
 					await new Promise((resolve) => setTimeout(resolve, delay))
 					delay = delay * delayFactor
-					stepLogger.progress(`Retrying ... (${i + 2})`)
 				}
 			}
 		}
@@ -161,6 +169,7 @@ export const runStep = async <Context extends Record<string, any>>({
 			ok: false,
 			duration: Date.now() - startTs,
 			executed: replacedStep,
+			tries: numTry,
 		}
 	}
 	stepLogger.error({
@@ -171,5 +180,6 @@ export const runStep = async <Context extends Record<string, any>>({
 		logs: stepLogger.getLogs(),
 		duration: 0,
 		executed: replacedStep,
+		tries: 0,
 	}
 }
