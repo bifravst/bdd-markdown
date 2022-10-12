@@ -29,7 +29,7 @@
     }
   },
   "dependencies": {
-    "@sinclair/typebox": "0.24.44",
+    "@sinclair/typebox": "0.24.46",
     "ajv": "8.11.0",
     "chalk": "5.1.0",
     "tap-parser": "11.0.1",
