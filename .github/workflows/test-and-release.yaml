@@ -13,7 +13,7 @@ jobs:
   parse:
     name: "Run parse examples"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
   mars-rover:
     name: "Run Mars Rover example"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -67,7 +67,7 @@ jobs:
   firmware:
     name: "Run Firmware example"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -96,7 +96,7 @@ jobs:
 
     needs: [parse, mars-rover, firmware]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
