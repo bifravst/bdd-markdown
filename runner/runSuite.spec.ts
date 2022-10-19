@@ -75,4 +75,49 @@ describe('runSuite()', () => {
 		const result = await runner.run()
 		assert.equal(result.ok, false)
 	})
+
+	describe('run: only', () => {
+		it('if a feature is marked with `run: only` all other features should not be run', async () => {
+			const runner = runSuite(
+				await parseFeaturesInFolder(
+					path.join(process.cwd(), 'runner', 'test-data', 'runSuite', 'only'),
+				),
+				'Example',
+			)
+
+			runner.addStepRunners(async () => undefined)
+
+			const result = await runner.run()
+			assert.equal(result.ok, true)
+			assert.deepEqual(result.summary.failed, 0)
+			assert.deepEqual(result.summary.passed, 1)
+			assert.deepEqual(result.summary.skipped, 1)
+			assert.deepEqual(result.summary.total, 2)
+		})
+
+		it('dependencies should be run', async () => {
+			const runner = runSuite(
+				await parseFeaturesInFolder(
+					path.join(
+						process.cwd(),
+						'runner',
+						'test-data',
+						'runSuite',
+						'only-with-dependencies',
+					),
+				),
+				'Example',
+			)
+
+			runner.addStepRunners(async () => undefined)
+
+			const result = await runner.run()
+
+			assert.equal(result.ok, true)
+			assert.deepEqual(result.summary.failed, 0)
+			assert.deepEqual(result.summary.passed, 2)
+			assert.deepEqual(result.summary.skipped, 1)
+			assert.deepEqual(result.summary.total, 3)
+		})
+	})
 })

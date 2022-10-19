@@ -75,6 +75,18 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 		.map(({ file }) => file.name)
 	const hasRunOnly = runOnlyThese.length > 0
 
+	// Build map of dependencies
+	const dependencyMap = edges.reduce(
+		(dependencyMap, [dependency, dependent]) => {
+			if (dependent === undefined) return dependencyMap
+			return {
+				...dependencyMap,
+				[dependency]: [...(dependencyMap[dependency] ?? []), dependent],
+			}
+		},
+		{} as Record<string, string[]>,
+	)
+
 	const skippedFeaturesMap = featureFiles.reduce(
 		(skipped, { file: { name }, feature }) => ({
 			...skipped,
@@ -82,9 +94,13 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 				// Mark a feature as skipped ...
 				skipped:
 					// if it should not run, ...
-					feature.frontMatter?.run === 'never' ||
-					// or there are other features marked as `only`
-					(hasRunOnly && !runOnlyThese.includes(name)),
+					(feature.frontMatter?.run === 'never' ||
+						// or there are other features marked as `only`
+						(hasRunOnly && !runOnlyThese.includes(name))) &&
+					// but not if it is needed by an onlyFeature
+					dependencyMap[name]?.find(
+						(name) => runOnlyThese.find((f) => f === name) !== undefined,
+					) === undefined,
 				// Make sure the dependency exists
 				needs: (feature.frontMatter?.needs ?? []).map((dependencyName) => {
 					const dependency = featureFiles.find(

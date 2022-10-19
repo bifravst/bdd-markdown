@@ -53,14 +53,38 @@ describe('orderFeatures()', () => {
 		assert.deepEqual(executionOrder, ['Run this feature'])
 	})
 
-	it('should skip dependent features', async () => {
-		const features = await parseFeaturesInFolder(
-			path.join(process.cwd(), 'runner', 'test-data', 'orderFeatures', 'only'),
-		)
-		const executionOrder = orderFeatures(features)
-			.filter(({ skip }) => skip !== true)
-			.map(({ feature }) => feature.title)
-		assert.deepEqual(executionOrder, ['Run this feature'])
+	describe('run: only', () => {
+		it('should skip dependent features', async () => {
+			const features = await parseFeaturesInFolder(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'orderFeatures',
+					'only',
+				),
+			)
+			const executionOrder = orderFeatures(features)
+				.filter(({ skip }) => skip !== true)
+				.map(({ feature }) => feature.title)
+			assert.deepEqual(executionOrder, ['Run this feature'])
+		})
+
+		it('should run dependencies', async () => {
+			const features = await parseFeaturesInFolder(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'orderFeatures',
+					'only-with-dependencies',
+				),
+			)
+			const executionOrder = orderFeatures(features)
+				.filter(({ skip }) => skip !== true)
+				.map(({ feature }) => feature.title)
+			assert.deepEqual(executionOrder, ['Dependency', 'Run this feature'])
+		})
 	})
 
 	it('dependencies override order', async () => {

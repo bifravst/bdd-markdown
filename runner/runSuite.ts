@@ -52,7 +52,7 @@ export const runSuite = <Context extends Record<string, any>>(
 			const featureResults: [ParsedPath, FeatureResult][] = []
 			const featureNameResultMap: Record<string, boolean> = {}
 
-			for (const { file, feature } of orderFeatures(featureFiles)) {
+			for (const { file, feature, skip } of orderFeatures(featureFiles)) {
 				// Have dependency failed?
 				const failedDependencies = (feature.frontMatter?.needs ?? []).filter(
 					(dependencyName) => featureNameResultMap[dependencyName] === false,
@@ -62,6 +62,14 @@ export const runSuite = <Context extends Record<string, any>>(
 					failedDependencies.length > 0
 						? {
 								ok: false,
+								skipped: true,
+								results: [],
+								duration: 0,
+								logs: [],
+						  }
+						: skip === true
+						? {
+								ok: true,
 								skipped: true,
 								results: [],
 								duration: 0,
@@ -94,11 +102,13 @@ export const runSuite = <Context extends Record<string, any>>(
 }
 
 const summarize = (results: FeatureResult[]): Summary => {
-	const passed = results.filter(({ ok }) => ok === true).length
+	const passed = results.filter(
+		({ ok, skipped }) => ok === true && skipped === false,
+	).length
 	const failed = results.filter(
 		({ ok, skipped }) => ok === false && skipped === false,
 	).length
-	const skipped = results.filter(({ skipped }) => skipped === false).length
+	const skipped = results.filter(({ skipped }) => skipped === true).length
 	const duration = results.reduce((total, result) => total + result.duration, 0)
 	return {
 		total: results.length,
