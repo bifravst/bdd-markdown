@@ -5,8 +5,8 @@ import { StepResult } from '../runner/runStep.js'
 import { SuiteResult } from '../runner/runSuite.js'
 import { toString } from './toString.js'
 
-const errorMark = chalk.bgRedBright(' EE ')
-const passMark = chalk.bgGreenBright(' OK ')
+const errorMark = chalk.bgRedBright.bold(' EE ')
+const passMark = chalk.bgGreenBright.bold.rgb(0, 0, 0)(' OK ')
 
 export const consoleReporter = (
 	result: SuiteResult,
@@ -52,6 +52,7 @@ const formatRunResult = (
 		0,
 	)
 	print(
+		'',
 		result.ok ? passMark : errorMark,
 		`${chalk.white(result.name)}`,
 		formatDuration({ duration: testSuiteDuration }),
@@ -60,37 +61,45 @@ const formatRunResult = (
 	result.results.forEach(([file, featureResult], i, results) => {
 		const lastFeature = i === results.length - 1
 		const featureLine = lastFeature ? ' ' : '│'
-		print(colorLine('     │ '))
-		const prefix = lastFeature ? colorLine('     └─') : colorLine('     ├─')
+		print(colorLine(' │ '))
+		const prefix = lastFeature ? colorLine(' └─') : colorLine(' ├─')
 
 		if (featureResult.skipped) {
 			print(prefix, colorSkipped(file.name))
 			return
 		}
 
-		print(prefix, chalk.white(file.name), formatDuration(featureResult))
+		print(
+			prefix,
+			featureResult.ok ? passMark : errorMark,
+			(featureResult.ok ? chalk.greenBright : chalk.redBright)(file.name),
+			formatDuration(featureResult),
+		)
 
-		printLogs(featureResult.logs, colorLine(`     ${featureLine}  │  `), print)
+		printLogs(featureResult.logs, colorLine(` ${featureLine}  │   `), print)
 
 		featureResult.results.forEach(([scenario, scenarioResult], i, results) => {
 			const lastScenario = i === results.length - 1
 			const scenarioLine = lastScenario ? ' ' : '│'
 			if (scenarioResult.skipped) {
 				print(
-					colorLine(`     ${featureLine}  ${lastScenario ? '└' : '├'}─`),
+					colorLine(` ${featureLine}  ${lastScenario ? '└' : '├'}─`),
 					colorSkipped(scenario.title),
 				)
 				return
 			}
-			print(colorLine(`     ${featureLine}  │`))
+			print(colorLine(` ${featureLine}  │`))
 			print(
-				colorLine(`     ${featureLine}  ${lastScenario ? '└' : '├'}─`),
-				chalk.white(scenario.title),
+				colorLine(` ${featureLine}  ${lastScenario ? '└' : '├'}─`),
+				scenarioResult.ok ? passMark : errorMark,
+				(scenarioResult.ok ? chalk.greenBright : chalk.redBright)(
+					scenario.title,
+				),
 				formatDuration(scenarioResult),
 			)
 			if (scenario.example !== undefined) {
 				print(
-					colorLine(`     ${featureLine}  ${scenarioLine}  │ `),
+					colorLine(` ${featureLine}  ${scenarioLine}  │ `),
 					colorComment('⌘'),
 					Object.entries(scenario.example)
 						.map(
@@ -102,11 +111,11 @@ const formatRunResult = (
 
 			printLogs(
 				scenarioResult.logs,
-				colorLine(`     ${featureLine}  ${scenarioLine}  │  `),
+				colorLine(` ${featureLine}  ${scenarioLine}  │  `),
 				print,
 			)
 
-			print(colorLine(`     ${featureLine}  ${scenarioLine}  │ `))
+			print(colorLine(` ${featureLine}  ${scenarioLine}  │ `))
 
 			scenarioResult.results.forEach(([step, stepResult], i, results) => {
 				const lastStep = i === results.length - 1
@@ -114,7 +123,7 @@ const formatRunResult = (
 				if (stepResult.skipped) {
 					print(
 						colorLine(
-							`     ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
+							` ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 						),
 						colorSkipped(`${step.keyword.padEnd(5, ' ')}`),
 						stepResult.executed.title,
@@ -123,7 +132,7 @@ const formatRunResult = (
 				}
 				print(
 					colorLine(
-						`     ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
+						` ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 					),
 					chalk.gray(step.keyword.padEnd(5, ' ')),
 					(stepResult.ok ? colorSuccess : colorFailure)(
@@ -137,7 +146,7 @@ const formatRunResult = (
 						.forEach((line, i, lines) =>
 							print(
 								colorLine(
-									`     ${featureLine}  ${scenarioLine}  ${stepLine}       `,
+									` ${featureLine}  ${scenarioLine}  ${stepLine}       `,
 								),
 								i === 0
 									? colorCode('❯')
@@ -154,7 +163,7 @@ const formatRunResult = (
 						.forEach((line, i, lines) =>
 							print(
 								colorLine(
-									`     ${featureLine}  ${scenarioLine}  ${stepLine}       `,
+									` ${featureLine}  ${scenarioLine}  ${stepLine}       `,
 								),
 								i === 0
 									? colorValue('❮')
@@ -168,9 +177,7 @@ const formatRunResult = (
 
 				printLogs(
 					stepResult.logs,
-					colorLine(
-						`     ${featureLine}  ${scenarioLine}  ${stepLine}        `,
-					),
+					colorLine(` ${featureLine}  ${scenarioLine}  ${stepLine}        `),
 					print,
 				)
 			})
