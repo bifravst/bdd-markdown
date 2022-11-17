@@ -32,7 +32,7 @@
     "@sinclair/typebox": "0.25.8",
     "ajv": "8.11.2",
     "chalk": "5.1.2",
-    "tap-parser": "12.0.0",
+    "tap-parser": "12.0.1",
     "toposort": "2.0.2",
     "yaml": "2.1.3"
   },
