@@ -22,10 +22,6 @@ export const toErrorPosition = (stream: TokenStream): string => {
 }
 
 export const getLineNumber = (stream: TokenStream): number => {
-	const lastLineStart = stream
-		.source()
-		.slice(0, stream.index())
-		.lastIndexOf(os.EOL)
 	const lineNum =
 		stream
 			.source()

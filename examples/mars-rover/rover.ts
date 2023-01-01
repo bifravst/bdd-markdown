@@ -53,6 +53,8 @@ export const rover = ({
 					case Direction.E:
 						newX = (x ?? 0) + dir
 						break
+					case undefined:
+					// Nothing to do
 				}
 				if (canMoveTo([newX, newY])) {
 					// Wait 100 ms

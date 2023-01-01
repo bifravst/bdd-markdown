@@ -109,6 +109,10 @@ const featureChildren = (
 			return featureChildSteps(s, def)
 		case Keyword.Rule:
 			return parseRule(s, def)
+		case Keyword.Feature:
+		case Keyword.ScenarioOutlineExamples:
+			// Not handled here
+			break
 	}
 	return null
 }
