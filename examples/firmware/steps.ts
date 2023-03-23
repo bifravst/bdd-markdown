@@ -2,9 +2,9 @@ import assert from 'assert/strict'
 import os from 'os'
 import {
 	noMatch,
-	StepRunner,
-	StepRunnerArgs,
-	StepRunResult,
+	type StepRunner,
+	type StepRunnerArgs,
+	type StepRunResult,
 } from '../../runner/runStep.js'
 
 export type FirmwareCIRunContext = {

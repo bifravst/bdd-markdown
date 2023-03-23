@@ -1,4 +1,4 @@
-import { LogEntry, LogLevel } from '../../runner/logger.js'
+import { LogLevel, type LogEntry } from '../../runner/logger.js'
 import { escapeLogMessage } from './escapeLogMessage.js'
 
 export const logEntry = (logEntry: LogEntry, isLast: boolean): string => {

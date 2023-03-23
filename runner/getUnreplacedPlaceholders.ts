@@ -1,5 +1,5 @@
 import os from 'os'
-import { Step } from '../parser/grammar.js'
+import type { Step } from '../parser/grammar.js'
 
 const placeholderMatch = /\${[^}]+}/g
 

@@ -1,6 +1,6 @@
-import { LogObserver } from './logger.js'
+import { type LogObserver } from './logger.js'
 import { parseFeaturesInFolder } from './parseFeaturesInFolder.js'
-import { Runner, runSuite } from './runSuite.js'
+import { runSuite, type Runner } from './runSuite.js'
 
 export const runFolder = async <Context extends Record<string, any>>({
 	folder,

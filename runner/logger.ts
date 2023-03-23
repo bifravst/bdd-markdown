@@ -1,4 +1,4 @@
-import { Feature, Scenario, Step } from '../parser/grammar.js'
+import type { Feature, Scenario, Step } from '../parser/grammar.js'
 
 export type Logger<Context extends Feature | Scenario | Step> = {
 	/**

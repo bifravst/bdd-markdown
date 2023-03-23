@@ -1,6 +1,6 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { Feature, Keyword, Scenario } from '../grammar.js'
+import { Keyword, type Feature, type Scenario } from '../grammar.js'
 import { testData } from '../test-data/testData.js'
 import { keywordDefinition } from './keywordDefinition.js'
 

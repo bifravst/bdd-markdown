@@ -1,4 +1,4 @@
-import { Row, Step } from '../parser/grammar.js'
+import { type Row, type Step } from '../parser/grammar.js'
 
 export const replaceFromExamples =
 	(row: Row) =>

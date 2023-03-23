@@ -1,7 +1,7 @@
 import os from 'os'
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
-import { Table } from '../grammar.js'
-import { TokenStream } from '../tokenStream.js'
+import { type Table } from '../grammar.js'
+import { type TokenStream } from '../tokenStream.js'
 import { space } from './whiteSpace.js'
 
 const until =
@@ -59,7 +59,7 @@ export const table = (s: TokenStream): Table | null => {
 				cols.reduce(
 					(row, col, i) => ({
 						...row,
-						[header[i]]: col,
+						[header[i] ?? '']: col,
 					}),
 					{} as Record<string, string>,
 				),

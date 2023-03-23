@@ -1,9 +1,9 @@
-import { ParsedPath } from 'path'
-import { LogObserver } from './logger.js'
+import { type ParsedPath } from 'path'
+import { type LogObserver } from './logger.js'
 import { orderFeatures } from './orderFeatures.js'
-import { FeatureFile } from './parseFeaturesInFolder.js'
-import { FeatureResult, runFeature } from './runFeature.js'
-import { StepRunner } from './runStep.js'
+import { type FeatureFile } from './parseFeaturesInFolder.js'
+import { runFeature, type FeatureResult } from './runFeature.js'
+import { type StepRunner } from './runStep.js'
 
 type Summary = {
 	total: number

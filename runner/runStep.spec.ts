@@ -3,10 +3,16 @@ import assert from 'assert/strict'
 // @ts-ignore FIXME: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/pull/62274 is merged
 import { beforeEach, describe, it } from 'node:test'
 import path from 'path'
-import { Feature, Keyword, Scenario, StepKeyword } from '../parser/grammar.js'
-import { comment } from '../parser/tokens/comment.js'
+import {
+	Keyword,
+	StepKeyword,
+	type Feature,
+	type Scenario,
+	type Step,
+} from '../parser/grammar.js'
 import { tokenStream } from '../parser/tokenStream.js'
-import { logger, LogLevel } from './logger.js'
+import { comment } from '../parser/tokens/comment.js'
+import { LogLevel, logger } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runStep } from './runStep.js'
 
@@ -33,7 +39,7 @@ describe('runStep()', () => {
 			stepRunners: [],
 			feature,
 			scenario,
-			step: feature.scenarios[0].steps[0],
+			step: feature.scenarios[0]?.steps[0] as Step,
 			context: {},
 			previousResults: [],
 			getRelativeTs: getRelativeTs,
@@ -135,7 +141,7 @@ describe('runStep()', () => {
 			...runStepArgs,
 			stepRunners: [async () => undefined],
 			step: {
-				...runStepArgs.feature.scenarios[0].steps[0],
+				...(runStepArgs.feature.scenarios[0]?.steps[0] as Step),
 				title: 'I echo ${unreplaced}',
 			},
 		})
@@ -160,7 +166,7 @@ describe('runStep()', () => {
 				},
 			],
 			step: {
-				...runStepArgs.feature.scenarios[0].steps[0],
+				...(runStepArgs.feature.scenarios[0]?.steps[0] as Step),
 				title: 'I echo ${foo}',
 			},
 			context: {

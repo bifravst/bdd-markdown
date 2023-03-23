@@ -1,6 +1,6 @@
 import os from 'os'
-import { CodeBlock } from '../grammar.js'
-import { TokenStream } from '../tokenStream.js'
+import { type CodeBlock } from '../grammar.js'
+import { type TokenStream } from '../tokenStream.js'
 import { line } from './line.js'
 import { whiteSpace } from './whiteSpace.js'
 import { word } from './word.js'

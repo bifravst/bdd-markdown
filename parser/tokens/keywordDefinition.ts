@@ -1,6 +1,6 @@
 import { getLineNumber } from '../errors/toErrorPosition.js'
-import { Keyword, KeywordDefinition } from '../grammar.js'
-import { TokenStream } from '../tokenStream.js'
+import { Keyword, type KeywordDefinition } from '../grammar.js'
+import { type TokenStream } from '../tokenStream.js'
 import { comment } from './comment.js'
 import { description } from './description.js'
 import { keyword } from './keyword.js'

@@ -3,9 +3,9 @@ import assert from 'assert/strict'
 import { matchGroups } from '../../runner/matchGroups.js'
 import {
 	noMatch,
-	StepRunner,
-	StepRunnerArgs,
-	StepRunResult,
+	type StepRunner,
+	type StepRunnerArgs,
+	type StepRunResult,
 } from '../../runner/runStep.js'
 import { Direction, rover } from './rover.js'
 

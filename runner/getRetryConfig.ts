@@ -1,13 +1,13 @@
 import {
-	Comment,
-	Feature,
-	PartialRetryConfig,
-	RetryConfig,
 	RetryConfigSchema,
-	Scenario,
-	Step,
 	StepKeyword,
-	Tag,
+	type Comment,
+	type Feature,
+	type PartialRetryConfig,
+	type RetryConfig,
+	type Scenario,
+	type Step,
+	type Tag,
 } from '..'
 import { InvalidSettingsError } from './errors/InvalidSettingsError.js'
 import { validateWithJSONSchema } from './validateWithJSONSchema.js'

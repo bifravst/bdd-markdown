@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import path from 'path'
 import { runFolder } from '../../runner/runFolder.js'
-import { RoverContext, steps } from './steps.js'
+import { steps, type RoverContext } from './steps.js'
 
 const runner = await runFolder<RoverContext>({
 	folder: path.join(process.cwd(), 'examples', 'mars-rover'),

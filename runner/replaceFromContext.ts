@@ -1,4 +1,4 @@
-import { Step } from '../parser/grammar.js'
+import { type Step } from '../parser/grammar.js'
 import { replacePlaceholders } from './replaceFromExamples.js'
 
 export const replaceFromContext =

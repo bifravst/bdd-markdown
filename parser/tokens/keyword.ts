@@ -1,7 +1,7 @@
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
 import { getLineNumber } from '../errors/toErrorPosition.js'
 import { Keyword } from '../grammar.js'
-import { TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.js'
 import { sentence } from './sentence.js'
 import { space } from './whiteSpace.js'
 

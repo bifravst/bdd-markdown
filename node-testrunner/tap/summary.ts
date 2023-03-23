@@ -1,5 +1,5 @@
 import Parser from 'tap-parser'
-import { TAP, TAPComplete, TAPFailure } from './grammar.js'
+import type { TAP, TAPComplete, TAPFailure } from './grammar.js'
 
 export const complete = (
 	log: string,

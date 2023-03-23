@@ -1,9 +1,19 @@
-import { Feature, Scenario, Step, StepKeyword } from '../parser/grammar.js'
+import {
+	StepKeyword,
+	type Feature,
+	type Scenario,
+	type Step,
+} from '../parser/grammar.js'
 import { formatRetryConfig, getRetryConfig } from './getRetryConfig.js'
 import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
-import { LogEntry, logger, Logger, LogObserver } from './logger.js'
+import {
+	logger,
+	type LogEntry,
+	type LogObserver,
+	type Logger,
+} from './logger.js'
 import { replaceFromContext } from './replaceFromContext.js'
-import { ScenarioExecution } from './runFeature.js'
+import { type ScenarioExecution } from './runFeature.js'
 
 export type StepResult = {
 	ok: boolean

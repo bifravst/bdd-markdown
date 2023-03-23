@@ -1,13 +1,13 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import {
-	Feature,
 	Keyword,
-	PartialRetryConfig,
-	RetryConfig,
-	Scenario,
-	Step,
 	StepKeyword,
+	type Feature,
+	type PartialRetryConfig,
+	type RetryConfig,
+	type Scenario,
+	type Step,
 } from '../parser/grammar.js'
 import { parseTags } from '../parser/tokens/parseTags.js'
 import { defaultRetryConfig, getRetryConfig } from './getRetryConfig.js'

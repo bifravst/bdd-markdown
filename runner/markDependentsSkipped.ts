@@ -6,7 +6,13 @@ type SkippedMap = Record<
 export const markDependentsSkipped = (featureMap: SkippedMap): SkippedMap => {
 	for (let i = 0; i < Object.keys(featureMap).length; i++) {
 		const l = Object.entries(featureMap)
-		const [fileName, { skipped }] = l[i]
+		const [fileName, { skipped }] = l[i] as [
+			string,
+			{
+				skipped: boolean
+				needs: FeatureFileName[]
+			},
+		]
 		if (skipped) {
 			// Find features that depend on this one,
 			const featuresToBeMarkedAsSkipped = l
@@ -15,7 +21,9 @@ export const markDependentsSkipped = (featureMap: SkippedMap): SkippedMap => {
 				.filter(([, { skipped }]) => !skipped)
 			featuresToBeMarkedAsSkipped.forEach(([fileName]) => {
 				// Mark them as skipped
-				featureMap[fileName].skipped = true
+				;(
+					featureMap[fileName] as { skipped: boolean; needs: FeatureFileName[] }
+				).skipped = true
 			})
 			if (featuresToBeMarkedAsSkipped.length > 0) {
 				// The list of skipped features was changed,

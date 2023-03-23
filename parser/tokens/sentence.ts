@@ -1,5 +1,5 @@
 import os from 'os'
-import { TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.js'
 
 export const sentence = (s: TokenStream): string | null => {
 	const sentenceTokens = []

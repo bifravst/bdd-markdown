@@ -3,8 +3,8 @@ import assert from 'assert/strict'
 // @ts-ignore FIXME: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/pull/62274 is merged
 import { beforeEach, describe, it } from 'node:test'
 import path from 'path'
-import { Scenario } from '../parser/grammar.js'
-import { logger, LogLevel } from './logger.js'
+import { type Scenario } from '../parser/grammar.js'
+import { LogLevel, logger } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runScenario } from './runScenario.js'
 import { noMatch } from './runStep.js'
@@ -73,11 +73,13 @@ describe('runScenario()', () => {
 					if (!/^I am run$/.test(title)) return noMatch
 					// Set a property on the context
 					context.foo = 'bar'
+					return
 				},
 				async ({ step: { title }, context }) => {
 					if (!/^I am also run$/.test(title)) return noMatch
 					// store context for testing
 					c = context
+					return
 				},
 			],
 		})
@@ -96,15 +98,16 @@ describe('runScenario()', () => {
 				},
 				async ({ step: { title } }) => {
 					if (!/^I am also run$/.test(title)) return noMatch
+					return
 				},
 			],
 		})
 
 		assert.equal(scenarioResult.ok, false)
-		assert.equal(scenarioResult.results[0][1].skipped, false)
-		assert.equal(scenarioResult.results[0][1].ok, false)
-		assert.equal(scenarioResult.results[1][1].skipped, true)
-		assert.equal(scenarioResult.results[1][1].ok, false)
+		assert.equal(scenarioResult.results[0]?.[1].skipped, false)
+		assert.equal(scenarioResult.results[0]?.[1].ok, false)
+		assert.equal(scenarioResult.results[1]?.[1].skipped, true)
+		assert.equal(scenarioResult.results[1]?.[1].ok, false)
 	})
 
 	it('should return the logs from step runners logging to the scenario', async () => {

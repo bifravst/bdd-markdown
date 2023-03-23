@@ -1,6 +1,6 @@
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
-import { Comment } from '../grammar.js'
-import { TokenStream } from '../tokenStream.js'
+import { type Comment } from '../grammar.js'
+import { type TokenStream } from '../tokenStream.js'
 import { parseTags } from './parseTags.js'
 
 const commentStart = (s: TokenStream): boolean => {

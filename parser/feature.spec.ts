@@ -2,7 +2,7 @@ import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
 import { feature } from './feature.js'
-import { CodeBlock, Comment, Feature } from './grammar.js'
+import type { CodeBlock, Comment, Feature } from './grammar.js'
 import { testData } from './test-data/testData.js'
 
 const l = testData(import.meta.url)
@@ -234,17 +234,17 @@ describe('feature()', () => {
 			text: 'The next step should have a comment, too',
 		}
 		const lastScenario = parsed.scenarios[parsed.scenarios.length - 1]
-		const lastStep = lastScenario.steps[lastScenario.steps.length - 1]
+		const lastStep = lastScenario?.steps[lastScenario.steps.length - 1]
 
-		assert.deepEqual(lastStep.codeBlock, expectedCodeBlock)
-		assert.deepEqual(lastStep.comment, expectedComment)
+		assert.deepEqual(lastStep?.codeBlock, expectedCodeBlock)
+		assert.deepEqual(lastStep?.comment, expectedComment)
 	})
 
 	it('should parse features with wrapped steps', () => {
 		const parsed = feature(l('WrappedLines'))
 
 		assert.equal(
-			parsed.scenarios[0].steps[0].title,
+			parsed.scenarios[0]?.steps[0]?.title,
 			'I enqueue this mock HTTP API response with status code `202` for a `POST` request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
 		)
 	})
@@ -252,16 +252,16 @@ describe('feature()', () => {
 	it('should parse features with steps that have notes', () => {
 		const parsed = feature(l('StepDescription'))
 
-		const [step1, step2, step3] = parsed.scenarios[0].steps
+		const [step1, step2, step3] = parsed.scenarios[0]?.steps ?? []
 
-		assert.deepEqual(step1.description, [
+		assert.deepEqual(step1?.description, [
 			'Provide a bit more explanation to a specific step',
 		])
-		assert.deepEqual(step2.comment, {
+		assert.deepEqual(step2?.comment, {
 			text: 'comments still work and get applied to the following step',
 		})
-		assert.deepEqual(step2.description, ['Another note'])
-		assert.deepEqual(step3.description, [
+		assert.deepEqual(step2?.description, ['Another note'])
+		assert.deepEqual(step3?.description, [
 			'**Note**   It can also be used to render [these fancy note boxes](https://github.com/community/community/discussions/16925#discussion-4085374) on GitHub.',
 		])
 	})

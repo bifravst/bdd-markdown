@@ -1,4 +1,4 @@
-import { Static, TSchema } from '@sinclair/typebox'
+import { type Static, type TSchema } from '@sinclair/typebox'
 import { validateWithJSONSchema } from './validateWithJSONSchema.js'
 
 export class MatchError extends Error {

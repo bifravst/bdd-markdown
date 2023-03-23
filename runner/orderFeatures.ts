@@ -1,7 +1,7 @@
 import toposort from 'toposort'
 import { RunConfigSchema } from '../parser/grammar.js'
 import { markDependentsSkipped } from './markDependentsSkipped.js'
-import { FeatureFile } from './parseFeaturesInFolder.js'
+import { type FeatureFile } from './parseFeaturesInFolder.js'
 import { validateWithJSONSchema } from './validateWithJSONSchema.js'
 
 const validator = validateWithJSONSchema(RunConfigSchema)
@@ -39,13 +39,13 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 
 	// Sort `first` features to the beginning
 	sorted.sort((fileName) =>
-		featureFileNameToFeatureFile[fileName].feature.frontMatter?.run === 'first'
+		featureFileNameToFeatureFile[fileName]?.feature.frontMatter?.run === 'first'
 			? -1
 			: 1,
 	)
 	// Sort `last` features to the end
 	sorted.sort((fileName) =>
-		featureFileNameToFeatureFile[fileName].feature.frontMatter?.run === 'last'
+		featureFileNameToFeatureFile[fileName]?.feature.frontMatter?.run === 'last'
 			? 1
 			: -1,
 	)
@@ -53,12 +53,13 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 	// Build dependency graph
 	const edges = sorted.reduce((graph, fileName) => {
 		const featureFile = featureFileNameToFeatureFile[fileName]
-		for (const dependencyName of featureFile.feature.frontMatter?.needs ?? []) {
+		for (const dependencyName of featureFile?.feature.frontMatter?.needs ??
+			[]) {
 			const dependency = featureNameToFile[dependencyName]
 			if (dependency === undefined)
 				throw new Error(
 					`Feature "${
-						featureFile.feature.title ?? fileName
+						featureFile?.feature.title ?? fileName
 					}" depends on unknown feature "${dependencyName}"!`,
 				)
 			graph.push([dependency, fileName])
@@ -124,8 +125,8 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 	markDependentsSkipped(skippedFeaturesMap)
 
 	return sorted.map((fileName) => {
-		const f = featureFileNameToFeatureFile[fileName]
-		if (skippedFeaturesMap[fileName].skipped) f.skip = true
+		const f = featureFileNameToFeatureFile[fileName] as FeatureFile
+		if (skippedFeaturesMap[fileName]?.skipped ?? false) f.skip = true
 		return f
 	})
 }

@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import os from 'os'
 import Parser from 'tap-parser'
-import { TAP, TAPChild, TAPFailure, TAPPlan } from './grammar.js'
+import type { TAP, TAPChild, TAPFailure, TAPPlan } from './grammar.js'
 
 const formatAssert = (failure: TAPFailure) => {
 	console.error()

@@ -1,8 +1,13 @@
-import { Feature, Keyword, Row, Scenario } from '../parser/grammar.js'
-import { LogEntry, logger, LogObserver } from './logger.js'
+import {
+	Keyword,
+	type Feature,
+	type Row,
+	type Scenario,
+} from '../parser/grammar.js'
+import { logger, type LogEntry, type LogObserver } from './logger.js'
 import { replaceFromExamples } from './replaceFromExamples.js'
-import { runScenario, ScenarioResult } from './runScenario.js'
-import { StepRunner } from './runStep.js'
+import { runScenario, type ScenarioResult } from './runScenario.js'
+import { type StepRunner } from './runStep.js'
 
 export type ScenarioExecution = Scenario & {
 	example?: Row

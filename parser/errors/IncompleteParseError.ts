@@ -1,4 +1,4 @@
-import { TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.js'
 import { toErrorPosition } from './toErrorPosition.js'
 
 export class IncompleteParseError extends Error {

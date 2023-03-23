@@ -1,4 +1,4 @@
-import { Row } from '../../parser/grammar.js'
+import type { Row } from '../../parser/grammar.js'
 
 export const inputTable = (example: Row): string[] => {
 	const cellSize: number[] = []
@@ -18,4 +18,4 @@ export const inputTable = (example: Row): string[] => {
 }
 
 const toRow = (values: string[], cellSize: number[]) =>
-	`| ${values.map((s, i) => s.padEnd(cellSize[i], ' ')).join(' | ')} |`
+	`| ${values.map((s, i) => s.padEnd(cellSize[i] ?? 0, ' ')).join(' | ')} |`

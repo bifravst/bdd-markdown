@@ -1,16 +1,16 @@
 import { IncompleteParseError } from './errors/IncompleteParseError.js'
 import { InvalidSyntaxError } from './errors/InvalidSyntaxError.js'
 import {
-	Background,
-	Feature,
 	Keyword,
-	KeywordDefinition,
-	Rule,
-	Scenario,
-	ScenarioOutline,
-	Step,
 	StepKeyword,
-	Table,
+	type Background,
+	type Feature,
+	type KeywordDefinition,
+	type Rule,
+	type Scenario,
+	type ScenarioOutline,
+	type Step,
+	type Table,
 } from './grammar.js'
 import { codeBlock } from './tokens/codeBlock.js'
 import { comment } from './tokens/comment.js'
@@ -21,7 +21,7 @@ import { keywordDefinition } from './tokens/keywordDefinition.js'
 import { step } from './tokens/step.js'
 import { table } from './tokens/table.js'
 import { whiteSpace } from './tokens/whiteSpace.js'
-import { TokenStream } from './tokenStream.js'
+import { type TokenStream } from './tokenStream.js'
 
 export const feature = (s: TokenStream): Feature => {
 	// Features may have front matter

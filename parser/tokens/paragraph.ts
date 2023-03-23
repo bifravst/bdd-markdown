@@ -1,4 +1,4 @@
-import { TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.js'
 import { sentence } from './sentence.js'
 
 /**

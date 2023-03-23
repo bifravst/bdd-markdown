@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { parse } from 'node:path'
-import { feature, Feature, tokenStream } from '..'
+import { feature, tokenStream, type Feature } from '..'
 import { findFilesInFolder } from './findTestFiles.js'
 
 export type FeatureFile = {

@@ -1,11 +1,21 @@
 {
   "compilerOptions": {
+    "target": "esnext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "strict": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
     "noEmit": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": [],
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node"
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true
   }
 }

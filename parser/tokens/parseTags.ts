@@ -1,4 +1,4 @@
-import { Tags } from '../grammar.js'
+import { type Tags } from '../grammar.js'
 
 const singleTag =
 	/^@(?<name>[^\s@:,.]+)(:(?<props>([^\s@=]+(=[^\s@,])?,?)+(?<!,)))?$/
@@ -9,7 +9,7 @@ export const parseTags = (text: string): Tags | undefined => {
 	const tags: Tags = {}
 	for (const match of text.matchAll(allTags)) {
 		const tag = match[1]
-		const { name, props } = parseTag(tag) ?? {}
+		const { name, props } = parseTag(tag as string) ?? {}
 		if (name !== undefined) {
 			if (props === undefined) {
 				tags[name] = true
@@ -27,9 +27,9 @@ export const parseTag = (
 	if (res === null) return undefined
 	const { name, props } = res.groups ?? {}
 
-	if (props === undefined) return { name }
+	if (props === undefined) return { name: name as string }
 
-	return { name, props: parseProps(props) }
+	return { name: name as string, props: parseProps(props) }
 }
 
 const parseProps = (props: string): Record<string, string | true> =>
@@ -40,5 +40,5 @@ const parseProps = (props: string): Record<string, string | true> =>
 
 const parseProp = (prop: string): [name: string, value: string | true] => {
 	const [name, value] = prop.split('=')
-	return [name, value === undefined ? true : value]
+	return [name as string, value === undefined ? true : value]
 }

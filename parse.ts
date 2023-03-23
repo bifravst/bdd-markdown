@@ -4,7 +4,10 @@ import path from 'path'
 import { feature } from './parser/feature.js'
 import { tokenStream } from './parser/tokenStream.js'
 
-const f = path.join(process.cwd(), process.argv[process.argv.length - 1])
+const f = path.join(
+	process.cwd(),
+	process.argv[process.argv.length - 1] as string,
+)
 
 try {
 	feature(tokenStream(readFileSync(f, 'utf-8')))

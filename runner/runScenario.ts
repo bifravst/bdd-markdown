@@ -1,6 +1,11 @@
-import { Feature, Scenario, Step } from '../parser/grammar.js'
-import { LogEntry, logger, Logger, LogObserver } from './logger.js'
-import { runStep, StepResult, StepRunner } from './runStep.js'
+import type { Feature, Scenario, Step } from '../parser/grammar.js'
+import {
+	logger,
+	type LogEntry,
+	type LogObserver,
+	type Logger,
+} from './logger.js'
+import { runStep, type StepResult, type StepRunner } from './runStep.js'
 
 export type ScenarioResult = {
 	ok: boolean

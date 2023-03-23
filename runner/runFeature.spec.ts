@@ -52,6 +52,7 @@ describe('runFeature()', () => {
 				},
 				async ({ step: { title } }) => {
 					if (!/^I am also run$/.test(title)) return noMatch
+					return
 				},
 			],
 			feature: await loadExampleFeature(),
@@ -59,10 +60,10 @@ describe('runFeature()', () => {
 		})
 
 		assert.equal(featureResult.ok, false)
-		assert.equal(featureResult.results[0][1].skipped, false)
-		assert.equal(featureResult.results[0][1].ok, false)
-		assert.equal(featureResult.results[1][1].skipped, true)
-		assert.equal(featureResult.results[1][1].ok, false)
+		assert.equal(featureResult.results[0]?.[1].skipped, false)
+		assert.equal(featureResult.results[0]?.[1].ok, false)
+		assert.equal(featureResult.results[1]?.[1].skipped, true)
+		assert.equal(featureResult.results[1]?.[1].ok, false)
 	})
 
 	it('should expand Scenario Outlines', async () => {

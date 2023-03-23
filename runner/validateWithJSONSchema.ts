@@ -1,5 +1,5 @@
 import type { Static, TSchema } from '@sinclair/typebox'
-import Ajv, { ErrorObject } from 'ajv'
+import Ajv, { type ErrorObject } from 'ajv'
 
 export const validateWithJSONSchema = <T extends TSchema>(
 	schema: T,

@@ -1,4 +1,4 @@
-import { TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.js'
 import { sentence } from './sentence.js'
 import { space, whiteSpace } from './whiteSpace.js'
 
@@ -32,14 +32,14 @@ export const description = (s: TokenStream): string[] | null => {
 			s.next()
 			whiteSpace(s) // skip '>' and all whitespace
 			// Increase paragraph count if current has content
-			if (description[paragraph].length > 0) {
+			if ((description[paragraph]?.length ?? 0) > 0) {
 				description[++paragraph] = []
 			}
 		}
 		space(s)
 		const sn = sentence(s)
 		if (sn === null) break
-		description[paragraph].push(sn)
+		description[paragraph]?.push(sn)
 		if (s.isEoF()) break
 		whiteSpace(s)
 	}
