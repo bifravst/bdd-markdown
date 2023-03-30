@@ -7,5 +7,7 @@ process.stdin.on('data', (data) => {
 })
 
 process.stdin.on('end', () => {
-	consoleReporter(JSON.parse(chunks.join('')), console.log)
+	const report = JSON.parse(chunks.join(''))
+	consoleReporter(report, console.log)
+	if (report.ok !== true) process.exit(1)
 })

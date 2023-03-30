@@ -1,0 +1,95 @@
+{
+  "ok": false,
+  "results": [
+    [
+      {
+        "root": "/",
+        "dir": "/path/to/features",
+        "base": "Calculator.feature.md",
+        "ext": ".md",
+        "name": "Calculator.feature"
+      },
+      {
+        "ok": false,
+        "results": [
+          [
+            {
+              "keyword": "Scenario",
+              "title": "Adding",
+              "line": 30,
+              "steps": [
+                {
+                  "keyword": "When",
+                  "title": "I add 1 and 2",
+                  "line": 32
+                },
+                {
+                  "keyword": "Then",
+                  "title": "the result should be 3",
+                  "line": 34
+                }
+              ]
+            },
+            {
+              "ok": false,
+              "results": [
+                [
+                  {
+                    "keyword": "When",
+                    "title": "I add 1 and 2",
+                    "line": 32
+                  },
+                  {
+                    "logs": [],
+                    "ok": true,
+                    "duration": 102,
+                    "executed": {
+                      "keyword": "When",
+                      "title": "I add 1 and 2",
+                      "line": 32
+                    },
+                    "tries": 1,
+                    "skipped": false
+                  }
+                ],
+                [
+                  {
+                    "keyword": "Then",
+                    "title": "the result should be 3",
+                    "line": 34
+                  },
+                  {
+                    "logs": [],
+                    "ok": false,
+                    "duration": 651,
+                    "executed": {
+                      "keyword": "Then",
+                      "title": "the result should be 3",
+                      "line": 34
+                    },
+                    "tries": 1,
+                    "skipped": false
+                  }
+                ]
+              ],
+              "duration": 753,
+              "logs": [],
+              "skipped": false
+            }
+          ]
+        ],
+        "duration": 771,
+        "logs": [],
+        "skipped": false
+      }
+    ]
+  ],
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "duration": 3083,
+    "skipped": 0
+  },
+  "name": "Calculator"
+}
