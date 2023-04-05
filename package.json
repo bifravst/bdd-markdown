@@ -42,7 +42,7 @@
     "@types/prettier": "2.7.2",
     "@types/toposort": "2.0.3",
     "check-node-version": "4.2.1",
-    "eslint-import-resolver-typescript": "3.5.4",
+    "eslint-import-resolver-typescript": "3.5.5",
     "eslint-plugin-import": "2.27.5",
     "husky": "8.0.3",
     "lint-staged": "13.2.0",
