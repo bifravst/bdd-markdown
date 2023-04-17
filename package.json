@@ -37,7 +37,7 @@
     "yaml": "2.2.1"
   },
   "devDependencies": {
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.21",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.22",
     "@types/node": "18.15.11",
     "@types/prettier": "2.7.2",
     "@types/toposort": "2.0.3",
