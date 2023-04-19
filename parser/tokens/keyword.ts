@@ -79,11 +79,11 @@ export const keyword = (
 	if (level !== allowedLevel) return null
 
 	if (description === undefined)
-		return { keyword: keyword as Keyword, lineNumber: lineNumber }
+		return { keyword: keyword as Keyword, lineNumber }
 
 	return {
 		keyword: keyword as Keyword,
-		lineNumber: lineNumber,
+		lineNumber,
 		description,
 	}
 }
