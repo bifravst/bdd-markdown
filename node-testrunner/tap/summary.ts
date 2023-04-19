@@ -1,4 +1,4 @@
-import Parser from 'tap-parser'
+import { Parser } from 'tap-parser'
 import type { TAP, TAPComplete, TAPFailure } from './grammar.js'
 
 export const complete = (
