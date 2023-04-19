@@ -1,10 +1,13 @@
 import assert from 'assert/strict'
+import { randomUUID } from 'node:crypto'
 import { describe, it } from 'node:test'
 import path from 'path'
+import { codeBlockOrThrow } from './codeBlockOrThrow.js'
 import {
 	loadFeatureFile,
 	parseFeaturesInFolder,
 } from './parseFeaturesInFolder.js'
+import { noMatch, type StepRunner } from './runStep.js'
 import { runSuite } from './runSuite.js'
 
 describe('runSuite()', () => {
@@ -119,5 +122,55 @@ describe('runSuite()', () => {
 			assert.deepEqual(result.summary.skipped, 1)
 			assert.deepEqual(result.summary.total, 3)
 		})
+	})
+
+	it('should share context', async () => {
+		const runner = runSuite(
+			await parseFeaturesInFolder(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'runSuite',
+					'shareContextBetweenFeatures',
+				),
+			),
+			'Example',
+		)
+
+		runner.addStepRunners(
+			...(<StepRunner<Record<string, any>>[]>[
+				async ({ step: { title }, context }) => {
+					const match =
+						/^I store a random string in `(?<storageName>[^`]+)`$/.exec(title)
+					if (match === null) return noMatch
+					context[match.groups?.storageName ?? ''] = randomUUID()
+					return
+				},
+				async ({ step: { title } }) => {
+					const match = /^`(?<value>[^`]+)` should not be empty$/.exec(title)
+					if (match === null) return noMatch
+					assert.equal((match.groups?.value ?? '').length, 36)
+					return
+				},
+				async ({ step }) => {
+					const match = /^it should be replaced in this JSON$/.exec(step.title)
+					if (match === null) return noMatch
+					assert.equal(
+						JSON.parse(codeBlockOrThrow(step).code).aStringParameter.length,
+						36,
+					)
+					return
+				},
+			]),
+		)
+
+		const result = await runner.run()
+
+		assert.equal(result.ok, true)
+		assert.deepEqual(result.summary.failed, 0)
+		assert.deepEqual(result.summary.passed, 2)
+		assert.deepEqual(result.summary.skipped, 0)
+		assert.deepEqual(result.summary.total, 2)
 	})
 })

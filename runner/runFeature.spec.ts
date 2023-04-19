@@ -1,6 +1,8 @@
 import assert from 'assert/strict'
+import { randomUUID } from 'crypto'
 import { describe, it } from 'node:test'
 import path from 'path'
+import { codeBlockOrThrow } from './codeBlockOrThrow.js'
 import { LogLevel } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runFeature } from './runFeature.js'
@@ -224,5 +226,50 @@ describe('runFeature()', () => {
 				[LogLevel.PROGRESS, `Doing something`, `the thing`],
 			])
 		})
+	})
+
+	it('should pass updated context between scenarios', async () => {
+		const context: Record<string, any> = {}
+		const featureResult = await runFeature({
+			stepRunners: [
+				async ({ step: { title }, context }) => {
+					const match =
+						/^I store a random string in `(?<storageName>[^`]+)`$/.exec(title)
+					if (match === null) return noMatch
+					context[match.groups?.storageName ?? ''] = randomUUID()
+					return
+				},
+				async ({ step: { title } }) => {
+					const match = /^`(?<value>[^`]+)` should not be empty$/.exec(title)
+					if (match === null) return noMatch
+					assert.equal((match.groups?.value ?? '').length, 36)
+					return
+				},
+				async ({ step }) => {
+					const match = /^it should be replaced in this JSON$/.exec(step.title)
+					if (match === null) return noMatch
+					assert.equal(
+						JSON.parse(codeBlockOrThrow(step).code).aStringParameter.length,
+						36,
+					)
+					return
+				},
+			],
+			feature: (
+				await loadFeatureFile(
+					path.join(
+						process.cwd(),
+						'runner',
+						'test-data',
+						'runFeature',
+						'UpdateContext.feature.md',
+					),
+				)
+			).feature,
+			context,
+		})
+
+		assert.equal(featureResult.ok, true)
+		assert.match(context.randomString, /[a-f0-9-]{36}/)
 	})
 })

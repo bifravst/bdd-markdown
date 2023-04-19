@@ -49,6 +49,8 @@ export const runSuite = <Context extends Record<string, any>>(
 					name,
 				}
 
+			const c: Context = context ?? ({} as Context)
+
 			const featureResults: [ParsedPath, FeatureResult][] = []
 			const featureNameResultMap: Record<string, boolean> = {}
 
@@ -78,8 +80,7 @@ export const runSuite = <Context extends Record<string, any>>(
 						: await runFeature({
 								stepRunners,
 								feature,
-								// Create a new context per feature
-								context: JSON.parse(JSON.stringify(context ?? {})),
+								context: c,
 								logObserver,
 						  })
 				featureResults.push([file, result])
