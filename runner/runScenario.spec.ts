@@ -32,7 +32,7 @@ describe('runScenario()', () => {
 			feature,
 			scenario: feature.scenarios[0] as Scenario,
 			context: {},
-			getRelativeTs: getRelativeTs,
+			getRelativeTs,
 			featureLogger: logger({ getRelativeTs, context: feature }),
 		}
 	})
@@ -140,7 +140,7 @@ describe('runScenario()', () => {
 			feature,
 			scenario: feature.scenarios[0] as Scenario,
 			context: {},
-			getRelativeTs: getRelativeTs,
+			getRelativeTs,
 			featureLogger: logger({ getRelativeTs, context: feature }),
 		})
 

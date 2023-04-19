@@ -42,7 +42,7 @@ describe('runStep()', () => {
 			step: feature.scenarios[0]?.steps[0] as Step,
 			context: {},
 			previousResults: [],
-			getRelativeTs: getRelativeTs,
+			getRelativeTs,
 			featureLogger: logger({ getRelativeTs, context: feature }),
 			scenarioLogger: logger({
 				getRelativeTs,
