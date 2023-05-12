@@ -43,12 +43,14 @@ project.
 - [Gherkin `Rule` keyword](./parser/test-data/feature/Highlander.feature.md)
 - [Mars Rover Kata](./examples/mars-rover/MarsRover.feature.md) (this
   demonstrates the `Soon` keyword which retries steps)  
-  Run: `$(set -o pipefail && npx tsx examples/mars-rover/tests.ts | npx tsx reporter/console-cli.ts)`
+  Run:
+  `$(set -o pipefail && npx tsx examples/mars-rover/tests.ts | npx tsx reporter/console-cli.ts)`
 - [Firmware UART log assertions](./examples/firmware/RunFirmware.feature.md)
   (this demonstrates the use of the `Context`, which is a global object
   available to provide run-time settings to the test run, which replace
   placeholders in step titles and codeblocks.)  
-  Run: `$(set -o pipefail && npx tsx examples/firmware/tests.ts | npx tsx reporter/console-cli.ts)`
+  Run:
+  `$(set -o pipefail && npx tsx examples/firmware/tests.ts | npx tsx reporter/console-cli.ts)`
 
 ## Test eventual consistent systems using the `Soon` keyword
 
