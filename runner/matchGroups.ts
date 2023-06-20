@@ -1,4 +1,4 @@
-import { type Static, type TSchema } from '@sinclair/typebox'
+import { type Static, type TObject } from '@sinclair/typebox'
 import { validateWithJSONSchema } from './validateWithJSONSchema.js'
 
 export class MatchError extends Error {
@@ -25,7 +25,7 @@ const convert = (
  */
 
 export const matchGroups =
-	<Schema extends TSchema>(
+	<Schema extends TObject>(
 		/**
 		 * The schema to validate the output against.
 		 */
