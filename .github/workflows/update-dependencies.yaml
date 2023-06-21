@@ -32,13 +32,15 @@ jobs:
       - name: Update dependencies
         run: npx npm-check-updates -u
 
+      - run: echo DATE="`date --iso-8601`" >> $GITHUB_ENV
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           commit-message: "fix: update dependencies"
           committer: "github-actions[bot] <actions@example.com>"
           author: "github-actions[bot] <actions@example.com>"
-          branch: update-dependencies
+          branch: update-dependencies-${{ env.DATE }}
           delete-branch: true
           title: "Update dependencies"
           body: "Updates the dependencies to the latest version"
