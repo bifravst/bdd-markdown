@@ -30,7 +30,9 @@ jobs:
         run: npm ci --no-audit --ignore-scripts
 
       - name: Update dependencies
-        run: npx npm-check-updates -u
+        run: |
+          npx npm-check-updates -u
+          npm i
 
       - run: echo DATE="`date --iso-8601`" >> $GITHUB_ENV
 
