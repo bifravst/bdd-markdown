@@ -48,7 +48,7 @@
     "lint-staged": "13.2.3",
     "prettier": "2.8.8",
     "tsx": "3.12.7",
-    "typescript": "5.1.5"
+    "typescript": "5.1.6"
   },
   "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc",
   "engines": {
