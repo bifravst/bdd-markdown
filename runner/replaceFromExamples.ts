@@ -17,6 +17,6 @@ export const replaceFromExamples =
 	}
 export const replacePlaceholders = (s: string, row: Row): string =>
 	Object.entries(row).reduce(
-		(replaced, [k, v]) => (replaced = replaced.replace(`\${${k}}`, v)),
+		(replaced, [k, v]) => (replaced = replaced.replaceAll(`\${${k}}`, v)),
 		s,
 	)

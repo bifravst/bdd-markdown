@@ -36,4 +36,16 @@ describe('replaceFromExamples()', () => {
 			},
 		})
 	})
+	it('should replace multiple occurrences', () => {
+		const replaced = replaceFromExamples({ x: '17' })({
+			keyword: StepKeyword.Then,
+			title: 'the current position should be `${x},${x}`',
+			line: 1,
+		})
+		assert.deepEqual(replaced, {
+			keyword: StepKeyword.Then,
+			title: 'the current position should be `17,17`',
+			line: 1,
+		})
+	})
 })
