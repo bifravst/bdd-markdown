@@ -52,11 +52,12 @@
   },
   "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
   },
   "scripts": {
     "test": "npx tsx tests.ts",
-    "prepare": "husky install && check-node-version --node '>=18.8.0'",
+    "prepare": "husky install && check-node-version --package",
     "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
   },
   "lint-staged": {
