@@ -9,8 +9,8 @@ import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
 import {
 	logger,
 	type LogEntry,
-	type LogObserver,
 	type Logger,
+	type LogObserver,
 } from './logger.js'
 import { replaceFromContext } from './replaceFromContext.js'
 import { type ScenarioExecution } from './runFeature.js'

@@ -114,6 +114,9 @@ Given I create a new task named `My item`
 Soon the list of tasks should contain `My item`
 ```
 
+Using `@retryScenario` in a scenario comment, the entire scenario will be
+retried in case a step fails.
+
 ## Control feature execution order via dependencies
 
 By default the features are loaded in no particular order. You _may_ attempt to
