@@ -21,12 +21,15 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 			)
 	}
 
-	const featureNameToFile = featureFiles.reduce((map, { file, feature }) => {
-		if (feature.title !== undefined) {
-			map[feature.title] = file.name
-		}
-		return map
-	}, {} as Record<string, string>)
+	const featureNameToFile = featureFiles.reduce(
+		(map, { file, feature }) => {
+			if (feature.title !== undefined) {
+				map[feature.title] = file.name
+			}
+			return map
+		},
+		{} as Record<string, string>,
+	)
 	const featureFileNameToFeatureFile = featureFiles.reduce(
 		(map, { file, feature }) => ({
 			...map,
@@ -51,21 +54,24 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 	)
 
 	// Build dependency graph
-	const edges = sorted.reduce((graph, fileName) => {
-		const featureFile = featureFileNameToFeatureFile[fileName]
-		for (const dependencyName of featureFile?.feature.frontMatter?.needs ??
-			[]) {
-			const dependency = featureNameToFile[dependencyName]
-			if (dependency === undefined)
-				throw new Error(
-					`Feature "${
-						featureFile?.feature.title ?? fileName
-					}" depends on unknown feature "${dependencyName}"!`,
-				)
-			graph.push([dependency, fileName])
-		}
-		return graph
-	}, [] as [string, string | undefined][])
+	const edges = sorted.reduce(
+		(graph, fileName) => {
+			const featureFile = featureFileNameToFeatureFile[fileName]
+			for (const dependencyName of featureFile?.feature.frontMatter?.needs ??
+				[]) {
+				const dependency = featureNameToFile[dependencyName]
+				if (dependency === undefined)
+					throw new Error(
+						`Feature "${
+							featureFile?.feature.title ?? fileName
+						}" depends on unknown feature "${dependencyName}"!`,
+					)
+				graph.push([dependency, fileName])
+			}
+			return graph
+		},
+		[] as [string, string | undefined][],
+	)
 
 	// Sort by dependencies
 	sorted = toposort.array(sorted, edges)
