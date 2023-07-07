@@ -29,7 +29,7 @@ describe('runScenario()', () => {
 		const getRelativeTs = () => 42
 		runScenarioArgs = {
 			stepRunners: [],
-			feature,
+			feature: { ...feature, variant: {} },
 			scenario: feature.scenarios[0] as Scenario,
 			context: {},
 			getRelativeTs,
@@ -137,7 +137,7 @@ describe('runScenario()', () => {
 					progress(`Doing something`, `the thing`)
 				},
 			],
-			feature,
+			feature: { ...feature, variant: {} },
 			scenario: feature.scenarios[0] as Scenario,
 			context: {},
 			getRelativeTs,

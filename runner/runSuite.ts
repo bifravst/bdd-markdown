@@ -22,6 +22,7 @@ export type Runner<Context extends Record<string, any>> = {
 	run: (context?: Context) => Promise<SuiteResult>
 	addStepRunners: (...stepRunners: StepRunner<Context>[]) => Runner<Context>
 }
+
 export const runSuite = <Context extends Record<string, any>>(
 	featureFiles: FeatureFile[],
 	name: string,
@@ -60,31 +61,36 @@ export const runSuite = <Context extends Record<string, any>>(
 					(dependencyName) => featureNameResultMap[dependencyName] === false,
 				)
 
-				const result =
-					failedDependencies.length > 0
-						? {
-								ok: false,
-								skipped: true,
-								results: [],
-								duration: 0,
-								logs: [],
-						  }
-						: skip === true
-						? {
-								ok: true,
-								skipped: true,
-								results: [],
-								duration: 0,
-								logs: [],
-						  }
-						: await runFeature({
-								stepRunners,
-								feature,
-								context: c,
-								logObserver,
-						  })
-				featureResults.push([file, result])
-				featureNameResultMap[feature.title ?? file.name] = result.ok
+				let allOk = true
+
+				for (const variant of feature.frontMatter?.variants ?? [{}]) {
+					const result =
+						failedDependencies.length > 0
+							? {
+									ok: false,
+									skipped: true,
+									results: [],
+									duration: 0,
+									logs: [],
+							  }
+							: skip === true
+							? {
+									ok: true,
+									skipped: true,
+									results: [],
+									duration: 0,
+									logs: [],
+							  }
+							: await runFeature({
+									stepRunners,
+									feature: { ...feature, variant },
+									context: c,
+									logObserver,
+							  })
+					featureResults.push([file, result])
+					if (result.ok !== true) allOk = false
+				}
+				featureNameResultMap[feature.title ?? file.name] = allOk
 			}
 
 			return {

@@ -38,6 +38,7 @@ export type Feature = KeywordDefinition & {
 		run?: 'never' | 'only' | 'first' | 'last'
 		retry?: PartialRetryConfig
 		needs?: string[]
+		variants?: Record<string, string>[]
 	}
 }
 

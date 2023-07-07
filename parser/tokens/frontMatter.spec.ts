@@ -10,7 +10,7 @@ describe('frontMatter()', () => {
 		assert.deepEqual(frontMatter(l('frontmatter')), {
 			info: 'front-matter should be supported for feature-level settings',
 			tags: ['first'],
-			contexts: [
+			variants: [
 				{
 					nw: 'ltem',
 					'nw-modem': 'LTE-M',

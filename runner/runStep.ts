@@ -13,7 +13,7 @@ import {
 	type Logger,
 } from './logger.js'
 import { replaceFromContext } from './replaceFromContext.js'
-import { type ScenarioExecution } from './runFeature.js'
+import { type FeatureExecution, type ScenarioExecution } from './runFeature.js'
 
 export type StepResult = {
 	ok: boolean
@@ -44,7 +44,7 @@ export type StepRunResult = typeof noMatch | void | StepMatched
 export type StepRunnerArgs<Context extends Record<string, any>> = {
 	step: Step
 	scenario: ScenarioExecution
-	feature: Feature
+	feature: FeatureExecution
 	context: Context
 	log: {
 		step: Logger<Step>
@@ -71,8 +71,8 @@ export const runStep = async <Context extends Record<string, any>>({
 	logObserver,
 }: {
 	stepRunners: StepRunner<Context>[]
-	feature: Feature
-	scenario: Scenario
+	feature: FeatureExecution
+	scenario: ScenarioExecution
 	step: Step
 	context: Context
 	previousResults: [Step, any][]
@@ -83,7 +83,10 @@ export const runStep = async <Context extends Record<string, any>>({
 }): Promise<Omit<StepResult, 'skipped'>> => {
 	const stepLogger = logger({ getRelativeTs, context: step, ...logObserver })
 
-	const replacedStep = replaceFromContext(context)(step)
+	const replacedStep = await replaceFromContext(step, {
+		...context,
+		variant: feature.variant,
+	})
 	const unreplaced = getUnreplacedPlaceholders(replacedStep)
 	if (unreplaced.length > 0) {
 		stepLogger.error({

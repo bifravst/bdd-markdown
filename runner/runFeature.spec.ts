@@ -37,7 +37,7 @@ describe('runFeature()', () => {
 	it('should run a feature', async () => {
 		const featureResult = await runFeature({
 			stepRunners: [async () => undefined],
-			feature: await loadExampleFeature(),
+			feature: { ...(await loadExampleFeature()), variant: {} },
 			context: {},
 		})
 
@@ -57,7 +57,7 @@ describe('runFeature()', () => {
 					return
 				},
 			],
-			feature: await loadExampleFeature(),
+			feature: { ...(await loadExampleFeature()), variant: {} },
 			context: {},
 		})
 
@@ -71,7 +71,7 @@ describe('runFeature()', () => {
 	it('should expand Scenario Outlines', async () => {
 		const featureResult = await runFeature({
 			stepRunners: [async () => undefined],
-			feature: await loadOutlineExample(),
+			feature: { ...(await loadOutlineExample()), variant: {} },
 			context: {},
 		})
 
@@ -140,17 +140,20 @@ describe('runFeature()', () => {
 					progress(`Doing something`, `the thing`)
 				},
 			],
-			feature: (
-				await loadFeatureFile(
-					path.join(
-						process.cwd(),
-						'runner',
-						'test-data',
-						'runFeature',
-						'OneStep.feature.md',
-					),
-				)
-			).feature,
+			feature: {
+				...(
+					await loadFeatureFile(
+						path.join(
+							process.cwd(),
+							'runner',
+							'test-data',
+							'runFeature',
+							'OneStep.feature.md',
+						),
+					)
+				).feature,
+				variant: {},
+			},
 			context: {},
 			getRelativeTs: () => 42,
 		})
@@ -196,17 +199,20 @@ describe('runFeature()', () => {
 						progress(`Doing something`, `the thing`)
 					},
 				],
-				feature: (
-					await loadFeatureFile(
-						path.join(
-							process.cwd(),
-							'runner',
-							'test-data',
-							'runFeature',
-							'OneStep.feature.md',
-						),
-					)
-				).feature,
+				feature: {
+					...(
+						await loadFeatureFile(
+							path.join(
+								process.cwd(),
+								'runner',
+								'test-data',
+								'runFeature',
+								'OneStep.feature.md',
+							),
+						)
+					).feature,
+					variant: {},
+				},
 				context: {},
 				getRelativeTs: () => 42,
 				logObserver: {
@@ -255,17 +261,20 @@ describe('runFeature()', () => {
 					return
 				},
 			],
-			feature: (
-				await loadFeatureFile(
-					path.join(
-						process.cwd(),
-						'runner',
-						'test-data',
-						'runFeature',
-						'UpdateContext.feature.md',
-					),
-				)
-			).feature,
+			feature: {
+				...(
+					await loadFeatureFile(
+						path.join(
+							process.cwd(),
+							'runner',
+							'test-data',
+							'runFeature',
+							'UpdateContext.feature.md',
+						),
+					)
+				).feature,
+				variant: {},
+			},
 			context,
 		})
 
@@ -300,7 +309,7 @@ describe('runFeature()', () => {
 					}
 				},
 			],
-			feature,
+			feature: { ...feature, variant: {} },
 			context: {},
 		})
 

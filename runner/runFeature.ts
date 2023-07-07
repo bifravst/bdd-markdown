@@ -13,6 +13,10 @@ export type ScenarioExecution = Scenario & {
 	example?: Row
 }
 
+export type FeatureExecution = Feature & {
+	variant: Record<string, string>
+}
+
 export type FeatureResult = {
 	ok: boolean
 	skipped: boolean
@@ -29,7 +33,7 @@ export const runFeature = async <Context extends Record<string, any>>({
 	logObserver,
 }: {
 	stepRunners: StepRunner<Context>[]
-	feature: Feature
+	feature: FeatureExecution
 	context: Context
 	getRelativeTs?: () => number
 	logObserver?: LogObserver
@@ -50,7 +54,9 @@ export const runFeature = async <Context extends Record<string, any>>({
 				const scenarioFromExample: ScenarioExecution = {
 					...scenarioRest,
 					keyword: Keyword.Scenario,
-					steps: scenario.steps.map(replaceFromExamples(row)),
+					steps: await Promise.all(
+						scenario.steps.map(async (s) => replaceFromExamples(s, row)),
+					),
 					example: row,
 				}
 				if (aborted) {

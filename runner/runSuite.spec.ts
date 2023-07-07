@@ -173,4 +173,54 @@ describe('runSuite()', () => {
 		assert.deepEqual(result.summary.skipped, 0)
 		assert.deepEqual(result.summary.total, 2)
 	})
+
+	describe('variants', () => {
+		it('should run features for every variant', async () => {
+			const runner = runSuite(
+				await parseFeaturesInFolder(
+					path.join(
+						process.cwd(),
+						'runner',
+						'test-data',
+						'runSuite',
+						'variants',
+					),
+				),
+				'Variants example',
+			)
+
+			const titles: string[] = []
+			const variants: Record<string, string>[] = []
+
+			runner.addStepRunners(
+				...(<StepRunner<Record<string, any>>[]>[
+					async ({ step: { title }, feature: { variant } }) => {
+						console.log(title, { variant })
+						titles.push(title)
+						variants.push(variant)
+						return
+					},
+				]),
+			)
+
+			const result = await runner.run()
+
+			assert.equal(result.ok, true)
+			assert.deepEqual(result.summary.failed, 0)
+			assert.deepEqual(result.summary.passed, 2)
+			assert.deepEqual(result.summary.skipped, 0)
+			assert.deepEqual(result.summary.total, 2)
+
+			assert.equal(titles[0], 'network is `ltem` and modem is `LTE-M`')
+			assert.deepEqual(variants[0], {
+				nw: 'ltem',
+				modem: 'LTE-M',
+			})
+			assert.equal(titles[1], 'network is `nbiot` and modem is `NB-IoT`')
+			assert.deepEqual(variants[1], {
+				nw: 'nbiot',
+				modem: 'NB-IoT',
+			})
+		})
+	})
 })

@@ -6,7 +6,6 @@ import path from 'path'
 import {
 	Keyword,
 	StepKeyword,
-	type Feature,
 	type Scenario,
 	type Step,
 } from '../parser/grammar.js'
@@ -15,6 +14,7 @@ import { comment } from '../parser/tokens/comment.js'
 import { LogLevel, logger } from './logger.js'
 import { loadFeatureFile } from './parseFeaturesInFolder.js'
 import { runStep } from './runStep.js'
+import type { FeatureExecution } from './runFeature.js'
 
 const f = async () =>
 	(
@@ -37,7 +37,7 @@ describe('runStep()', () => {
 		const scenario = feature.scenarios[0] as Scenario
 		runStepArgs = {
 			stepRunners: [],
-			feature,
+			feature: { ...feature, variant: {} },
 			scenario,
 			step: feature.scenarios[0]?.steps[0] as Step,
 			context: {},
@@ -180,10 +180,11 @@ describe('runStep()', () => {
 
 	it('should retry a step', async () => {
 		const getRelativeTs = () => 42
-		const feature: Feature = {
+		const feature: FeatureExecution = {
 			keyword: Keyword.Feature,
 			line: 1,
 			scenarios: [],
+			variant: {},
 		}
 		const scenario: Scenario = {
 			keyword: Keyword.Scenario,

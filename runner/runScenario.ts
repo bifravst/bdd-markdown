@@ -6,6 +6,7 @@ import {
 	type LogObserver,
 	type Logger,
 } from './logger.js'
+import type { FeatureExecution, ScenarioExecution } from './runFeature.js'
 import {
 	runStep,
 	scenarioRetryEnabled,
@@ -24,8 +25,8 @@ export type ScenarioResult = {
 
 export const runScenario = async <Context extends Record<string, any>>(args: {
 	stepRunners: StepRunner<Context>[]
-	feature: Feature
-	scenario: Scenario
+	feature: FeatureExecution
+	scenario: ScenarioExecution
 	context: Context
 	featureLogger: Logger<Feature>
 	getRelativeTs: () => number
@@ -77,8 +78,8 @@ const runScenarioOnce = async <Context extends Record<string, any>>({
 	logObserver,
 }: {
 	stepRunners: StepRunner<Context>[]
-	feature: Feature
-	scenario: Scenario
+	feature: FeatureExecution
+	scenario: ScenarioExecution
 	context: Context
 	featureLogger: Logger<Feature>
 	scenarioLogger: ReturnType<typeof logger<Scenario>>

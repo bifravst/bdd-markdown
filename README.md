@@ -219,6 +219,12 @@ run: only
 Given this is the first step
 ```
 
+## Variants
+
+Variants (defined in the frontmatter of a feature) can be used to run the same
+feature in different variants. For every entry in variants, the feature file is
+run. ([Example](./runner/test-data/runSuite/variants/Variants.feature.md))
+
 ## Markdown Reporter
 
 It includes a markdown reporter, which will turn the suite result into markdown,
