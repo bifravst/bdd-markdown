@@ -286,13 +286,16 @@ describe('runFeature()', () => {
 			)
 		).feature
 
-		let numTries: Record<string, number> = {}
+		const numTries: Record<string, number> = {}
 
 		await runFeature({
 			stepRunners: [
 				async ({ step }) => {
 					numTries[step.title] = (numTries[step.title] ?? 0) + 1
-					if (step.title === 'I have failed' && numTries[step.title] === 1) {
+					if (
+						step.title === 'I have failed the first time' &&
+						numTries[step.title] === 1
+					) {
 						throw new Error(`Fail!`)
 					}
 				},
@@ -302,6 +305,6 @@ describe('runFeature()', () => {
 		})
 
 		assert.equal(numTries['this step will also be retried'], 2)
-		assert.equal(numTries['I have failed'], 2)
+		assert.equal(numTries['I have failed the first time'], 2)
 	})
 })

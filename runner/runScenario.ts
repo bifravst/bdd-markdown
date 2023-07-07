@@ -1,12 +1,17 @@
 import type { Feature, Scenario, Step } from '../parser/grammar.js'
-import { getScenarioRetryConfig } from './getScenarioRetryConfig.js'
+import { getRetryConfig } from './getRetryConfig.js'
 import {
 	logger,
 	type LogEntry,
-	type Logger,
 	type LogObserver,
+	type Logger,
 } from './logger.js'
-import { runStep, type StepResult, type StepRunner } from './runStep.js'
+import {
+	runStep,
+	scenarioRetryEnabled,
+	type StepResult,
+	type StepRunner,
+} from './runStep.js'
 
 export type ScenarioResult = {
 	ok: boolean
@@ -26,18 +31,34 @@ export const runScenario = async <Context extends Record<string, any>>(args: {
 	getRelativeTs: () => number
 	logObserver?: LogObserver
 }): Promise<Omit<ScenarioResult, 'skipped'>> => {
-	const retryConfig = getScenarioRetryConfig(args.scenario)
-	const numTries = retryConfig.tries
 	let result: Omit<ScenarioResult, 'skipped'>
+	let failedStep: Step | undefined
 	let numTry = 1
 	do {
 		result = {
 			tries: numTry,
 			...(await runScenarioOnce(args)),
 		}
-	} while (result.ok === false && ++numTry <= numTries)
+		failedStep = getFailedStep(result)
+	} while (
+		scenarioFailed(result) &&
+		failedStep !== undefined &&
+		scenarioRetryEnabled(failedStep) &&
+		// Retry as often as the retry config of the step defines
+		++numTry <= getRetryConfig(failedStep, args.scenario, args.feature).tries
+	)
 	return result
 }
+
+const scenarioFailed = (result: Omit<ScenarioResult, 'skipped'>): boolean =>
+	result.ok !== true
+
+const getFailedStep = (
+	result: Omit<ScenarioResult, 'skipped'>,
+): Step | undefined =>
+	result.ok === false
+		? result.results.find(([_, result]) => result.ok === false)?.[0]
+		: undefined
 
 const runScenarioOnce = async <Context extends Record<string, any>>({
 	stepRunners,

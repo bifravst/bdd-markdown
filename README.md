@@ -114,8 +114,9 @@ Given I create a new task named `My item`
 Soon the list of tasks should contain `My item`
 ```
 
-Using `@retryScenario` in a scenario comment, the entire scenario will be
-retried in case a step fails.
+Using `@retryScenario` in a step comment, the entire scenario will be retried in
+case a step fails, using the retry configuration of the step
+([Example](./runner/test-data/runFeature/RetryScenario.feature.md)).
 
 ## Control feature execution order via dependencies
 
