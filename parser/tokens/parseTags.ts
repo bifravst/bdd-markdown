@@ -33,10 +33,13 @@ export const parseTag = (
 }
 
 const parseProps = (props: string): Record<string, string | true> =>
-	props.split(',').reduce((props, prop) => {
-		const [name, value] = parseProp(prop)
-		return { ...props, [name]: value }
-	}, {} as Record<string, string | true>)
+	props.split(',').reduce(
+		(props, prop) => {
+			const [name, value] = parseProp(prop)
+			return { ...props, [name]: value }
+		},
+		{} as Record<string, string | true>,
+	)
 
 const parseProp = (prop: string): [name: string, value: string | true] => {
 	const [name, value] = prop.split('=')
