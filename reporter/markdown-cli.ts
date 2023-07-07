@@ -6,6 +6,6 @@ process.stdin.on('data', (data) => {
 	chunks.push(data.toString())
 })
 
-process.stdin.on('end', () => {
-	console.log(markdownReporter(JSON.parse(chunks.join(''))))
+process.stdin.on('end', async () => {
+	console.log(await markdownReporter(JSON.parse(chunks.join(''))))
 })

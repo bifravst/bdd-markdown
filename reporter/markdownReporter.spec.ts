@@ -21,7 +21,9 @@ describe('markdownReporter()', () => {
 		)
 
 		assert.equal(
-			markdownReporter(JSON.parse(await readFile(resultFile, 'utf-8'))).trim(),
+			(
+				await markdownReporter(JSON.parse(await readFile(resultFile, 'utf-8')))
+			).trim(),
 			(await readFile(reportFile, 'utf-8')).trim(),
 		)
 	})
@@ -41,7 +43,9 @@ describe('markdownReporter()', () => {
 			'firmware.md',
 		)
 		assert.equal(
-			markdownReporter(JSON.parse(await readFile(resultFile, 'utf-8'))).trim(),
+			(
+				await markdownReporter(JSON.parse(await readFile(resultFile, 'utf-8')))
+			).trim(),
 			(await readFile(reportFile, 'utf-8')).trim(),
 		)
 	})

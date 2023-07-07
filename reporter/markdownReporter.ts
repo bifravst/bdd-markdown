@@ -10,7 +10,7 @@ import { escapeLogMessage } from './markdown/escapeLogMessage.js'
 import { inputTable } from './markdown/inputTable.js'
 import { logEntry } from './markdown/logEntry.js'
 
-export const markdownReporter = (result: SuiteResult): string =>
+export const markdownReporter = async (result: SuiteResult): Promise<string> =>
 	prettier.format(
 		[
 			...titleMd(result),
