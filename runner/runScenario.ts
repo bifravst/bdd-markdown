@@ -31,13 +31,19 @@ export const runScenario = async <Context extends Record<string, any>>(args: {
 	getRelativeTs: () => number
 	logObserver?: LogObserver
 }): Promise<Omit<ScenarioResult, 'skipped'>> => {
+	const scenarioLogger = logger({
+		getRelativeTs: args.getRelativeTs,
+		context: args.scenario,
+		...args.logObserver,
+	})
 	let result: Omit<ScenarioResult, 'skipped'>
 	let failedStep: Step | undefined
 	let numTry = 1
 	do {
+		if (numTry > 1) scenarioLogger.progress(`Retrying ... (${numTry})`)
 		result = {
 			tries: numTry,
-			...(await runScenarioOnce(args)),
+			...(await runScenarioOnce({ ...args, scenarioLogger })),
 		}
 		failedStep = getFailedStep(result)
 	} while (
@@ -67,6 +73,7 @@ const runScenarioOnce = async <Context extends Record<string, any>>({
 	context,
 	getRelativeTs,
 	featureLogger,
+	scenarioLogger,
 	logObserver,
 }: {
 	stepRunners: StepRunner<Context>[]
@@ -74,15 +81,11 @@ const runScenarioOnce = async <Context extends Record<string, any>>({
 	scenario: Scenario
 	context: Context
 	featureLogger: Logger<Feature>
+	scenarioLogger: ReturnType<typeof logger<Scenario>>
 	getRelativeTs: () => number
 	logObserver?: LogObserver
 }): Promise<Omit<ScenarioResult, 'skipped' | 'tries'>> => {
 	const startTs = Date.now()
-	const scenarioLogger = logger({
-		getRelativeTs,
-		context: scenario,
-		...logObserver,
-	})
 	const stepResults: [Step, StepResult][] = []
 	let aborted = false
 	for (const step of scenario.steps) {
