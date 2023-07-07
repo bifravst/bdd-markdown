@@ -273,7 +273,7 @@ describe('runFeature()', () => {
 		assert.match(context.randomString, /[a-f0-9-]{36}/)
 	})
 
-	it('should retry a scenario of the retry scope is set to "scenario"', async () => {
+	it('should retry a scenario if a step has @retryScenario enabled', async () => {
 		const feature = (
 			await loadFeatureFile(
 				path.join(
