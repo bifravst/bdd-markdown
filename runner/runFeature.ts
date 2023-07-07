@@ -62,6 +62,7 @@ export const runFeature = async <Context extends Record<string, any>>({
 							results: [],
 							duration: 0,
 							logs: [],
+							tries: 0,
 						},
 					])
 					continue
@@ -94,6 +95,7 @@ export const runFeature = async <Context extends Record<string, any>>({
 						results: [],
 						duration: 0,
 						logs: [],
+						tries: 0,
 					},
 				])
 				continue

@@ -272,4 +272,39 @@ describe('runFeature()', () => {
 		assert.equal(featureResult.ok, true)
 		assert.match(context.randomString, /[a-f0-9-]{36}/)
 	})
+
+	it('should retry a scenario of the retry scope is set to "scenario"', async () => {
+		const feature = (
+			await loadFeatureFile(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'runFeature',
+					'RetryScenario.feature.md',
+				),
+			)
+		).feature
+
+		const numTries: Record<string, number> = {}
+
+		await runFeature({
+			stepRunners: [
+				async ({ step }) => {
+					numTries[step.title] = (numTries[step.title] ?? 0) + 1
+					if (
+						step.title === 'I have failed the first time' &&
+						numTries[step.title] === 1
+					) {
+						throw new Error(`Fail!`)
+					}
+				},
+			],
+			feature,
+			context: {},
+		})
+
+		assert.equal(numTries['this step will also be retried'], 2)
+		assert.equal(numTries['I have failed the first time'], 2)
+	})
 })

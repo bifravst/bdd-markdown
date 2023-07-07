@@ -1,11 +1,17 @@
 import type { Feature, Scenario, Step } from '../parser/grammar.js'
+import { getRetryConfig } from './getRetryConfig.js'
 import {
 	logger,
 	type LogEntry,
 	type LogObserver,
 	type Logger,
 } from './logger.js'
-import { runStep, type StepResult, type StepRunner } from './runStep.js'
+import {
+	runStep,
+	scenarioRetryEnabled,
+	type StepResult,
+	type StepRunner,
+} from './runStep.js'
 
 export type ScenarioResult = {
 	ok: boolean
@@ -13,9 +19,48 @@ export type ScenarioResult = {
 	results: [Step, StepResult][]
 	duration: number
 	logs: LogEntry[]
+	tries: number
 }
 
-export const runScenario = async <Context extends Record<string, any>>({
+export const runScenario = async <Context extends Record<string, any>>(args: {
+	stepRunners: StepRunner<Context>[]
+	feature: Feature
+	scenario: Scenario
+	context: Context
+	featureLogger: Logger<Feature>
+	getRelativeTs: () => number
+	logObserver?: LogObserver
+}): Promise<Omit<ScenarioResult, 'skipped'>> => {
+	let result: Omit<ScenarioResult, 'skipped'>
+	let failedStep: Step | undefined
+	let numTry = 1
+	do {
+		result = {
+			tries: numTry,
+			...(await runScenarioOnce(args)),
+		}
+		failedStep = getFailedStep(result)
+	} while (
+		scenarioFailed(result) &&
+		failedStep !== undefined &&
+		scenarioRetryEnabled(failedStep) &&
+		// Retry as often as the retry config of the step defines
+		++numTry <= getRetryConfig(failedStep, args.scenario, args.feature).tries
+	)
+	return result
+}
+
+const scenarioFailed = (result: Omit<ScenarioResult, 'skipped'>): boolean =>
+	result.ok !== true
+
+const getFailedStep = (
+	result: Omit<ScenarioResult, 'skipped'>,
+): Step | undefined =>
+	result.ok === false
+		? result.results.find(([_, result]) => result.ok === false)?.[0]
+		: undefined
+
+const runScenarioOnce = async <Context extends Record<string, any>>({
 	stepRunners,
 	feature,
 	scenario,
@@ -31,7 +76,7 @@ export const runScenario = async <Context extends Record<string, any>>({
 	featureLogger: Logger<Feature>
 	getRelativeTs: () => number
 	logObserver?: LogObserver
-}): Promise<Omit<ScenarioResult, 'skipped'>> => {
+}): Promise<Omit<ScenarioResult, 'skipped' | 'tries'>> => {
 	const startTs = Date.now()
 	const scenarioLogger = logger({
 		getRelativeTs,
@@ -39,7 +84,6 @@ export const runScenario = async <Context extends Record<string, any>>({
 		...logObserver,
 	})
 	const stepResults: [Step, StepResult][] = []
-
 	let aborted = false
 	for (const step of scenario.steps) {
 		if (aborted) {

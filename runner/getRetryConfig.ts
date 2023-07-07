@@ -20,6 +20,12 @@ export const defaultRetryConfig: RetryConfig = {
 
 const validator = validateWithJSONSchema(RetryConfigSchema)
 
+export const noRetry: RetryConfig = {
+	tries: 1,
+	initialDelay: 0,
+	delayFactor: 0,
+}
+
 export const getRetryConfig = (
 	step: Step,
 	scenario: Scenario,
@@ -28,11 +34,7 @@ export const getRetryConfig = (
 		noRetry: RetryConfig
 		retry: RetryConfig
 	} = {
-		noRetry: {
-			tries: 1,
-			initialDelay: 0,
-			delayFactor: 0,
-		},
+		noRetry,
 		retry: defaultRetryConfig,
 	},
 ): RetryConfig => {
@@ -57,8 +59,9 @@ export const getRetryConfig = (
 
 export const formatRetryConfig = (
 	cfg: ReturnType<typeof getRetryConfig>,
+	keyword = 'retry',
 ): string =>
-	`@retry:tries=${cfg.tries},initialDelay=${cfg.initialDelay},delayFactor=${cfg.delayFactor}`
+	`@${keyword}:tries=${cfg.tries},initialDelay=${cfg.initialDelay},delayFactor=${cfg.delayFactor}`
 
 const toNumbers = <Props extends Tag>(
 	o: Props,
@@ -68,18 +71,21 @@ const toNumbers = <Props extends Tag>(
 	Object.entries(o).reduce(
 		(o, [k, v]) => ({
 			...o,
-			[k]: typeof v === 'boolean' ? NaN : parseFloat(v),
+			[k]: k === 'scope' ? v : typeof v === 'boolean' ? NaN : parseFloat(v),
 		}),
 		{} as Record<string, number>,
 	)
-const getRetryConfigFromComment = (commented: {
-	comment?: Comment
-}): PartialRetryConfig => {
-	const config = toNumbers(commented.comment?.tags?.['retry'] ?? {})
+export const getRetryConfigFromComment = (
+	commented: {
+		comment?: Comment
+	},
+	keyword = 'retry',
+): PartialRetryConfig => {
+	const config = toNumbers(commented.comment?.tags?.[keyword] ?? {})
 	return validateConfig(config)
 }
 
-const validateConfig = (config: any): PartialRetryConfig => {
+export const validateConfig = (config: any): PartialRetryConfig => {
 	const maybeValidRetryConfig = validator(config)
 	if ('errors' in maybeValidRetryConfig) {
 		throw new InvalidSettingsError(

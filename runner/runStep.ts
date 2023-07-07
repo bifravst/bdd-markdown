@@ -103,7 +103,10 @@ export const runStep = async <Context extends Record<string, any>>({
 	let tries = 1
 	let initialDelay = 0
 	let delayFactor = 0
-	const retriesEnabled = step.keyword === StepKeyword.Soon
+	const retriesEnabled =
+		step.keyword === StepKeyword.Soon &&
+		// The entire scenario should be retried on failure
+		!scenarioRetryEnabled(step)
 	if (retriesEnabled) {
 		const retryConfig = getRetryConfig(step, scenario, feature)
 		stepLogger.debug(formatRetryConfig(retryConfig))
@@ -193,3 +196,6 @@ export const runStep = async <Context extends Record<string, any>>({
 		tries: 0,
 	}
 }
+
+export const scenarioRetryEnabled = (step: Step): boolean =>
+	step.comment?.tags?.['retryScenario'] !== undefined
