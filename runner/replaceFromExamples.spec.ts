@@ -77,4 +77,29 @@ describe('replaceFromExamples()', () => {
 			line: 1,
 		})
 	})
+	it('should replace quoted numbers in JSON code-blocks', async () => {
+		const replaced = await replaceFromExamples(
+			{
+				keyword: StepKeyword.Then,
+				title:
+					'replace a quoted number with the actual number in a JSON code-block',
+				line: 1,
+				codeBlock: {
+					language: 'json',
+					code: '{ "foo": "$number{v}" }',
+				},
+			},
+			{ v: 42 },
+		)
+		assert.deepEqual(replaced, {
+			keyword: StepKeyword.Then,
+			title:
+				'replace a quoted number with the actual number in a JSON code-block',
+			line: 1,
+			codeBlock: {
+				language: 'json',
+				code: '{ "foo": 42 }',
+			},
+		})
+	})
 })

@@ -1,5 +1,8 @@
 import { type Step } from '../parser/grammar.js'
-import { replacePlaceholders } from './replaceFromExamples.js'
+import {
+	replaceNumberPlaceholders,
+	replaceStringPlaceholders,
+} from './replaceFromExamples.js'
 
 export const replaceFromContext = async (
 	step: Step,
@@ -7,12 +10,18 @@ export const replaceFromContext = async (
 ): Promise<Step> => {
 	const replaced = {
 		...step,
-		title: await replacePlaceholders(step.title, context),
+		title: await replaceStringPlaceholders(step.title, context),
 	}
-	if (step.codeBlock !== undefined) {
+	if (replaced.codeBlock !== undefined) {
+		if (replaced.codeBlock.language === 'json') {
+			replaced.codeBlock = {
+				...replaced.codeBlock,
+				code: await replaceNumberPlaceholders(replaced.codeBlock.code, context),
+			}
+		}
 		replaced.codeBlock = {
-			...step.codeBlock,
-			code: await replacePlaceholders(step.codeBlock.code, context),
+			...replaced.codeBlock,
+			code: await replaceStringPlaceholders(replaced.codeBlock.code, context),
 		}
 	}
 	return replaced

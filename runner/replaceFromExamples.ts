@@ -7,23 +7,39 @@ export const replaceFromExamples = async (
 ): Promise<Step> => {
 	const replaced = {
 		...step,
-		title: await replacePlaceholders(step.title, row),
+		title: await replaceStringPlaceholders(step.title, row),
 	}
-	if (step.codeBlock !== undefined) {
+	if (replaced.codeBlock !== undefined) {
+		// Handle the special quoted number case
+		// where expressing a number like this:
+		// '{ "foo": "$number{v}" }'
+		// will replaced it with (given v = 42)
+		// '{ "foo": 42 }'
+		// This is a hack to allow JSON formatting to work, because this is not valid JSON:
+		// '{ "foo": ${v} }'
+		if (replaced.codeBlock.language === 'json') {
+			replaced.codeBlock = {
+				...replaced.codeBlock,
+				code: await replaceNumberPlaceholders(replaced.codeBlock.code, row),
+			}
+		}
 		replaced.codeBlock = {
-			...step.codeBlock,
-			code: await replacePlaceholders(step.codeBlock.code, row),
+			...replaced.codeBlock,
+			code: await replaceStringPlaceholders(replaced.codeBlock.code, row),
 		}
 	}
 	return replaced
 }
-const placeholderExpression = /\$\{([^}]+)\}/g
+const stringPlaceholderExpressions = /\$\{([^}]+)\}/g
+const numberPlaceholderExpression = /"\$number\{([^}]+)\}"/g
+
 export const replacePlaceholders = async (
 	s: string,
 	row: Record<string, unknown>,
+	expression: RegExp,
 ): Promise<string> => {
 	let result = s
-	for (const match of s.matchAll(placeholderExpression)) {
+	for (const match of s.matchAll(expression)) {
 		const expression = match[1] as string
 		const e = jsonata(expression)
 		const replaced = await e.evaluate(row)
@@ -32,3 +48,13 @@ export const replacePlaceholders = async (
 	}
 	return result
 }
+
+export const replaceStringPlaceholders = async (
+	s: string,
+	row: Record<string, unknown>,
+): Promise<string> => replacePlaceholders(s, row, stringPlaceholderExpressions)
+
+export const replaceNumberPlaceholders = async (
+	s: string,
+	row: Record<string, unknown>,
+): Promise<string> => replacePlaceholders(s, row, numberPlaceholderExpression)

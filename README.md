@@ -225,6 +225,28 @@ Variants (defined in the frontmatter of a feature) can be used to run the same
 feature in different variants. For every entry in variants, the feature file is
 run. ([Example](./runner/test-data/runSuite/variants/Variants.feature.md))
 
+## Number placeholders in JSON
+
+For JSON code-blocks there is a special notation to replace number placeholders,
+while still maintaining the JSON syntax and allow for formatters like prettier
+to format the code-block.
+
+````markdown
+Given `v` is the number `42`
+
+And I store this in `result`
+
+```json
+{ "foo": "$number{v}" }
+```
+
+Then `result` should match
+
+```json
+{ "foo": 42 }
+```
+````
+
 ## Markdown Reporter
 
 It includes a markdown reporter, which will turn the suite result into markdown,
