@@ -102,4 +102,18 @@ describe('replaceFromExamples()', () => {
 			},
 		})
 	})
+	it('should handle malformed placeholders gracefully', async () => {
+		assert.rejects(
+			async () =>
+				replaceFromExamples(
+					{
+						keyword: StepKeyword.Then,
+						title: 'this ${foo:bar} is a malformed placeholder.',
+						line: 1,
+					},
+					{},
+				),
+			/The expression 'foo:bar' is not valid JSONata./,
+		)
+	})
 })

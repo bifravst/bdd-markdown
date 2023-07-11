@@ -41,7 +41,12 @@ export const replacePlaceholders = async (
 	let result = s
 	for (const match of s.matchAll(expression)) {
 		const expression = match[1] as string
-		const e = jsonata(expression)
+		let e: jsonata.Expression | undefined = undefined
+		try {
+			e = jsonata(expression)
+		} catch {
+			throw new Error(`The expression '${expression}' is not valid JSONata.`)
+		}
 		const replaced = await e.evaluate(row)
 		if (replaced === undefined) continue
 		result = result.replace(match[0], replaced)
