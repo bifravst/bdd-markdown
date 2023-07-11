@@ -11,5 +11,13 @@
       }
     ]
   },
-  "plugins": ["import"]
+  "plugins": ["import"],
+  "overrides": [
+    {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "@typescript-eslint/no-floating-promises": "off"
+      }
+    }
+  ]
 }

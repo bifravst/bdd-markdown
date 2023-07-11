@@ -64,7 +64,7 @@ const getFailedStep = (
 	result: Omit<ScenarioResult, 'skipped'>,
 ): Step | undefined =>
 	result.ok === false
-		? result.results.find(([_, result]) => result.ok === false)?.[0]
+		? result.results.find(([, result]) => result.ok === false)?.[0]
 		: undefined
 
 const runScenarioOnce = async <Context extends Record<string, any>>({

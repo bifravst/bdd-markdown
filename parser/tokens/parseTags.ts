@@ -43,5 +43,5 @@ const parseProps = (props: string): Record<string, string | true> =>
 
 const parseProp = (prop: string): [name: string, value: string | true] => {
 	const [name, value] = prop.split('=')
-	return [name as string, value === undefined ? true : value]
+	return [name as string, value ?? true]
 }

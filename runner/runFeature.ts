@@ -51,6 +51,7 @@ export const runFeature = async <Context extends Record<string, any>>({
 		if (scenario.keyword === Keyword.ScenarioOutline) {
 			for (const row of scenario.examples) {
 				const { examples, ...scenarioRest } = scenario
+				void examples
 				const scenarioFromExample: ScenarioExecution = {
 					...scenarioRest,
 					keyword: Keyword.Scenario,
