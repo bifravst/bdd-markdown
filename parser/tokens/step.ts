@@ -3,7 +3,7 @@ import { getLineNumber } from '../errors/toErrorPosition.js'
 import { StepKeyword, steps, type Step } from '../grammar.js'
 import { type TokenStream } from '../tokenStream.js'
 import { paragraph } from './paragraph.js'
-import { space } from './whiteSpace.js'
+import { whiteSpace } from './whiteSpace.js'
 import { word } from './word.js'
 
 type ParsedStep = Omit<Step, 'keyword'> & { keyword: StepKeyword }
@@ -17,7 +17,7 @@ export const step = (s: TokenStream): ParsedStep | null => {
 			s,
 			`Unexpected step: ${stepWord}, expected one of ${steps}!`,
 		)
-	space(s)
+	whiteSpace(s)
 	const title = paragraph(s)
 	if (title === null)
 		throw new InvalidSyntaxError(s, `Incomplete step definition!`)

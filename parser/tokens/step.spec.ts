@@ -54,23 +54,44 @@ describe('step()', () => {
 		)
 	})
 
-	it('should parse wrapped step definitions', () =>
-		assert.deepEqual(
-			step(
-				tokenStream(
-					[
-						'And I enqueue this mock HTTP API response with status code `202` for a `POST`',
-						'request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
-						'',
-						'And this is the next step',
-					].join(os.EOL),
+	describe('multi-line step definitions', () => {
+		it('should parse wrapped step definitions', () =>
+			assert.deepEqual(
+				step(
+					tokenStream(
+						[
+							'And I enqueue this mock HTTP API response with status code `202` for a `POST`',
+							'request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
+							'',
+							'And this is the next step',
+						].join(os.EOL),
+					),
 				),
-			),
-			{
-				keyword: 'And',
-				title:
-					'I enqueue this mock HTTP API response with status code `202` for a `POST` request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
-				line: 1,
-			},
-		))
+				{
+					keyword: 'And',
+					title:
+						'I enqueue this mock HTTP API response with status code `202` for a `POST` request to `chunks.memfault.com/api/v0/chunks/${deviceId}`',
+					line: 1,
+				},
+			))
+
+		it('should parse a wrapped step definition with a line-break right after the keyword', () =>
+			assert.deepEqual(
+				step(
+					tokenStream(
+						[
+							'Then',
+							"`$length($filter(agpsData, function($v) { $contains($v, '01010100f9fffffffeffffff0f7b12890612031f00017') })) > 0`",
+							'should be `true`',
+						].join(os.EOL),
+					),
+				),
+				{
+					keyword: 'Then',
+					title:
+						"`$length($filter(agpsData, function($v) { $contains($v, '01010100f9fffffffeffffff0f7b12890612031f00017') })) > 0` should be `true`",
+					line: 1,
+				},
+			))
+	})
 })
