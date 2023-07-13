@@ -168,4 +168,38 @@ describe('runScenario()', () => {
 			},
 		])
 	})
+
+	it('should delay a step execution if delayExecution is specified', async () => {
+		const feature = (
+			await loadFeatureFile(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'runScenario',
+					'DelayExecution.feature.md',
+				),
+			)
+		).feature
+		const getRelativeTs = () => 42
+
+		const startTs = Date.now()
+
+		const scenarioResult = await runScenario({
+			stepRunners: [
+				async () => {
+					throw new Error(`Always fails!`)
+				},
+			],
+			feature: { ...feature, variant: {} },
+			scenario: feature.scenarios[0] as Scenario,
+			context: {},
+			getRelativeTs,
+			featureLogger: logger({ getRelativeTs, context: feature }),
+		})
+
+		assert.equal(scenarioResult.ok, false)
+		assert.equal(scenarioResult.tries, 1)
+		assert.equal(Date.now() - startTs >= 1000, true)
+	})
 })
