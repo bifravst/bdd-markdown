@@ -106,6 +106,7 @@ export const runStep = async <Context extends Record<string, any>>({
 	let tries = 1
 	let initialDelay = 0
 	let delayFactor = 0
+	let delayExecution: number | undefined = undefined
 	const retriesEnabled =
 		step.keyword === StepKeyword.Soon &&
 		// The entire scenario should be retried on failure
@@ -116,6 +117,7 @@ export const runStep = async <Context extends Record<string, any>>({
 		tries = retryConfig.tries
 		initialDelay = retryConfig.initialDelay
 		delayFactor = retryConfig.delayFactor
+		delayExecution = retryConfig.delayExecution
 	}
 	let delay = initialDelay
 
@@ -138,6 +140,9 @@ export const runStep = async <Context extends Record<string, any>>({
 					tries: 0,
 				}
 			}
+
+			if (delayExecution !== undefined)
+				await new Promise((resolve) => setTimeout(resolve, delayExecution))
 
 			const maxTries = Math.max(1, tries)
 			for (let i = 0; i < maxTries; i++) {

@@ -137,6 +137,15 @@ export const RetryConfigSchema = Type.Object(
 				default: 2,
 			}),
 		),
+		delayExecution: Type.Optional(
+			Type.Number({
+				description:
+					'Instead of executing the step immediately, delay it by this amount in milliseconds.',
+				minimum: 0,
+				examples: [250],
+				default: 1000,
+			}),
+		),
 	},
 	{
 		additionalProperties: false,
@@ -144,7 +153,8 @@ export const RetryConfigSchema = Type.Object(
 )
 
 export type PartialRetryConfig = Static<typeof RetryConfigSchema>
-export type RetryConfig = Required<PartialRetryConfig>
+export type RetryConfig = Required<Omit<PartialRetryConfig, 'delayExecution'>> &
+	Pick<PartialRetryConfig, 'delayExecution'>
 
 enum Run {
 	never = 'never',

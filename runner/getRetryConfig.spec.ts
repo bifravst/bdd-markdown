@@ -15,11 +15,12 @@ import { defaultRetryConfig, getRetryConfig } from './getRetryConfig.js'
 const commentTests: [comment: string, expected: RetryConfig][] = [
 	// Full config
 	[
-		'This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step.',
+		'This @retry:tries=3,initialDelay=100,delayFactor=1.5,delayExecution=750 applies only to the next step.',
 		{
 			tries: 3,
 			initialDelay: 100,
 			delayFactor: 1.5,
+			delayExecution: 750,
 		},
 	],
 	// Partial
@@ -206,11 +207,13 @@ describe('getRetryConfig()', () => {
 					tries: 3,
 					initialDelay: 100,
 					delayFactor: 1.5,
+					delayExecution: 750,
 				},
 				{
 					tries: 3,
 					initialDelay: 100,
 					delayFactor: 1.5,
+					delayExecution: 750,
 				},
 			],
 			// Partial

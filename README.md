@@ -114,6 +114,9 @@ Given I create a new task named `My item`
 Soon the list of tasks should contain `My item`
 ```
 
+The optional configuration `delayExecution` can be used to delay the initial
+execution of a step. Example: `@retry:tries=5,delayExecution=1000`.
+
 Using `@retryScenario` in a step comment, the entire scenario will be retried in
 case a step fails, using the retry configuration of the step
 ([Example](./runner/test-data/runFeature/RetryScenario.feature.md)).
