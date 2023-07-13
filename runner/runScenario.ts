@@ -44,7 +44,7 @@ export const runScenario = async <Context extends Record<string, any>>(args: {
 		if (numTry > 1) scenarioLogger.progress(`Retrying ... (${numTry})`)
 		result = {
 			tries: numTry,
-			...(await runScenarioOnce({ ...args, scenarioLogger })),
+			...(await runScenarioOnce({ ...args, scenarioLogger, numTry })),
 		}
 		failedStep = getFailedStep(result)
 	} while (
@@ -76,6 +76,7 @@ const runScenarioOnce = async <Context extends Record<string, any>>({
 	featureLogger,
 	scenarioLogger,
 	logObserver,
+	numTry,
 }: {
 	stepRunners: StepRunner<Context>[]
 	feature: FeatureExecution
@@ -85,6 +86,7 @@ const runScenarioOnce = async <Context extends Record<string, any>>({
 	scenarioLogger: ReturnType<typeof logger<Scenario>>
 	getRelativeTs: () => number
 	logObserver?: LogObserver
+	numTry: number
 }): Promise<Omit<ScenarioResult, 'skipped' | 'tries'>> => {
 	const startTs = Date.now()
 	const stepResults: [Step, StepResult][] = []
@@ -119,6 +121,7 @@ const runScenarioOnce = async <Context extends Record<string, any>>({
 			featureLogger,
 			scenarioLogger,
 			logObserver,
+			numTry,
 		})
 		stepResults.push([
 			step,

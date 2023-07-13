@@ -69,6 +69,7 @@ export const runStep = async <Context extends Record<string, any>>({
 	featureLogger,
 	scenarioLogger,
 	logObserver,
+	numTry: repeatedTry,
 }: {
 	stepRunners: StepRunner<Context>[]
 	feature: FeatureExecution
@@ -80,6 +81,7 @@ export const runStep = async <Context extends Record<string, any>>({
 	featureLogger: Logger<Feature>
 	scenarioLogger: Logger<Scenario>
 	logObserver?: LogObserver
+	numTry: number
 }): Promise<Omit<StepResult, 'skipped'>> => {
 	const stepLogger = logger({ getRelativeTs, context: step, ...logObserver })
 
@@ -120,6 +122,11 @@ export const runStep = async <Context extends Record<string, any>>({
 		delayExecution = retryConfig.delayExecution
 	}
 	let delay = initialDelay
+
+	// In case this is a scenario retry, we need to increase the initial delay according to the number of tries
+	for (let i = 1; i < (repeatedTry ?? 0); i++) {
+		delay = delay * delayFactor
+	}
 
 	const startTs = Date.now()
 	let numTry = 0

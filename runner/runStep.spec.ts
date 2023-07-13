@@ -48,6 +48,7 @@ describe('runStep()', () => {
 				getRelativeTs,
 				context: scenario,
 			}),
+			numTry: 1,
 		}
 	})
 
@@ -217,6 +218,7 @@ describe('runStep()', () => {
 				context: scenario,
 			}),
 			previousResults: [],
+			numTry: 1,
 		})
 
 		assert.equal(stepResult.ok, false)
@@ -271,6 +273,7 @@ describe('runStep()', () => {
 				context: scenario,
 			}),
 			previousResults: [],
+			numTry: 1,
 		})
 
 		assert.equal(stepResult.ok, false)
