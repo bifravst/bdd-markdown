@@ -105,27 +105,26 @@ export const runStep = async <Context extends Record<string, any>>({
 	}
 
 	// Retry configuration
-	let tries = 1
-	let initialDelay = 0
-	let delayFactor = 0
-	let delayExecution: number | undefined = undefined
+	const retryConfig = getRetryConfig(step, scenario, feature)
 	const retriesEnabled =
 		step.keyword === StepKeyword.Soon &&
 		// The entire scenario should be retried on failure
 		!scenarioRetryEnabled(step)
 	if (retriesEnabled) {
-		const retryConfig = getRetryConfig(step, scenario, feature)
 		stepLogger.debug(formatRetryConfig(retryConfig))
-		tries = retryConfig.tries
-		initialDelay = retryConfig.initialDelay
-		delayFactor = retryConfig.delayFactor
-		delayExecution = retryConfig.delayExecution
+	} else {
+		retryConfig.tries = 0
 	}
-	let delay = initialDelay
+	let delay = retryConfig.initialDelay
 
 	// In case this is a scenario retry, we need to increase the initial delay according to the number of tries
-	for (let i = 1; i < (repeatedTry ?? 0); i++) {
-		delay = delay * delayFactor
+	if ((repeatedTry ?? 0) > 1 && retriesEnabled) {
+		for (let i = 1; i < repeatedTry; i++) {
+			delay = delay * retryConfig.delayFactor
+		}
+		stepLogger.debug(
+			`Initial delay set to ${delay} because of repeated try ${repeatedTry}`,
+		)
 	}
 
 	const startTs = Date.now()
@@ -148,10 +147,7 @@ export const runStep = async <Context extends Record<string, any>>({
 				}
 			}
 
-			if (delayExecution !== undefined)
-				await new Promise((resolve) => setTimeout(resolve, delayExecution))
-
-			const maxTries = Math.max(1, tries)
+			const maxTries = Math.max(1, retryConfig.tries)
 			for (let i = 0; i < maxTries; i++) {
 				try {
 					numTry++
@@ -184,7 +180,7 @@ export const runStep = async <Context extends Record<string, any>>({
 					if (i + 1 === maxTries) throw err // Retries exhausted
 					// it did not not-match, but threw an error
 					await new Promise((resolve) => setTimeout(resolve, delay))
-					delay = delay * delayFactor
+					delay = delay * retryConfig.delayFactor
 				}
 			}
 		}
