@@ -19,7 +19,6 @@ export const keywordDefinition = (
 	const startIndex = s.index()
 
 	const c = comment(s)
-
 	whiteSpace(s)
 
 	const k = keyword(s, allowedKeywords, allowedLevel)

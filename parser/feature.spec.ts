@@ -265,4 +265,17 @@ describe('feature()', () => {
 			'**Note**   It can also be used to render [these fancy note boxes](https://github.com/community/community/discussions/16925#discussion-4085374) on GitHub.',
 		])
 	})
+
+	it('should parse commands for scenarios', () => {
+		const parsed = feature(l('CommentsNotParsed'))
+
+		assert.deepEqual(parsed.scenarios[1]?.comment, {
+			text: 'Comments on the last step should be parsed for the next scenario. @retry:delayExecution=1000',
+			tags: {
+				retry: {
+					delayExecution: '1000',
+				},
+			},
+		})
+	})
 })

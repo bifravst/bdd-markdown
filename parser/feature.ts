@@ -13,7 +13,6 @@ import {
 	type Table,
 } from './grammar.js'
 import { codeBlock } from './tokens/codeBlock.js'
-import { comment } from './tokens/comment.js'
 import { description } from './tokens/description.js'
 import { frontMatter } from './tokens/frontMatter.js'
 import { keyword } from './tokens/keyword.js'
@@ -211,17 +210,14 @@ const parseSteps = (s: TokenStream): Step[] => {
 	const steps: Step[] = []
 
 	while (true) {
-		const stepComment = comment(s)
-		whiteSpace(s)
 		const st = step(s)
+		if (st === null) break
 		whiteSpace(s)
 		const code = codeBlock(s)
 		whiteSpace(s)
 		const d = description(s)
 		whiteSpace(s)
-		if (st === null) break
 		if (code !== null) st.codeBlock = code
-		if (stepComment !== null) st.comment = stepComment
 		if (d !== null) st.description = d
 		// Resolve `And`ed keyword
 		if (st.keyword === StepKeyword.And) {

@@ -1,7 +1,11 @@
 # Delay Execution
 
-## Scenario with delayed steps
+<!-- @retry:delayExecution=250 -->
 
-<!-- @retryScenario @retry:delayExecution=1000,tries=2,initialDelay=1,delayFactor=1 -->
+## Query the cell
+
+Given this step will pass
+
+<!-- @retryScenario -->
 
 Soon this step will fail

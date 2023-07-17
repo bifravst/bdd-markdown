@@ -2,6 +2,7 @@ import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
 import { getLineNumber } from '../errors/toErrorPosition.js'
 import { StepKeyword, steps, type Step } from '../grammar.js'
 import { type TokenStream } from '../tokenStream.js'
+import { comment } from './comment.js'
 import { paragraph } from './paragraph.js'
 import { whiteSpace } from './whiteSpace.js'
 import { word } from './word.js'
@@ -9,9 +10,16 @@ import { word } from './word.js'
 type ParsedStep = Omit<Step, 'keyword'> & { keyword: StepKeyword }
 
 export const step = (s: TokenStream): ParsedStep | null => {
+	if (s.isEoF()) return null
+	const startIndex = s.index()
+	const stepComment = comment(s)
+	whiteSpace(s)
 	const stepWord = word(s)
 	const line = getLineNumber(s)
-	if (stepWord === null) return null
+	if (stepWord === null) {
+		s.go(startIndex)
+		return null
+	}
 	if (!steps.includes(stepWord as StepKeyword))
 		throw new InvalidSyntaxError(
 			s,
@@ -27,5 +35,6 @@ export const step = (s: TokenStream): ParsedStep | null => {
 		title,
 		line,
 	}
+	if (stepComment !== null) step.comment = stepComment
 	return step
 }

@@ -187,8 +187,8 @@ describe('runScenario()', () => {
 
 		const scenarioResult = await runScenario({
 			stepRunners: [
-				async () => {
-					throw new Error(`Always fails!`)
+				async ({ step }) => {
+					if (step.title.includes('fail')) throw new Error(`Step failed!`)
 				},
 			],
 			feature: { ...feature, variant: {} },
@@ -199,7 +199,7 @@ describe('runScenario()', () => {
 		})
 
 		assert.equal(scenarioResult.ok, false)
-		assert.equal(scenarioResult.tries, 2)
+		assert.equal(scenarioResult.tries, 5)
 		assert.equal(Date.now() - startTs >= 1000, true)
 		assert.equal(Date.now() - startTs < 2000, true)
 	})
