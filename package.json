@@ -33,7 +33,6 @@
     "ajv": "8.12.0",
     "chalk": "5.3.0",
     "jsonata": "2.0.3",
-    "tap-parser": "13.0.1",
     "toposort": "2.0.2",
     "yaml": "2.3.1"
   },
@@ -57,7 +56,7 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "test": "npx tsx tests.ts",
+    "test": "find ./ -type f -name \\*.spec.ts | xargs npx tsx --test --test-reporter spec",
     "prepare": "husky install && check-node-version --package",
     "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
   },
