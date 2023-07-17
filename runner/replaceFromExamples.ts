@@ -32,8 +32,9 @@ export const replaceFromExamples = async (
 }
 const stringPlaceholderExpressions = /\$\{([^}]+)\}/g
 const numberPlaceholderExpression = /"\$number\{([^}]+)\}"/g
+const variantPlaceholderExpression = /<variant\.([^>]+)>/g
 
-export const replacePlaceholders = async (
+const replacePlaceholders = async (
 	s: string,
 	row: Record<string, unknown>,
 	expression: RegExp,
@@ -58,6 +59,11 @@ export const replaceStringPlaceholders = async (
 	s: string,
 	row: Record<string, unknown>,
 ): Promise<string> => replacePlaceholders(s, row, stringPlaceholderExpressions)
+
+export const replaceVariantPlaceholders = async (
+	s: string,
+	row: Record<string, unknown>,
+): Promise<string> => replacePlaceholders(s, row, variantPlaceholderExpression)
 
 export const replaceNumberPlaceholders = async (
 	s: string,

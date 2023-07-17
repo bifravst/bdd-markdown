@@ -102,7 +102,7 @@ describe('replaceFromExamples()', () => {
 			},
 		})
 	})
-	it('should handle malformed placeholders gracefully', async () => {
+	it('should handle malformed placeholders gracefully', async () =>
 		assert.rejects(
 			async () =>
 				replaceFromExamples(
@@ -114,6 +114,5 @@ describe('replaceFromExamples()', () => {
 					{},
 				),
 			/The expression 'foo:bar' is not valid JSONata./,
-		)
-	})
+		))
 })

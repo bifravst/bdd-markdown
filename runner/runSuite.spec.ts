@@ -195,7 +195,6 @@ describe('runSuite()', () => {
 			runner.addStepRunners(
 				...(<StepRunner<Record<string, any>>[]>[
 					async ({ step: { title }, feature: { variant } }) => {
-						console.log(title, { variant })
 						titles.push(title)
 						variants.push(variant)
 						return
@@ -211,13 +210,25 @@ describe('runSuite()', () => {
 			assert.deepEqual(result.summary.skipped, 0)
 			assert.deepEqual(result.summary.total, 2)
 
+			// ${variant.nw}
 			assert.equal(titles[0], 'network is `ltem` and modem is `LTE-M`')
 			assert.deepEqual(variants[0], {
 				nw: 'ltem',
 				modem: 'LTE-M',
 			})
-			assert.equal(titles[1], 'network is `nbiot` and modem is `NB-IoT`')
+			assert.equal(titles[2], 'network is `nbiot` and modem is `NB-IoT`')
+			assert.deepEqual(variants[2], {
+				nw: 'nbiot',
+				modem: 'NB-IoT',
+			})
+			// <variant.nw>
+			assert.equal(titles[1], 'network is `ltem` and modem is `LTE-M`')
 			assert.deepEqual(variants[1], {
+				nw: 'ltem',
+				modem: 'LTE-M',
+			})
+			assert.equal(titles[3], 'network is `nbiot` and modem is `NB-IoT`')
+			assert.deepEqual(variants[3], {
 				nw: 'nbiot',
 				modem: 'NB-IoT',
 			})
