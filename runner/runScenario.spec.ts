@@ -169,7 +169,7 @@ describe('runScenario()', () => {
 		])
 	})
 
-	it('should delay a step execution if delayExecution is specified', async () => {
+	it('should delay a step execution on retry if delayExecution is specified', async () => {
 		const feature = (
 			await loadFeatureFile(
 				path.join(
@@ -199,7 +199,8 @@ describe('runScenario()', () => {
 		})
 
 		assert.equal(scenarioResult.ok, false)
-		assert.equal(scenarioResult.tries, 1)
+		assert.equal(scenarioResult.tries, 2)
 		assert.equal(Date.now() - startTs >= 1000, true)
+		assert.equal(Date.now() - startTs < 2000, true)
 	})
 })

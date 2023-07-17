@@ -108,7 +108,7 @@ const runScenarioOnce = async <Context extends Record<string, any>>({
 		}
 
 		const retryConfig = getRetryConfig(step, scenario, feature)
-		if (retryConfig.delayExecution !== undefined) {
+		if (numTry > 1 && retryConfig.delayExecution !== undefined) {
 			await new Promise((resolve) =>
 				setTimeout(resolve, retryConfig.delayExecution),
 			)

@@ -140,7 +140,7 @@ export const RetryConfigSchema = Type.Object(
 		delayExecution: Type.Optional(
 			Type.Number({
 				description:
-					'Instead of executing the step immediately, delay it by this amount in milliseconds.',
+					'Instead of executing the step immediately after failure, delay it by this amount in milliseconds.',
 				minimum: 0,
 				examples: [250],
 				default: 1000,
