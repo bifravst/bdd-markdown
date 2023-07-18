@@ -278,4 +278,10 @@ describe('feature()', () => {
 			},
 		})
 	})
+
+	it('should parse two consecutive code blocks for scenarios', () => {
+		const parsed = feature(l('CodeBlocksWithBlankLines'))
+
+		assert.equal(parsed.scenarios[0]?.steps.length, 2)
+	})
 })

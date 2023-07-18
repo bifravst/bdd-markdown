@@ -37,9 +37,8 @@ export const frontMatter = (s: TokenStream): Record<string, any> | null => {
 
 	while (true) {
 		const l = line(s)
-		if (l === null) break
 		if (l === '---') break
-		yamlLines.push(l)
+		yamlLines.push(l ?? '') // allow blank lines
 	}
 	whiteSpace(s)
 

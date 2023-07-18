@@ -32,4 +32,13 @@ describe('codeBlock()', () => {
 				2,
 			),
 		}))
+	it('should parse code blocks with blank lines at the end', () =>
+		assert.deepEqual(codeBlock(l('blankLineAtEnd')), {
+			code: [
+				`HTTP/1.1 200 OK`,
+				`Content-Type: application/octet-stream`,
+				`Content-Length: 1160`,
+				``,
+			].join('\n'),
+		}))
 })

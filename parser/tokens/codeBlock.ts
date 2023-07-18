@@ -45,9 +45,8 @@ export const codeBlock = (s: TokenStream): CodeBlock | null => {
 
 	while (true) {
 		const l = line(s)
-		if (l === null) break
 		if (l === '```') break
-		codeLines.push(l)
+		codeLines.push(l ?? '') // blank lines are allowed
 	}
 
 	const block: CodeBlock = {

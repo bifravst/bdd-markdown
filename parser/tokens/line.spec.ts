@@ -12,4 +12,12 @@ describe('line()', () => {
 		assert.deepEqual(line(multiLine), 'line 1')
 		assert.deepEqual(line(multiLine), 'line 2')
 	})
+	it('should read blank lines', () => {
+		const s = tokenStream(`${os.EOL}Hello${os.EOL}${os.EOL}You${os.EOL}`)
+		assert.deepEqual(line(s), null)
+		assert.deepEqual(line(s), 'Hello')
+		assert.deepEqual(line(s), null)
+		assert.deepEqual(line(s), 'You')
+		assert.equal(s.isEoF(), true)
+	})
 })
