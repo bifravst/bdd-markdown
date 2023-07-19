@@ -11,9 +11,10 @@ const passMark = chalk.bgGreenBright.bold.rgb(0, 0, 0)(' OK ')
 export const consoleReporter = (
 	result: SuiteResult,
 	print: (...args: string[]) => void,
+	options: RunResultFormatterOptions,
 ): void => {
 	print('')
-	formatRunResult(result, print)
+	formatRunResult(result, print, options)
 	print('')
 	summarizeRunResult(result, print)
 }
@@ -42,10 +43,14 @@ const summarizeRunResult = (
 		chalk.white(`${`${duration}`.padStart(6, ' ')} ms`),
 	)
 }
-
+type RunResultFormatterOptions = {
+	// Only print failed scenarios
+	onlyFailed?: boolean
+}
 const formatRunResult = (
 	result: SuiteResult,
 	print: (...args: string[]) => void,
+	options: RunResultFormatterOptions,
 ) => {
 	const testSuiteDuration = result.results.reduce(
 		(total, [, { duration }]) => total + duration,
@@ -66,6 +71,16 @@ const formatRunResult = (
 
 		if (featureResult.skipped) {
 			print(prefix, colorSkipped(file.name))
+			return
+		}
+
+		if (options.onlyFailed === true && featureResult.ok) {
+			print(
+				prefix,
+				featureResult.ok ? passMark : errorMark,
+				(featureResult.ok ? chalk.greenBright : chalk.redBright)(file.name),
+				formatDuration(featureResult),
+			)
 			return
 		}
 
