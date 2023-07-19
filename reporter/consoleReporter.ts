@@ -11,7 +11,7 @@ const passMark = chalk.bgGreenBright.bold.rgb(0, 0, 0)(' OK ')
 export const consoleReporter = (
 	result: SuiteResult,
 	print: (...args: string[]) => void,
-	options: RunResultFormatterOptions,
+	options?: RunResultFormatterOptions & PrintLogsOptions,
 ): void => {
 	print('')
 	formatRunResult(result, print, options)
@@ -50,7 +50,7 @@ type RunResultFormatterOptions = {
 const formatRunResult = (
 	result: SuiteResult,
 	print: (...args: string[]) => void,
-	options: RunResultFormatterOptions,
+	options?: RunResultFormatterOptions & PrintLogsOptions,
 ) => {
 	const testSuiteDuration = result.results.reduce(
 		(total, [, { duration }]) => total + duration,
@@ -74,7 +74,7 @@ const formatRunResult = (
 			return
 		}
 
-		if (options.onlyFailed === true && featureResult.ok) {
+		if (options?.onlyFailed === true && featureResult.ok) {
 			print(
 				prefix,
 				featureResult.ok ? passMark : errorMark,
@@ -91,7 +91,12 @@ const formatRunResult = (
 			formatDuration(featureResult),
 		)
 
-		printLogs(featureResult.logs, colorLine(` ${featureLine}  │   `), print)
+		printLogs(
+			featureResult.logs,
+			colorLine(` ${featureLine}  │   `),
+			print,
+			options,
+		)
 
 		featureResult.results.forEach(([scenario, scenarioResult], i, results) => {
 			const lastScenario = i === results.length - 1
@@ -128,6 +133,7 @@ const formatRunResult = (
 				scenarioResult.logs,
 				colorLine(` ${featureLine}  ${scenarioLine}  │  `),
 				print,
+				options,
 			)
 
 			print(colorLine(` ${featureLine}  ${scenarioLine}  │ `))
@@ -194,6 +200,7 @@ const formatRunResult = (
 					stepResult.logs,
 					colorLine(` ${featureLine}  ${scenarioLine}  ${stepLine}        `),
 					print,
+					options,
 				)
 			})
 		})
@@ -204,10 +211,13 @@ const printResult = (result: StepResult) => {
 	return JSON.stringify(result.result)
 }
 
+type PrintLogsOptions = { withTimestamps?: boolean }
+
 const printLogs = (
 	logs: LogEntry[],
 	line: string,
 	print: (...args: string[]) => void,
+	options?: PrintLogsOptions,
 ) => {
 	for (const log of logs) {
 		let color = chalk.gray
@@ -229,6 +239,11 @@ const printLogs = (
 				color = chalk.blue.dim
 				prefix = color('»')
 				break
+		}
+
+		if (options?.withTimestamps === true) {
+			const timeInfo = colorTime(`⏲ ${log.ts.toString()} ms`)
+			print(`${line}${prefix}`, timeInfo)
 		}
 
 		for (const message of log.message) {
