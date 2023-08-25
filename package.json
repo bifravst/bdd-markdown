@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.80",
-    "@types/node": "20.5.4",
+    "@types/node": "20.5.6",
     "@types/prettier": "2.7.3",
     "@types/toposort": "2.0.3",
     "check-node-version": "4.2.1",
