@@ -1,14 +1,14 @@
 import {
 	RetryConfigSchema,
-	StepKeyword,
-	type Comment,
-	type Feature,
-	type PartialRetryConfig,
 	type RetryConfig,
-	type Scenario,
 	type Step,
+	type Scenario,
+	type Feature,
+	StepKeyword,
 	type Tag,
-} from '..'
+	type PartialRetryConfig,
+	type Comment,
+} from '../parser/grammar.js'
 import { InvalidSettingsError } from './errors/InvalidSettingsError.js'
 import { validateWithJSONSchema } from './validateWithJSONSchema.js'
 
