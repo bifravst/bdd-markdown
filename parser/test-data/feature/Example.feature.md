@@ -63,3 +63,9 @@ Then I should have `${left}` cucumbers
 | ----- | --- | ---- |
 | 12    | 5   | 7    |
 | 20    | 5   | 15   |
+
+<!-- this comment belongs to the next scenario -->
+
+## Another Scenario
+
+Given this is the last scenario

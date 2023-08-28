@@ -258,5 +258,7 @@ const parseExamples = (s: TokenStream, level: number): Table => {
 			s,
 			`Scenario outlines must provide an examples table.`,
 		)
+	// May have whitespace after the table
+	whiteSpace(s)
 	return examples
 }

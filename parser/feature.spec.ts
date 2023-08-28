@@ -129,6 +129,21 @@ describe('feature()', () => {
 						},
 					],
 				},
+				{
+					comment: {
+						text: 'this comment belongs to the next scenario',
+					},
+					keyword: 'Scenario',
+					line: 69,
+					steps: [
+						{
+							keyword: 'Given',
+							line: 71,
+							title: 'this is the last scenario',
+						},
+					],
+					title: 'Another Scenario',
+				},
 			],
 		} as Feature)
 	})
