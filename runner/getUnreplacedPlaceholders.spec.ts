@@ -42,4 +42,13 @@ describe('getUnreplacedPlaceholders()', () => {
 			}),
 			[],
 		))
+	it('should detect unreplaced placeholders using the alternative syntax', () =>
+		assert.deepEqual(
+			getUnreplacedPlaceholders({
+				keyword: StepKeyword.Then,
+				line: 1,
+				title: 'Given network is `<variant.nw>` and modem is `<variant.modem>`',
+			}),
+			['<variant.nw>', '<variant.modem>'],
+		))
 })

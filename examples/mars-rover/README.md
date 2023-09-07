@@ -1,7 +1,7 @@
 # Mars Rover kata
 
 This example is included because it demonstrates the use of Scenario outlines
-and testing asynchronous code, using the `Soon` keyword, which has built-in
+and testing asynchronous code, using the `Soon` keyword, which demonstrates
 retry logic.
 
 The Rover in this implementation receives commands but does not reach the target

@@ -9,7 +9,7 @@
 
 Given I have a random number between `1` and `100000000` in `cellId`
 
-<!-- Comments on the last step should be parsed for the next scenario. @retry:delayExecution=1000 -->
+<!-- Comments on the last step should be parsed for the next scenario. @retryScenario -->
 
 ## Scenario 2
 

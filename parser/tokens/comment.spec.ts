@@ -40,17 +40,13 @@ describe('comment()', () => {
 		assert.deepEqual(
 			comment(
 				tokenStream(
-					'<!-- This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step. -->',
+					'<!-- This @retryScenario applies only to the next step. -->',
 				),
 			),
 			{
-				text: 'This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step.',
+				text: 'This @retryScenario applies only to the next step.',
 				tags: {
-					retry: {
-						tries: '3',
-						initialDelay: '100',
-						delayFactor: '1.5',
-					},
+					retryScenario: true,
 				},
 			},
 		))
