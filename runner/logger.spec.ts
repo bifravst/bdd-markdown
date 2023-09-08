@@ -1,15 +1,11 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import type { Step } from '../parser/grammar.js'
 import { LogLevel, logger, type LogEntry } from './logger.js'
 
 describe('logger()', () => {
 	describe('should allow to log messages', () => {
-		const step = {} as Step
-		const { progress, debug, error, getLogs, info, context } = logger({
-			context: step,
-			getRelativeTs: () => 42,
-		})
+		const now = Date.now()
+		const { progress, debug, error, getLogs, info } = logger({ now })
 		const expected: LogEntry[] = []
 
 		it('should allow to store debug messages', () => {
@@ -17,7 +13,7 @@ describe('logger()', () => {
 
 			expected.push({
 				level: LogLevel.DEBUG,
-				ts: 42,
+				ts: now,
 				message: [`A debug message`, `with two parts`],
 			})
 			assert.deepEqual(getLogs(), expected)
@@ -28,7 +24,7 @@ describe('logger()', () => {
 
 			expected.push({
 				level: LogLevel.ERROR,
-				ts: 42,
+				ts: now,
 				message: [`Some error`],
 			})
 
@@ -40,7 +36,7 @@ describe('logger()', () => {
 
 			expected.push({
 				level: LogLevel.INFO,
-				ts: 42,
+				ts: now,
 				message: [`An info`],
 			})
 
@@ -52,15 +48,11 @@ describe('logger()', () => {
 
 			expected.push({
 				level: LogLevel.PROGRESS,
-				ts: 42,
+				ts: now,
 				message: [`Doing something`, `the thing`],
 			})
 
 			assert.deepEqual(getLogs(), expected)
-		})
-
-		describe('context provides the source of the log', () => {
-			it('should provide the context', () => assert.equal(context, step))
 		})
 	})
 
@@ -70,40 +62,33 @@ describe('logger()', () => {
 			const infoLogs: any[] = []
 			const progressLogs: any[] = []
 			const errorLogs: any[] = []
-			const step = {} as Step
+			const now = Date.now()
 			const l = logger({
-				context: step,
-				getRelativeTs: () => 42,
 				onDebug: (...args) => debugLogs.push(args),
 				onInfo: (...args) => infoLogs.push(args),
 				onProgress: (...args) => progressLogs.push(args),
 				onError: (...args) => errorLogs.push(args),
+				now,
 			})
 
 			l.debug('foo', 'bar')
 			assert.deepEqual(debugLogs, [
-				[{ context: step, ts: 42, level: LogLevel.DEBUG }, 'foo', 'bar'],
+				[{ ts: now, level: LogLevel.DEBUG }, 'foo', 'bar'],
 			])
 
 			l.info('bar', 'foo')
 			assert.deepEqual(infoLogs, [
-				[{ context: step, ts: 42, level: LogLevel.INFO }, 'bar', 'foo'],
+				[{ ts: now, level: LogLevel.INFO }, 'bar', 'foo'],
 			])
 
 			l.progress('progress', 'foo')
 			assert.deepEqual(progressLogs, [
-				[
-					{ context: step, ts: 42, level: LogLevel.PROGRESS },
-					'progress',
-					'foo',
-				],
+				[{ ts: now, level: LogLevel.PROGRESS }, 'progress', 'foo'],
 			])
 
 			const e = new Error()
 			l.error(e)
-			assert.deepEqual(errorLogs, [
-				[{ context: step, ts: 42, level: LogLevel.ERROR }, e],
-			])
+			assert.deepEqual(errorLogs, [[{ ts: now, level: LogLevel.ERROR }, e]])
 		})
 	})
 })

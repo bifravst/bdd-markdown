@@ -1,3 +1,10 @@
+---
+exampleContext:
+  appVersion: 0.0.0-development
+  deviceId: my-device
+  idScope: 0n283efa
+---
+
 # Run the firmware
 
 > The Asset Tracker should run the firmware

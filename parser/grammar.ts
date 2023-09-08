@@ -38,6 +38,8 @@ export type Feature = KeywordDefinition & {
 		run?: 'never' | 'only' | 'first' | 'last'
 		needs?: string[]
 		variants?: Record<string, string>[]
+		/** Used to define example replacements for placeholders during the step runner collection phase */
+		exampleContext?: Record<string, any>
 	}
 }
 

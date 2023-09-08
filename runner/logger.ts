@@ -1,6 +1,4 @@
-import type { Feature, Scenario, Step } from '../parser/grammar.js'
-
-export type Logger<Context extends Feature | Scenario | Step> = {
+export type Logger = {
 	/**
 	 * Logs a debug message
 	 */
@@ -17,10 +15,6 @@ export type Logger<Context extends Feature | Scenario | Step> = {
 	 * Logs a progress message
 	 */
 	progress: (...args: string[]) => void
-	/**
-	 * Returns the context of the logger.
-	 */
-	context: Context
 }
 
 type ErrorInfo = {
@@ -38,18 +32,11 @@ export enum LogLevel {
 export type LogEntry = {
 	level: LogLevel
 	message: string[]
-	/**
-	 * Time in ms from beginning of the feature run when the log message was created
-	 */
 	ts: number
 }
 
 type LogObserverInfo = {
-	context: Feature | Scenario | Step
 	level: LogLevel
-	/**
-	 * Time in ms from beginning of the feature run when the log message was created
-	 */
 	ts: number
 }
 
@@ -72,59 +59,50 @@ export type LogObserver = {
 	onProgress?: (info: LogObserverInfo, ...args: string[]) => unknown
 }
 
-export const logger = <Context extends Feature | Scenario | Step>({
-	context,
-	getRelativeTs,
+export const logger = ({
 	onDebug,
 	onError,
 	onInfo,
 	onProgress,
-}: {
-	/**
-	 * The context the logs of this logger are coming from
-	 */
-	context: Context
-	/**
-	 * Returns the number of milliseconds that have elapse since the "start" of the test run.
-	 */
-	getRelativeTs: () => number
-} & LogObserver): Logger<Context> & { getLogs: () => LogEntry[] } => {
+	now,
+}: LogObserver & { now?: number }): Logger & { getLogs: () => LogEntry[] } => {
 	const logs: LogEntry[] = []
-	const ts = getRelativeTs()
 	return {
 		debug: (...message) => {
 			logs.push({
 				message,
 				level: LogLevel.DEBUG,
-				ts,
+				ts: now ?? Date.now(),
 			})
-			onDebug?.({ context, ts, level: LogLevel.DEBUG }, ...message)
+			onDebug?.({ ts: now ?? Date.now(), level: LogLevel.DEBUG }, ...message)
 		},
 		progress: (...message) => {
 			logs.push({
 				message,
 				level: LogLevel.PROGRESS,
-				ts,
+				ts: now ?? Date.now(),
 			})
-			onProgress?.({ context, ts, level: LogLevel.PROGRESS }, ...message)
+			onProgress?.(
+				{ ts: now ?? Date.now(), level: LogLevel.PROGRESS },
+				...message,
+			)
 		},
 		info: (...message) => {
 			logs.push({
 				message,
 				level: LogLevel.INFO,
-				ts,
+				ts: now ?? Date.now(),
 			})
-			onInfo?.({ context, ts, level: LogLevel.INFO }, ...message)
+			onInfo?.({ ts: now ?? Date.now(), level: LogLevel.INFO }, ...message)
 		},
 		error: (error) => {
 			logs.push({
 				message: [error.message],
 				level: LogLevel.ERROR,
-				ts,
+				ts: now ?? Date.now(),
 			})
-			onError?.({ context, ts, level: LogLevel.ERROR }, error)
+			onError?.({ ts: now ?? Date.now(), level: LogLevel.ERROR }, error)
 		},
 		getLogs: () => logs,
-		context,
 	}
 }

@@ -1,4 +1,4 @@
-import type path from 'node:path'
+import path from 'node:path'
 import {
 	Keyword,
 	type Feature,
@@ -11,6 +11,7 @@ import type { FeatureFile } from './parseFeaturesInFolder.js'
 import { replaceFromExamples } from './replaceFromExamples.js'
 import { replaceFromContext } from './replaceFromContext.js'
 import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
+import os from 'node:os'
 
 type FeatureListenerArgs = {
 	feature: FeatureVariant
@@ -28,11 +29,13 @@ export type ScenarioListener = (args: ScenarioListenerArgs) => void
 type StepListenerArgs = ScenarioListenerArgs & {
 	step: Step
 }
-export type StepListener = (args: StepListenerArgs) => void
+export type StepListener = (args: StepListenerArgs) => void | Promise<void>
 export type SuiteWalker = {
 	onStep: (fn: StepListener) => SuiteWalker
 	onFeature: (fn: FeatureListener) => SuiteWalker
+	onFeatureEnd: (fn: FeatureListener) => SuiteWalker
 	onScenario: (fn: ScenarioListener) => SuiteWalker
+	onScenarioEnd: (fn: ScenarioListener) => SuiteWalker
 	walk: () => Promise<void>
 }
 export type FeatureVariant = Feature & {
@@ -45,10 +48,15 @@ export type ScenarioWithExamples = Scenario & {
 /**
  * Walks a suite of feature files and calls the respective callbacks when a feature, scenario, or step is discovered
  **/
-export const suiteWalker = (suite: FeatureFile[]): SuiteWalker => {
+export const suiteWalker = (
+	suite: FeatureFile[],
+	context?: Record<string, any>,
+): SuiteWalker => {
 	const stepListeners: StepListener[] = []
 	const featureListeners: FeatureListener[] = []
 	const scenarioListeners: ScenarioListener[] = []
+	const featureEndListeners: FeatureListener[] = []
+	const scenarioEndListeners: ScenarioListener[] = []
 	const walker: SuiteWalker = {
 		onFeature: (fn: FeatureListener) => {
 			featureListeners.push(fn)
@@ -58,14 +66,22 @@ export const suiteWalker = (suite: FeatureFile[]): SuiteWalker => {
 			scenarioListeners.push(fn)
 			return walker
 		},
+		onFeatureEnd: (fn: FeatureListener) => {
+			featureEndListeners.push(fn)
+			return walker
+		},
+		onScenarioEnd: (fn: ScenarioListener) => {
+			scenarioEndListeners.push(fn)
+			return walker
+		},
 		onStep: (fn: StepListener) => {
 			stepListeners.push(fn)
 			return walker
 		},
-		walk: async (context: Record<string, any> = {}) => {
+		walk: async () => {
 			for (const { file, feature, skip } of orderFeatures(suite)) {
-				if (skip) {
-					featureListeners.map((listener) =>
+				if (skip ?? false) {
+					;[...featureListeners, ...featureEndListeners].map((listener) =>
 						listener({
 							file,
 							feature: { ...feature, variant: {} },
@@ -83,7 +99,8 @@ export const suiteWalker = (suite: FeatureFile[]): SuiteWalker => {
 						const scenarios: ScenarioWithExamples[] = []
 						if (scenario.keyword === Keyword.ScenarioOutline) {
 							for (const row of scenario.examples) {
-								const { examples: _, ...scenarioRest } = scenario
+								const { examples, ...scenarioRest } = scenario
+								void examples
 								const scenarioFromExample: ScenarioWithExamples = {
 									...scenarioRest,
 									keyword: Keyword.Scenario,
@@ -109,26 +126,42 @@ export const suiteWalker = (suite: FeatureFile[]): SuiteWalker => {
 							)
 							for (const step of scenario.steps) {
 								const replacedStep = await replaceFromContext(step, {
+									...(feature.frontMatter?.exampleContext ?? {}),
 									...context,
 									variant,
 								})
 								const unreplaced = getUnreplacedPlaceholders(replacedStep)
 								if (unreplaced.length > 0) {
 									throw new Error(
-										`Step has unreplaced placeholders: ${step.title}`,
+										[
+											`Step has unreplaced placeholders: ${step.title}`,
+											`${path.format(file)}:${step.line}`,
+										].join(os.EOL),
 									)
 								}
-								stepListeners.map((fn) =>
-									fn({
-										file,
-										feature: featureVariant,
-										scenario,
-										step: replacedStep,
-									}),
+								await Promise.all(
+									stepListeners.map(async (fn) =>
+										fn({
+											file,
+											feature: featureVariant,
+											scenario,
+											step: replacedStep,
+										}),
+									),
 								)
 							}
+							scenarioEndListeners.map((fn) =>
+								fn({
+									file,
+									feature: featureVariant,
+									scenario,
+								}),
+							)
 						}
 					}
+					featureEndListeners.map((listener) =>
+						listener({ file, feature: featureVariant, skip: false }),
+					)
 				}
 			}
 		},
