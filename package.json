@@ -72,7 +72,11 @@
   },
   "release": {
     "branches": [
-      "saga"
+      "saga",
+      {
+        "name": "!(saga|v[0-9].[0-9].x|*_*|*/*)",
+        "prerelease": true
+      }
     ],
     "remoteTags": true,
     "plugins": [
