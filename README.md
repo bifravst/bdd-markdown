@@ -88,12 +88,8 @@ longer times and many tries during the test run will have the least amount of
 impact on the run time.
 
 Implementing the appropriate way of retrying is left to the implementing step,
-however you are encourage to mark these eventualy consisted steps using the
+however you are encourage to mark these eventual consisted steps using the
 `Soon` keyword.
-
-The `Soon` keyword can be configured to cause the entire Scenario to be retried
-in case the step fails through the `@retryScenario` tag in a comment preceding
-the step, the scenario. ([Example](./runner/test-data/runFeature/RetryScenario.feature.md)).
 
 ## Control feature execution order via dependencies
 

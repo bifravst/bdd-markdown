@@ -285,10 +285,7 @@ describe('feature()', () => {
 		const parsed = feature(l('CommentsNotParsed'))
 
 		assert.deepEqual(parsed.scenarios[1]?.comment, {
-			text: 'Comments on the last step should be parsed for the next scenario. @retryScenario',
-			tags: {
-				retryScenario: true,
-			},
+			text: 'Comments on the last step should be parsed for the next scenario.',
 		})
 	})
 

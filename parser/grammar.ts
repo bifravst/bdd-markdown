@@ -107,10 +107,7 @@ export type CodeBlock = {
 export type Row = Record<string, string>
 export type Table = Row[]
 
-export type Tag = Record<string, string | true> | true
-export type Tags = Record<string, Tag>
-
-export type Comment = { text: string; tags?: Tags }
+export type Comment = { text: string }
 
 enum Run {
 	never = 'never',

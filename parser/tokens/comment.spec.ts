@@ -20,46 +20,15 @@ describe('comment()', () => {
 			{ text: 'This is a comment.' },
 		))
 
-	it('should parse tags', () =>
-		assert.deepEqual(
-			comment(
-				tokenStream(
-					'<!-- This is a comment which has some tags: @tag1, @tag2. -->',
-				),
-			),
-			{
-				text: 'This is a comment which has some tags: @tag1, @tag2.',
-				tags: {
-					tag1: true,
-					tag2: true,
-				},
-			},
-		))
-
-	it('should parse tags with properties', () =>
-		assert.deepEqual(
-			comment(
-				tokenStream(
-					'<!-- This @retryScenario applies only to the next step. -->',
-				),
-			),
-			{
-				text: 'This @retryScenario applies only to the next step.',
-				tags: {
-					retryScenario: true,
-				},
-			},
-		))
-
 	it('should parse multi-line comments', () =>
 		assert.deepEqual(
 			comment(
 				tokenStream(
 					[
 						'<!--',
-						'Comment line 1. @tag1',
-						'Comment line 2. @tag2',
-						'Comment line 3. @tag3',
+						'Comment line 1.',
+						'Comment line 2.',
+						'Comment line 3.',
 						'-->',
 						'',
 						'Second line',
@@ -67,16 +36,9 @@ describe('comment()', () => {
 				),
 			),
 			{
-				text: [
-					'Comment line 1. @tag1',
-					'Comment line 2. @tag2',
-					'Comment line 3. @tag3',
-				].join(os.EOL),
-				tags: {
-					tag1: true,
-					tag2: true,
-					tag3: true,
-				},
+				text: ['Comment line 1.', 'Comment line 2.', 'Comment line 3.'].join(
+					os.EOL,
+				),
 			},
 		))
 })
