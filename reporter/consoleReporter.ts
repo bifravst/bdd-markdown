@@ -1,7 +1,6 @@
 import chalk from 'chalk'
 import os from 'os'
 import { LogLevel, type LogEntry } from '../runner/logger.js'
-import type { StepResult } from '../runner/runStep.js'
 import type { SuiteResult } from '../runner/runSuite.js'
 import { toString } from './toString.js'
 
@@ -91,13 +90,6 @@ const formatRunResult = (
 			formatDuration(featureResult),
 		)
 
-		printLogs(
-			featureResult.logs,
-			colorLine(` ${featureLine}  │   `),
-			print,
-			options,
-		)
-
 		featureResult.results.forEach(([scenario, scenarioResult], i, results) => {
 			const lastScenario = i === results.length - 1
 			const scenarioLine = lastScenario ? ' ' : '│'
@@ -129,13 +121,6 @@ const formatRunResult = (
 				)
 			}
 
-			printLogs(
-				scenarioResult.logs,
-				colorLine(` ${featureLine}  ${scenarioLine}  │  `),
-				print,
-				options,
-			)
-
 			print(colorLine(` ${featureLine}  ${scenarioLine}  │ `))
 
 			scenarioResult.results.forEach(([step, stepResult], i, results) => {
@@ -147,7 +132,7 @@ const formatRunResult = (
 							` ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 						),
 						colorSkipped(`${step.keyword.padEnd(5, ' ')}`),
-						stepResult.executed.title,
+						step.title,
 					)
 					return
 				}
@@ -156,13 +141,11 @@ const formatRunResult = (
 						` ${featureLine}  ${scenarioLine}  ${lastStep ? '└─' : '├─'}`,
 					),
 					chalk.gray(step.keyword.padEnd(5, ' ')),
-					(stepResult.ok ? colorSuccess : colorFailure)(
-						stepResult.executed.title,
-					),
+					(stepResult.ok ? colorSuccess : colorFailure)(step.title),
 					formatDuration(stepResult),
 				)
-				if (stepResult.executed.codeBlock !== undefined) {
-					stepResult.executed.codeBlock.code
+				if (step.codeBlock !== undefined) {
+					step.codeBlock.code
 						.split(os.EOL)
 						.forEach((line, i, lines) =>
 							print(
@@ -178,23 +161,6 @@ const formatRunResult = (
 							),
 						)
 				}
-				if (stepResult.result !== undefined) {
-					printResult(stepResult)
-						.split(os.EOL)
-						.forEach((line, i, lines) =>
-							print(
-								colorLine(
-									` ${featureLine}  ${scenarioLine}  ${stepLine}       `,
-								),
-								i === 0
-									? colorValue('❮')
-									: i === lines.length - 1
-									? colorValue('└')
-									: colorValue('│'),
-								colorValue(line),
-							),
-						)
-				}
 
 				printLogs(
 					stepResult.logs,
@@ -206,11 +172,6 @@ const formatRunResult = (
 		})
 	})
 }
-const printResult = (result: StepResult) => {
-	if (result.printable !== undefined) return result.printable
-	return JSON.stringify(result.result)
-}
-
 type PrintLogsOptions = { withTimestamps?: boolean }
 
 const printLogs = (

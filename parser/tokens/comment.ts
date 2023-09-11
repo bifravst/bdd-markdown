@@ -1,7 +1,6 @@
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
 import { type Comment } from '../grammar.js'
 import { type TokenStream } from '../tokenStream.js'
-import { parseTags } from './parseTags.js'
 
 const commentStart = (s: TokenStream): boolean => {
 	if (s.char() !== '<') return false
@@ -37,11 +36,5 @@ export const comment = (s: TokenStream): Comment | null => {
 		.trim()
 	if (commentText.length === 0) return null
 
-	const c: Comment = { text: commentText }
-
-	const tags = parseTags(commentText)
-
-	if (tags !== undefined) c.tags = tags
-
-	return c
+	return { text: commentText }
 }

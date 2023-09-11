@@ -2,13 +2,15 @@ import os from 'os'
 import type { ParsedPath } from 'path'
 import prettier from 'prettier'
 import type { CodeBlock, Step } from '../parser/grammar.js'
-import type { FeatureResult, ScenarioExecution } from '../runner/runFeature.js'
-import type { ScenarioResult } from '../runner/runScenario.js'
-import type { StepResult } from '../runner/runStep.js'
-import type { SuiteResult } from '../runner/runSuite.js'
-import { escapeLogMessage } from './markdown/escapeLogMessage.js'
+import type {
+	FeatureResult,
+	ScenarioResult,
+	StepResult,
+	SuiteResult,
+} from '../runner/runSuite.js'
 import { inputTable } from './markdown/inputTable.js'
 import { logEntry } from './markdown/logEntry.js'
+import type { ScenarioWithExamples } from '../runner/suiteWalker.js'
 
 export const markdownReporter = async (result: SuiteResult): Promise<string> =>
 	prettier.format(
@@ -19,7 +21,7 @@ export const markdownReporter = async (result: SuiteResult): Promise<string> =>
 			'',
 			...result.results
 				.map((feature, i, features) => {
-					const r = [...featureMd(feature)]
+					const r = [...featureMd(feature, result.startTime)]
 					if (i !== features.length - 1) r.push('---')
 					return r
 				})
@@ -49,7 +51,10 @@ const summaryMd = (result: SuiteResult) => {
 	]
 }
 
-const featureMd = ([path, result]: [ParsedPath, FeatureResult]): string[] => {
+const featureMd = (
+	[path, result]: [ParsedPath, FeatureResult],
+	startTime: number,
+): string[] => {
 	const featureMd = []
 
 	featureMd.push(
@@ -57,19 +62,10 @@ const featureMd = ([path, result]: [ParsedPath, FeatureResult]): string[] => {
 		'',
 	)
 
-	if (result.logs.length !== 0) {
-		featureMd.push(
-			...details(
-				'Feature log',
-				result.logs.map((s, i, logs) => logEntry(s, i === logs.length - 1)),
-			),
-		)
-	}
-
 	featureMd.push(
 		...result.results
 			.map((scenario, i, scenarios) => {
-				const r = [...scenarioMd(scenario)]
+				const r = [...scenarioMd(scenario, startTime)]
 				if (i !== scenarios.length - 1) r.push('---')
 				return r
 			})
@@ -79,10 +75,10 @@ const featureMd = ([path, result]: [ParsedPath, FeatureResult]): string[] => {
 	return featureMd
 }
 
-const scenarioMd = ([execution, result]: [
-	ScenarioExecution,
-	ScenarioResult,
-]): string[] => {
+const scenarioMd = (
+	[execution, result]: [ScenarioWithExamples, ScenarioResult],
+	startTime: number,
+): string[] => {
 	const scenarioMd = [
 		`### ${result.ok ? ':heavy_check_mark:' : ':x:'} ${
 			execution.title ?? execution.keyword
@@ -94,25 +90,22 @@ const scenarioMd = ([execution, result]: [
 		scenarioMd.push(...details('Input', inputTable(execution.example)))
 	}
 
-	if (result.logs.length !== 0) {
-		scenarioMd.push(
-			...details(
-				'Scenario log',
-				result.logs.map((s, i, logs) => logEntry(s, i === logs.length - 1)),
-			),
-		)
-	}
-
-	scenarioMd.push(...result.results.map(stepMd).flat(), '')
+	scenarioMd.push(
+		...result.results.map((result) => stepMd(result, startTime)).flat(),
+		'',
+	)
 
 	return scenarioMd
 }
 
-const stepMd = ([, result]: [Step, StepResult]): string[] => {
+const stepMd = (
+	[step, result]: [Step, StepResult],
+	startTime: number,
+): string[] => {
 	const stepMd = [
-		`${result.ok ? ':heavy_check_mark:' : ':x:'} **${
-			result.executed.keyword
-		}** ${result.executed.title}`,
+		`${result.ok ? ':heavy_check_mark:' : ':x:'} **${step.keyword}** ${
+			step.title
+		}`,
 	]
 	stepMd.push('')
 
@@ -120,22 +113,15 @@ const stepMd = ([, result]: [Step, StepResult]): string[] => {
 		stepMd.push(
 			...details(
 				'Step log',
-				result.logs.map((s, i, logs) => logEntry(s, i === logs.length - 1)),
+				result.logs.map((s, i, logs) =>
+					logEntry(s, i === logs.length - 1, startTime),
+				),
 			),
 		)
 	}
 
-	if (result.executed.codeBlock !== undefined) {
-		stepMd.push(...codeBlockMd(result.executed.codeBlock))
-		stepMd.push('')
-	}
-
-	if (result.result !== undefined) {
-		stepMd.push(
-			`> _Result:_ ${escapeLogMessage(
-				result.printable ?? JSON.stringify(result),
-			)}`,
-		)
+	if (step.codeBlock !== undefined) {
+		stepMd.push(...codeBlockMd(step.codeBlock))
 		stepMd.push('')
 	}
 

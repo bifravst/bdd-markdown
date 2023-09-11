@@ -1,6 +1,8 @@
 ---
 needs:
   - Update Context
+exampleContext:
+  randomString: some value
 ---
 
 # Read Context

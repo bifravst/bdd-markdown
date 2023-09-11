@@ -7,8 +7,9 @@ import {
 	loadFeatureFile,
 	parseFeaturesInFolder,
 } from './parseFeaturesInFolder.js'
-import { noMatch, type StepRunner } from './runStep.js'
-import { runSuite } from './runSuite.js'
+import { runSuite, type StepRunner } from './runSuite.js'
+import { groupMatcher } from './matchGroups.js'
+import { Type } from '@sinclair/typebox'
 
 describe('runSuite()', () => {
 	it('should run a simple test suite', async () => {
@@ -23,7 +24,10 @@ describe('runSuite()', () => {
 		)
 		const runner = runSuite([simpleFeature], 'Example')
 
-		runner.addStepRunners(async () => undefined)
+		runner.addStepRunners({
+			match: () => true,
+			run: async () => undefined,
+		})
 
 		const result = await runner.run()
 
@@ -48,8 +52,11 @@ describe('runSuite()', () => {
 			),
 			'Example',
 		)
-		runner.addStepRunners(async () => {
-			throw new Error(`Fail!`)
+		runner.addStepRunners({
+			match: () => true,
+			run: async () => {
+				throw new Error(`Fail!`)
+			},
 		})
 
 		const result = await runner.run()
@@ -61,7 +68,7 @@ describe('runSuite()', () => {
 		assert.deepEqual(result.summary.total, 2)
 	})
 
-	it('should fail if the suite has not features', async () => {
+	it('should fail if the suite has no features', async () => {
 		const runner = runSuite(
 			await parseFeaturesInFolder(
 				path.join(
@@ -88,7 +95,10 @@ describe('runSuite()', () => {
 				'Example',
 			)
 
-			runner.addStepRunners(async () => undefined)
+			runner.addStepRunners({
+				match: () => true,
+				run: async () => undefined,
+			})
 
 			const result = await runner.run()
 			assert.equal(result.ok, true)
@@ -112,7 +122,10 @@ describe('runSuite()', () => {
 				'Example',
 			)
 
-			runner.addStepRunners(async () => undefined)
+			runner.addStepRunners({
+				match: () => true,
+				run: async () => undefined,
+			})
 
 			const result = await runner.run()
 
@@ -139,28 +152,37 @@ describe('runSuite()', () => {
 		)
 
 		runner.addStepRunners(
-			...(<StepRunner<Record<string, any>>[]>[
-				async ({ step: { title }, context }) => {
-					const match =
-						/^I store a random string in `(?<storageName>[^`]+)`$/.exec(title)
-					if (match === null) return noMatch
-					context[match.groups?.storageName ?? ''] = randomUUID()
-					return
-				},
-				async ({ step: { title } }) => {
-					const match = /^`(?<value>[^`]+)` should not be empty$/.exec(title)
-					if (match === null) return noMatch
-					assert.equal((match.groups?.value ?? '').length, 36)
-					return
-				},
-				async ({ step }) => {
-					const match = /^it should be replaced in this JSON$/.exec(step.title)
-					if (match === null) return noMatch
-					assert.equal(
-						JSON.parse(codeBlockOrThrow(step).code).aStringParameter.length,
-						36,
-					)
-					return
+			...(<StepRunner[]>[
+				groupMatcher(
+					{
+						regExp: /^I store a random string in `(?<storageName>[^`]+)`$/,
+						schema: Type.Object({
+							storageName: Type.String(),
+						}),
+					},
+					async ({ match: { storageName }, context }) => {
+						context[storageName ?? ''] = randomUUID()
+					},
+				),
+				groupMatcher(
+					{
+						regExp: /^`(?<value>[^`]+)` should not be empty$/,
+						schema: Type.Object({
+							value: Type.String(),
+						}),
+					},
+					async ({ match: { value } }) => {
+						assert.equal(value.length, 36)
+					},
+				),
+				{
+					match: (title) => /^it should be replaced in this JSON$/.test(title),
+					run: async ({ step }) => {
+						assert.equal(
+							JSON.parse(codeBlockOrThrow(step).code).aStringParameter.length,
+							36,
+						)
+					},
 				},
 			]),
 		)
@@ -193,11 +215,14 @@ describe('runSuite()', () => {
 			const variants: Record<string, string>[] = []
 
 			runner.addStepRunners(
-				...(<StepRunner<Record<string, any>>[]>[
-					async ({ step: { title }, feature: { variant } }) => {
-						titles.push(title)
-						variants.push(variant)
-						return
+				...(<StepRunner[]>[
+					{
+						match: () => true,
+						run: async ({ step: { title }, feature: { variant } }) => {
+							titles.push(title)
+							variants.push(variant)
+							return
+						},
 					},
 				]),
 			)

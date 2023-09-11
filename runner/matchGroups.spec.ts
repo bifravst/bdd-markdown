@@ -16,14 +16,14 @@ const schema = Type.Object(
 
 describe('regexGroupMatcher()', () => {
 	it('should return null if input does not match', () =>
-		assert.equal(matchGroups(schema)(rx, 'I have a Mars Rover'), null))
+		assert.equal(matchGroups(rx, schema)('I have a Mars Rover'), null))
 
 	it('should return the match if input does match', () =>
 		assert.deepEqual(
-			matchGroups(schema, {
+			matchGroups(rx, schema, {
 				x: (s) => parseInt(s, 10),
 				y: (s) => parseInt(s, 10),
-			})(rx, 'I set the initial starting point to `-17,42`'),
+			})('I set the initial starting point to `-17,42`'),
 			{
 				x: -17,
 				y: 42,
@@ -33,6 +33,7 @@ describe('regexGroupMatcher()', () => {
 	it('should allow to partially define converters', () =>
 		assert.deepEqual(
 			matchGroups(
+				rx,
 				Type.Object(
 					{
 						x: Type.Number(),
@@ -43,7 +44,7 @@ describe('regexGroupMatcher()', () => {
 				{
 					x: (s) => parseInt(s, 10),
 				},
-			)(rx, 'I set the initial starting point to `-17,42`'),
+			)('I set the initial starting point to `-17,42`'),
 			{
 				x: -17,
 				y: '42',
@@ -54,6 +55,7 @@ describe('regexGroupMatcher()', () => {
 		assert.throws(
 			() =>
 				matchGroups(
+					rx,
 					Type.Object(
 						{
 							// x must be positive
@@ -66,7 +68,7 @@ describe('regexGroupMatcher()', () => {
 						x: (s) => parseInt(s, 10),
 						y: (s) => parseInt(s, 10),
 					},
-				)(rx, 'I set the initial starting point to `-17,42`'),
+				)('I set the initial starting point to `-17,42`'),
 			MatchError,
 		))
 })

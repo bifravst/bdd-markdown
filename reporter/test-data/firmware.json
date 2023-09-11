@@ -1,27 +1,31 @@
 {
+  "startTime": 1694179190109,
+  "duration": 2,
   "ok": true,
   "results": [
     [
       {
         "root": "/",
-        "dir": "/home/m/git/bdd/examples/firmware",
+        "dir": "/home/m/nrf-asset-tracker/bdd-markdown-js/examples/firmware",
         "base": "RunFirmware.feature.md",
         "ext": ".md",
         "name": "RunFirmware.feature"
       },
       {
+        "duration": 0,
         "ok": true,
+        "skipped": false,
         "results": [
           [
             {
               "keyword": "Scenario",
               "title": "The firmware should have been run",
-              "line": 5,
+              "line": 12,
               "steps": [
                 {
                   "keyword": "Then",
                   "title": "the Firmware CI run device log should contain",
-                  "line": 7,
+                  "line": 14,
                   "codeBlock": {
                     "code": "azure_iot_hub_integration: cloud_wrap_init:  The Asset Tracker v2 has started\nazure_iot_hub_integration: cloud_wrap_init:  Version:      ${appVersion}-original\nazure_iot_hub_integration: cloud_wrap_init:  Client ID:    ${deviceId}\nazure_iot_hub_integration: cloud_wrap_init:  Cloud:        Azure IoT Hub\nazure_iot_hub_integration: cloud_wrap_init:  DPS endpoint: global.azure-devices-provisioning.net\nazure_iot_hub_integration: cloud_wrap_init:  ID scope:     ${idScope}"
                   }
@@ -29,42 +33,31 @@
               ]
             },
             {
+              "duration": 0,
               "ok": true,
               "results": [
                 [
                   {
                     "keyword": "Then",
                     "title": "the Firmware CI run device log should contain",
-                    "line": 7,
+                    "line": 14,
                     "codeBlock": {
-                      "code": "azure_iot_hub_integration: cloud_wrap_init:  The Asset Tracker v2 has started\nazure_iot_hub_integration: cloud_wrap_init:  Version:      ${appVersion}-original\nazure_iot_hub_integration: cloud_wrap_init:  Client ID:    ${deviceId}\nazure_iot_hub_integration: cloud_wrap_init:  Cloud:        Azure IoT Hub\nazure_iot_hub_integration: cloud_wrap_init:  DPS endpoint: global.azure-devices-provisioning.net\nazure_iot_hub_integration: cloud_wrap_init:  ID scope:     ${idScope}"
+                      "code": "azure_iot_hub_integration: cloud_wrap_init:  The Asset Tracker v2 has started\nazure_iot_hub_integration: cloud_wrap_init:  Version:      v1.0.0-original\nazure_iot_hub_integration: cloud_wrap_init:  Client ID:    my-tracker\nazure_iot_hub_integration: cloud_wrap_init:  Cloud:        Azure IoT Hub\nazure_iot_hub_integration: cloud_wrap_init:  DPS endpoint: global.azure-devices-provisioning.net\nazure_iot_hub_integration: cloud_wrap_init:  ID scope:     0n283efa"
                     }
                   },
                   {
+                    "duration": 0,
                     "logs": [],
                     "ok": true,
-                    "duration": 1,
-                    "executed": {
-                      "keyword": "Then",
-                      "title": "the Firmware CI run device log should contain",
-                      "line": 7,
-                      "codeBlock": {
-                        "code": "azure_iot_hub_integration: cloud_wrap_init:  The Asset Tracker v2 has started\nazure_iot_hub_integration: cloud_wrap_init:  Version:      v1.0.0-original\nazure_iot_hub_integration: cloud_wrap_init:  Client ID:    my-tracker\nazure_iot_hub_integration: cloud_wrap_init:  Cloud:        Azure IoT Hub\nazure_iot_hub_integration: cloud_wrap_init:  DPS endpoint: global.azure-devices-provisioning.net\nazure_iot_hub_integration: cloud_wrap_init:  ID scope:     0n283efa"
-                      }
-                    },
                     "skipped": false
                   }
                 ]
               ],
-              "duration": 1,
-              "logs": [],
-              "skipped": false
+              "skipped": false,
+              "tries": 1
             }
           ]
-        ],
-        "duration": 1,
-        "logs": [],
-        "skipped": false
+        ]
       }
     ]
   ],
@@ -72,8 +65,8 @@
     "total": 1,
     "passed": 1,
     "failed": 0,
-    "duration": 1,
-    "skipped": 1
+    "duration": 0,
+    "skipped": 0
   },
   "name": "Firmware"
 }

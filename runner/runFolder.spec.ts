@@ -12,6 +12,7 @@ describe('runFolder()', () => {
 		})
 		runner.addStepRunners(...steps)
 		const result = await runner.run()
+
 		assert.equal(result.ok, true)
 		assert.equal(result.name, 'Mars Rover')
 		assert.deepEqual(result.summary.failed, 0)

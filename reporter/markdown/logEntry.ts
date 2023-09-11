@@ -1,7 +1,11 @@
 import { LogLevel, type LogEntry } from '../../runner/logger.js'
 import { escapeLogMessage } from './escapeLogMessage.js'
 
-export const logEntry = (logEntry: LogEntry, isLast: boolean): string => {
+export const logEntry = (
+	logEntry: LogEntry,
+	isLast: boolean,
+	startTime: number,
+): string => {
 	let prefix = ''
 	switch (logEntry.level) {
 		case LogLevel.DEBUG:
@@ -20,5 +24,7 @@ export const logEntry = (logEntry: LogEntry, isLast: boolean): string => {
 
 	const message = logEntry.message.map(escapeLogMessage).join(' ')
 
-	return `  ${prefix} ${message} _@ ${logEntry.ts} ms_${isLast ? '' : '  '}`
+	return `  ${prefix} ${message} _@ ${logEntry.ts - startTime} ms_${
+		isLast ? '' : '  '
+	}`
 }

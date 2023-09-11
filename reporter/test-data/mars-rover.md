@@ -3,7 +3,7 @@
 > Failed: 0  
 > Passed: 1  
 > Total: 1  
-> Duration: ⏲ 2764 ms
+> Duration: ⏲ 1484 ms
 
 ## :heavy_check_mark: MarsRover.feature
 
@@ -18,44 +18,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to 0,-1​` _@ 102 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 1 ms_  
-  :fast_forward: `​Rover created​` _@ 1 ms_
+  :fast_forward: `​Creating a new rover​` _@ 236 ms_  
+  :fast_forward: `​Rover created​` _@ 237 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,-1​` _@ 357 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 243 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `N`
 
-> _Result:_ `​0,0 N​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to N​` _@ 248 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `forward` 1 square
 
-> _Result:_ `​0,0 N​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover forward​` _@ 256 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `0,-1`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 2 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 255 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 262 ms_  
+  :fast_forward: `​Current position is 0 -1​` _@ 366 ms_
 
 </details>
 
@@ -72,44 +79,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to 0,1​` _@ 355 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 255 ms_  
-  :fast_forward: `​Rover created​` _@ 255 ms_
+  :fast_forward: `​Creating a new rover​` _@ 366 ms_  
+  :fast_forward: `​Rover created​` _@ 367 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,1​` _@ 489 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 376 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `S`
 
-> _Result:_ `​0,0 S​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to S​` _@ 382 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `forward` 1 square
 
-> _Result:_ `​0,0 S​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover forward​` _@ 389 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `0,1`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 255 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 507 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 396 ms_  
+  :fast_forward: `​Current position is 0 1​` _@ 496 ms_
 
 </details>
 
@@ -126,44 +140,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to 1,0​` _@ 608 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 507 ms_  
-  :fast_forward: `​Rover created​` _@ 507 ms_
+  :fast_forward: `​Creating a new rover​` _@ 497 ms_  
+  :fast_forward: `​Rover created​` _@ 497 ms_  
+  :fast_forward: `​Rover​` `​Moving to 1,0​` _@ 620 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 506 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `E`
 
-> _Result:_ `​0,0 E​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to E​` _@ 513 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `forward` 1 square
 
-> _Result:_ `​0,0 E​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover forward​` _@ 519 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `1,0`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 507 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 757 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 525 ms_  
+  :fast_forward: `​Current position is 1 0​` _@ 626 ms_
 
 </details>
 
@@ -180,44 +201,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to -1,0​` _@ 857 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 757 ms_  
-  :fast_forward: `​Rover created​` _@ 757 ms_
+  :fast_forward: `​Creating a new rover​` _@ 626 ms_  
+  :fast_forward: `​Rover created​` _@ 626 ms_  
+  :fast_forward: `​Rover​` `​Moving to -1,0​` _@ 747 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 635 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `W`
 
-> _Result:_ `​0,0 W​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to W​` _@ 641 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `forward` 1 square
 
-> _Result:_ `​0,0 W​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover forward​` _@ 646 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `-1,0`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 758 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 1008 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 652 ms_  
+  :fast_forward: `​Current position is -1 0​` _@ 753 ms_
 
 </details>
 
@@ -234,44 +262,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to 0,1​` _@ 1108 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 1009 ms_  
-  :fast_forward: `​Rover created​` _@ 1009 ms_
+  :fast_forward: `​Creating a new rover​` _@ 755 ms_  
+  :fast_forward: `​Rover created​` _@ 755 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,1​` _@ 876 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 763 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `N`
 
-> _Result:_ `​0,0 N​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to N​` _@ 769 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `backward` 1 square
 
-> _Result:_ `​0,0 N​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover backward​` _@ 775 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `0,1`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 1009 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 1260 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 781 ms_  
+  :fast_forward: `​Current position is 0 1​` _@ 882 ms_
 
 </details>
 
@@ -288,44 +323,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to 0,-1​` _@ 1360 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 1260 ms_  
-  :fast_forward: `​Rover created​` _@ 1260 ms_
+  :fast_forward: `​Creating a new rover​` _@ 882 ms_  
+  :fast_forward: `​Rover created​` _@ 882 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,-1​` _@ 1005 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 892 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `S`
 
-> _Result:_ `​0,0 S​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to S​` _@ 898 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `backward` 1 square
 
-> _Result:_ `​0,0 S​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover backward​` _@ 905 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `0,-1`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 1260 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 1511 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 911 ms_  
+  :fast_forward: `​Current position is 0 -1​` _@ 1011 ms_
 
 </details>
 
@@ -342,44 +384,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to -1,0​` _@ 1611 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 1511 ms_  
-  :fast_forward: `​Rover created​` _@ 1511 ms_
+  :fast_forward: `​Creating a new rover​` _@ 1012 ms_  
+  :fast_forward: `​Rover created​` _@ 1012 ms_  
+  :fast_forward: `​Rover​` `​Moving to -1,0​` _@ 1136 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 1021 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `E`
 
-> _Result:_ `​0,0 E​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to E​` _@ 1029 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `backward` 1 square
 
-> _Result:_ `​0,0 E​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover backward​` _@ 1035 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `-1,0`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 1511 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 1761 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 1041 ms_  
+  :fast_forward: `​Current position is -1 0​` _@ 1141 ms_
 
 </details>
 
@@ -396,44 +445,51 @@
 
 </details>
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to 1,0​` _@ 1861 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 1762 ms_  
-  :fast_forward: `​Rover created​` _@ 1762 ms_
+  :fast_forward: `​Creating a new rover​` _@ 1141 ms_  
+  :fast_forward: `​Rover created​` _@ 1141 ms_  
+  :fast_forward: `​Rover​` `​Moving to 1,0​` _@ 1260 ms_
 
 </details>
 
-> _Result:_ `​undefined,undefined undefined​`
-
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 1149 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `W`
 
-> _Result:_ `​0,0 W​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to W​` _@ 1154 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `backward` 1 square
 
-> _Result:_ `​0,0 W​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover backward​` _@ 1159 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `1,0`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 1762 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 2012 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 1165 ms_  
+  :fast_forward: `​Current position is 1 0​` _@ 1265 ms_
 
 </details>
 
@@ -441,50 +497,59 @@
 
 ### :heavy_check_mark: Hit an obstacle
 
-<details>
-  <summary>Scenario log</summary>
-  
-  :fast_forward: `​Rover​` `​Moving to 0,-1​` _@ 2112 ms_  
-  :fast_forward: `​Rover​` `​Moving to 0,-2​` _@ 2213 ms_  
-  :fast_forward: `​Rover​` `​Moving to 0,-3​` _@ 2312 ms_  
-  :fast_forward: `​Rover​` `​Moving to 0,-4​` _@ 2412 ms_
-
-</details>
-
 :heavy_check_mark: **Given** I have a Mars Rover
 
 <details>
   <summary>Step log</summary>
   
-  :fast_forward: `​Creating a new rover​` _@ 2013 ms_  
-  :fast_forward: `​Rover created​` _@ 2013 ms_
+  :fast_forward: `​Creating a new rover​` _@ 1266 ms_  
+  :fast_forward: `​Rover created​` _@ 1266 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,-1​` _@ 1396 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,-2​` _@ 1497 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,-3​` _@ 1597 ms_  
+  :fast_forward: `​Rover​` `​Moving to 0,-4​` _@ 1699 ms_
 
 </details>
-
-> _Result:_ `​undefined,undefined undefined​`
 
 :heavy_check_mark: **Given** there is an obstacle at `0,-5`
 
 :heavy_check_mark: **When** I set the initial starting point to `0,0`
 
-> _Result:_ `​0,0 undefined​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover moved to 0 0​` _@ 1283 ms_
+
+</details>
 
 :heavy_check_mark: **When** I set the initial direction to `N`
 
-> _Result:_ `​0,0 N​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Rover direction set to N​` _@ 1290 ms_
+
+</details>
 
 :heavy_check_mark: **When** I move the Mars Rover `forward` 10 squares
 
-> _Result:_ `​0,0 N​`
+<details>
+  <summary>Step log</summary>
+  
+  :fast_forward: `​Move rover forward​` _@ 1296 ms_
+
+</details>
 
 :heavy_check_mark: **Soon** the current position should be `0,-4`
 
 <details>
   <summary>Step log</summary>
   
-  :zap: `​@retry:tries=5,initialDelay=250,delayFactor=2​` _@ 2013 ms_  
-  :fast_forward: `​Retrying ... (2)​` _@ 2264 ms_  
-  :fast_forward: `​Retrying ... (3)​` _@ 2764 ms_
+  :fast_forward: `​Current position is 0 0​` _@ 1301 ms_  
+  :fast_forward: `​Current position is 0 -1​` _@ 1402 ms_  
+  :fast_forward: `​Current position is 0 -2​` _@ 1503 ms_  
+  :fast_forward: `​Current position is 0 -3​` _@ 1604 ms_  
+  :fast_forward: `​Current position is 0 -4​` _@ 1706 ms_
 
 </details>
 
@@ -493,6 +558,6 @@
 <details>
   <summary>Step log</summary>
   
-  :zap: `​knownObstacles​` `​[[0,-5]]​` _@ 2764 ms_
+  :zap: `​knownObstacles​` `​[[0,-5]]​` _@ 1719 ms_
 
 </details>

@@ -87,39 +87,9 @@ or times out. This way a back-off algorithm can be used to wait increasing
 longer times and many tries during the test run will have the least amount of
 impact on the run time.
 
-The `Soon` keyword can be used to retry a step until a timeout is reached. It
-can be configured through the `@retry` tag in a comment preceding the step, the
-scenario. Pass one or multiple settings to override the default behavior.
-Example: `@retry:tries=3,initialDelay=50,delayFactor=2`.
-
-```markdown
----
-# Configure the retry settings for the entire feature
-retry:
-  tries: 10
-  initialDelay: 250
-  delayFactor: 2
----
-
-# To Do List
-
-<!-- This @retry:tries=5 applies to all steps in the scenario. -->
-
-## Create a new todo list item
-
-Given I create a new task named `My item`
-
-<!-- This @retry:tries=3,initialDelay=100,delayFactor=1.5 applies only to the next step. -->
-
-Soon the list of tasks should contain `My item`
-```
-
-The optional configuration `delayExecution` can be used to delay the execution
-of a step retry. Example: `@retry:tries=5,delayExecution=1000`.
-
-Using `@retryScenario` in a step comment, the entire scenario will be retried in
-case a step fails, using the retry configuration of the step
-([Example](./runner/test-data/runFeature/RetryScenario.feature.md)).
+Implementing the appropriate way of retrying is left to the implementing step,
+however you are encourage to mark these eventual consisted steps using the
+`Soon` keyword.
 
 ## Control feature execution order via dependencies
 

@@ -6,6 +6,7 @@ import { logEntry } from './logEntry.js'
 
 describe('logEntry()', () => {
 	it('should escape backticks in log messages', async () => {
+		const now = Date.now()
 		assert.deepEqual(
 			logEntry(
 				{
@@ -13,15 +14,16 @@ describe('logEntry()', () => {
 					message: [
 						'No runner defined for step: the endpoint is `https://up22obby20.execute-api.eu-north-1.amazonaws.com/prod/`',
 					],
-					ts: 42,
+					ts: now,
 				},
 				false,
+				now,
 			),
 			'  :bangbang: ``' +
 				ZERO_WIDTH_SPACE +
 				'No runner defined for step: the endpoint is `https://up22obby20.execute-api.eu-north-1.amazonaws.com/prod/`' +
 				ZERO_WIDTH_SPACE +
-				'`` _@ 42 ms_  ',
+				'`` _@ 0 ms_  ',
 		)
 	})
 })

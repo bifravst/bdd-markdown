@@ -3,6 +3,7 @@ import path from 'path'
 import { runFolder } from '../../runner/runFolder.js'
 import { steps, type RoverContext } from './steps.js'
 
+const start = Date.now()
 const runner = await runFolder<RoverContext>({
 	folder: path.join(process.cwd(), 'examples', 'mars-rover'),
 	name: 'Mars Rover',
@@ -10,8 +11,14 @@ const runner = await runFolder<RoverContext>({
 		onProgress: ({ ts }, ...progress) =>
 			console.error(
 				chalk.gray(`»`),
-				chalk.cyan(`@${ts}`),
+				chalk.cyan(`@${ts - start}`),
 				...progress.map((s) => chalk.yellow(s)),
+			),
+		onError: ({ ts }, error) =>
+			console.error(
+				chalk.gray(`‼️`),
+				chalk.red(`@${ts - start}`),
+				chalk.red(error.message),
 			),
 	},
 })

@@ -3,7 +3,7 @@
 > Failed: 0  
 > Passed: 1  
 > Total: 1  
-> Duration: ⏲ 1 ms
+> Duration: ⏲ 0 ms
 
 ## :heavy_check_mark: RunFirmware.feature
 

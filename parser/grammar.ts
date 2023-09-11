@@ -36,9 +36,10 @@ export type Feature = KeywordDefinition & {
 	rules?: Rule[]
 	frontMatter?: Record<string, any> & {
 		run?: 'never' | 'only' | 'first' | 'last'
-		retry?: PartialRetryConfig
 		needs?: string[]
 		variants?: Record<string, string>[]
+		/** Used to define example replacements for placeholders during the step runner collection phase */
+		exampleContext?: Record<string, any>
 	}
 }
 
@@ -71,7 +72,7 @@ export enum StepKeyword {
 	When = 'When',
 	Then = 'Then',
 	And = 'And',
-	// Then, but with retry
+	// Then, but with optional scenario retry
 	Soon = 'Soon',
 }
 
@@ -106,55 +107,7 @@ export type CodeBlock = {
 export type Row = Record<string, string>
 export type Table = Row[]
 
-export type Tag = Record<string, string | true> | true
-export type Tags = Record<string, Tag>
-
-export type Comment = { text: string; tags?: Tags }
-
-export const RetryConfigSchema = Type.Object(
-	{
-		tries: Type.Optional(
-			Type.Integer({
-				description: 'How many times to retry the step',
-				minimum: 1,
-				examples: [3],
-				default: 5,
-			}),
-		),
-		initialDelay: Type.Optional(
-			Type.Integer({
-				description: 'The initial retry delay in milliseconds',
-				minimum: 1,
-				examples: [500],
-				default: 250,
-			}),
-		),
-		delayFactor: Type.Optional(
-			Type.Number({
-				description: 'The factor to apply to the delay for every retry.',
-				minimum: 0,
-				examples: [1.5],
-				default: 2,
-			}),
-		),
-		delayExecution: Type.Optional(
-			Type.Number({
-				description:
-					'Instead of executing the step immediately after failure, delay it by this amount in milliseconds.',
-				minimum: 0,
-				examples: [250],
-				default: 1000,
-			}),
-		),
-	},
-	{
-		additionalProperties: false,
-	},
-)
-
-export type PartialRetryConfig = Static<typeof RetryConfigSchema>
-export type RetryConfig = Required<Omit<PartialRetryConfig, 'delayExecution'>> &
-	Pick<PartialRetryConfig, 'delayExecution'>
+export type Comment = { text: string }
 
 enum Run {
 	never = 'never',
