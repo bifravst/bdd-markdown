@@ -40,7 +40,7 @@
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.86",
     "@types/node": "20.6.0",
     "@types/prettier": "3.0.0",
-    "@types/toposort": "2.0.3",
+    "@types/toposort": "2.0.4",
     "check-node-version": "4.2.1",
     "eslint-import-resolver-typescript": "3.6.0",
     "eslint-plugin-import": "2.28.1",
