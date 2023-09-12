@@ -163,7 +163,7 @@ export const runSuite = <Context extends Record<string, any>>(
 						])
 					}
 
-					const stepLogger = logger({ ...logObserver })
+					const stepLogger = logger({ ...logObserver, step })
 
 					const start = Date.now()
 					try {

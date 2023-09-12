@@ -1,3 +1,5 @@
+import type { Step } from '../parser/grammar.js'
+
 export type Logger = {
 	/**
 	 * Logs a debug message
@@ -15,6 +17,10 @@ export type Logger = {
 	 * Logs a progress message
 	 */
 	progress: (...args: string[]) => void
+	/**
+	 * Returns the step this logger is for.
+	 */
+	step: Step
 }
 
 type ErrorInfo = {
@@ -32,10 +38,14 @@ export enum LogLevel {
 export type LogEntry = {
 	level: LogLevel
 	message: string[]
+	/**
+	 * Time in ms from beginning of the feature run when the log message was created
+	 */
 	ts: number
 }
 
 type LogObserverInfo = {
+	step: Step
 	level: LogLevel
 	ts: number
 }
@@ -60,12 +70,18 @@ export type LogObserver = {
 }
 
 export const logger = ({
+	step,
 	onDebug,
 	onError,
 	onInfo,
 	onProgress,
 	now,
-}: LogObserver & { now?: number }): Logger & { getLogs: () => LogEntry[] } => {
+}: {
+	/**
+	 * The step the logs of this logger are coming from
+	 */
+	step: Step
+} & LogObserver & { now?: number }): Logger & { getLogs: () => LogEntry[] } => {
 	const logs: LogEntry[] = []
 	return {
 		debug: (...message) => {
@@ -74,7 +90,10 @@ export const logger = ({
 				level: LogLevel.DEBUG,
 				ts: now ?? Date.now(),
 			})
-			onDebug?.({ ts: now ?? Date.now(), level: LogLevel.DEBUG }, ...message)
+			onDebug?.(
+				{ step, ts: now ?? Date.now(), level: LogLevel.DEBUG },
+				...message,
+			)
 		},
 		progress: (...message) => {
 			logs.push({
@@ -83,7 +102,7 @@ export const logger = ({
 				ts: now ?? Date.now(),
 			})
 			onProgress?.(
-				{ ts: now ?? Date.now(), level: LogLevel.PROGRESS },
+				{ step, ts: now ?? Date.now(), level: LogLevel.PROGRESS },
 				...message,
 			)
 		},
@@ -93,7 +112,10 @@ export const logger = ({
 				level: LogLevel.INFO,
 				ts: now ?? Date.now(),
 			})
-			onInfo?.({ ts: now ?? Date.now(), level: LogLevel.INFO }, ...message)
+			onInfo?.(
+				{ step, ts: now ?? Date.now(), level: LogLevel.INFO },
+				...message,
+			)
 		},
 		error: (error) => {
 			logs.push({
@@ -101,8 +123,9 @@ export const logger = ({
 				level: LogLevel.ERROR,
 				ts: now ?? Date.now(),
 			})
-			onError?.({ ts: now ?? Date.now(), level: LogLevel.ERROR }, error)
+			onError?.({ step, ts: now ?? Date.now(), level: LogLevel.ERROR }, error)
 		},
 		getLogs: () => logs,
+		step,
 	}
 }
