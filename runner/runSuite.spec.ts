@@ -8,7 +8,7 @@ import {
 	parseFeaturesInFolder,
 } from './parseFeaturesInFolder.js'
 import { runSuite, type StepRunner } from './runSuite.js'
-import { groupMatcher } from './matchGroups.js'
+import { regExpMatchedStep } from './regExpMatchedStep.js'
 import { Type } from '@sinclair/typebox'
 
 describe('runSuite()', () => {
@@ -153,7 +153,7 @@ describe('runSuite()', () => {
 
 		runner.addStepRunners(
 			...(<StepRunner[]>[
-				groupMatcher(
+				regExpMatchedStep(
 					{
 						regExp: /^I store a random string in `(?<storageName>[^`]+)`$/,
 						schema: Type.Object({
@@ -164,7 +164,7 @@ describe('runSuite()', () => {
 						context[storageName ?? ''] = randomUUID()
 					},
 				),
-				groupMatcher(
+				regExpMatchedStep(
 					{
 						regExp: /^`(?<value>[^`]+)` should not be empty$/,
 						schema: Type.Object({

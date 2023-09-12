@@ -1,6 +1,6 @@
 import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
-import { groupMatcher } from '../../runner/matchGroups.js'
+import { regExpMatchedStep } from '../../runner/regExpMatchedStep.js'
 import { Direction, rover } from './rover.js'
 import type { StepRunner } from '../../runner/runSuite.js'
 import { backOff } from 'exponential-backoff'
@@ -39,7 +39,7 @@ export const steps: StepRunner<RoverContext>[] = [
 			context.rover = r
 		},
 	},
-	groupMatcher(
+	regExpMatchedStep(
 		{
 			regExp:
 				/^I set the initial starting point to `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
@@ -53,7 +53,7 @@ export const steps: StepRunner<RoverContext>[] = [
 			progress(`Rover moved to ${match.x} ${match.y}`)
 		},
 	),
-	groupMatcher(
+	regExpMatchedStep(
 		{
 			regExp: /^I set the initial direction to `(?<direction>[^`]+)`$/,
 			schema: Type.Object({ direction: Type.Enum(Direction) }),
@@ -64,7 +64,7 @@ export const steps: StepRunner<RoverContext>[] = [
 			progress(`Rover direction set to ${match.direction}`)
 		},
 	),
-	groupMatcher(
+	regExpMatchedStep(
 		{
 			regExp:
 				/^I move the Mars Rover `(?<direction>forward|backward)` (?<squares>[0-9]+) squares?$/,
@@ -85,7 +85,7 @@ export const steps: StepRunner<RoverContext>[] = [
 				r.backward(match.squares)
 		},
 	),
-	groupMatcher(
+	regExpMatchedStep(
 		{
 			regExp:
 				/^the current position should be `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
@@ -105,7 +105,7 @@ export const steps: StepRunner<RoverContext>[] = [
 			)
 		},
 	),
-	groupMatcher(
+	regExpMatchedStep(
 		{
 			regExp: /^there is an obstacle at `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
 			schema: Coordinates,
@@ -116,7 +116,7 @@ export const steps: StepRunner<RoverContext>[] = [
 			context.obstacles.push([match.x, match.y])
 		},
 	),
-	groupMatcher(
+	regExpMatchedStep(
 		{
 			regExp:
 				/^the Mars Rover should report an obstacle at `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/,
