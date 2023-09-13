@@ -47,4 +47,19 @@ describe('suiteWalker()', () => {
 			],
 		)
 	})
+
+	it('should ignore unreplaced placeholders in code-blocks', async () =>
+		assert.doesNotReject(async () =>
+			suiteWalker(
+				await parseFeaturesInFolder(
+					path.join(
+						process.cwd(),
+						'runner',
+						'test-data',
+						'suiteWalker',
+						'variants',
+					),
+				),
+			).walk(),
+		))
 })

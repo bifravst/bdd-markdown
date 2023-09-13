@@ -10,7 +10,10 @@ import { orderFeatures } from './orderFeatures.js'
 import type { FeatureFile } from './parseFeaturesInFolder.js'
 import { replaceFromExamples } from './replaceFromExamples.js'
 import { replaceFromContext } from './replaceFromContext.js'
-import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
+import {
+	Source,
+	getUnreplacedPlaceholders,
+} from './getUnreplacedPlaceholders.js'
 import os from 'node:os'
 
 type FeatureListenerArgs = {
@@ -130,12 +133,16 @@ export const suiteWalker = (
 									...context,
 									variant,
 								})
-								const unreplaced = getUnreplacedPlaceholders(replacedStep)
+								const unreplaced = getUnreplacedPlaceholders(
+									replacedStep,
+								).filter(({ source }) => source === Source.title)
 								if (unreplaced.length > 0) {
 									throw new Error(
 										[
-											`Step has unreplaced placeholders: ${step.title}`,
-											unreplaced.map((name) => ` - ${name}`).join(', '),
+											`Step has unreplaced title placeholders: ${step.title}`,
+											unreplaced
+												.map(({ placeholder: name }) => ` - ${name}`)
+												.join(', '),
 											`${path.format(file)}:${step.line}`,
 										].join(os.EOL),
 									)

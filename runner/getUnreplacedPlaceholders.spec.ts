@@ -13,7 +13,12 @@ describe('getUnreplacedPlaceholders()', () => {
 				title:
 					'azure_iot_hub_integration: cloud_wrap_init:  Version:      ${appVersion}-original',
 			}),
-			['${appVersion}'],
+			[
+				{
+					placeholder: '${appVersion}',
+					source: 'title',
+				},
+			],
 		))
 	it('should detect unreplaced placeholders in the code block', () =>
 		assert.deepEqual(
@@ -28,7 +33,10 @@ describe('getUnreplacedPlaceholders()', () => {
 					].join(os.EOL),
 				},
 			}),
-			['${appVersion}', '${idScope}'],
+			[
+				{ placeholder: '${appVersion}', source: 'codeblock' },
+				{ placeholder: '${idScope}', source: 'codeblock' },
+			],
 		))
 	it('should return false if there are no placeholders', () =>
 		assert.deepEqual(
@@ -49,6 +57,9 @@ describe('getUnreplacedPlaceholders()', () => {
 				line: 1,
 				title: 'Given network is `<variant.nw>` and modem is `<variant.modem>`',
 			}),
-			['<variant.nw>', '<variant.modem>'],
+			[
+				{ placeholder: '<variant.nw>', source: 'title' },
+				{ placeholder: '<variant.modem>', source: 'title' },
+			],
 		))
 })

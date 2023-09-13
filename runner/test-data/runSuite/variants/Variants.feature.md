@@ -34,3 +34,9 @@ Given network is `<variant.nw>` and modem is `<variant.modem>`
 
 Given the placeholder `<variant.nw>` is embedded in another placeholder:
 `${tracker.<variant.nw>.id}/pgps/get`
+
+```json
+{
+  "thingName": "${tracker.<variant.nw>.name}"
+}
+```
