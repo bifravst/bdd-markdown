@@ -14,7 +14,7 @@ import {
 	Source,
 	getUnreplacedPlaceholders,
 } from './getUnreplacedPlaceholders.js'
-import os from 'node:os'
+import { UnreplacedPlaceholdersError } from './UnreplacedPlaceholdersError.js'
 
 type FeatureListenerArgs = {
 	feature: FeatureVariant
@@ -47,6 +47,9 @@ export type FeatureVariant = Feature & {
 export type ScenarioWithExamples = Scenario & {
 	example?: Row
 }
+export type UnreplacedPlaceholdersListener = (
+	error: UnreplacedPlaceholdersError,
+) => void
 
 /**
  * Walks a suite of feature files and calls the respective callbacks when a feature, scenario, or step is discovered
@@ -137,15 +140,12 @@ export const suiteWalker = (
 									replacedStep,
 								).filter(({ source }) => source === Source.title)
 								if (unreplaced.length > 0) {
-									throw new Error(
-										[
-											`Step has unreplaced title placeholders: ${step.title}`,
-											unreplaced
-												.map(({ placeholder: name }) => ` - ${name}`)
-												.join(', '),
-											`${path.format(file)}:${step.line}`,
-										].join(os.EOL),
+									const err = new UnreplacedPlaceholdersError(
+										file,
+										step,
+										unreplaced,
 									)
+									throw err
 								}
 								await Promise.all(
 									stepListeners.map(async (fn) =>

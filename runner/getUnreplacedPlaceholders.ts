@@ -8,9 +8,9 @@ export enum Source {
 	codeblock = 'codeblock',
 }
 
-export const getUnreplacedPlaceholders = (
-	step: Step,
-): { placeholder: string; source: Source }[] => {
+export type Unreplaced = { placeholder: string; source: Source }[]
+
+export const getUnreplacedPlaceholders = (step: Step): Unreplaced => {
 	const unreplacedInTitle = listUnreplaced(step.title)
 	const unreplacedInCodeblock = listUnreplaced(step.codeBlock?.code ?? '')
 	return [
