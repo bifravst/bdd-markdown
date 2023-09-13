@@ -4,6 +4,12 @@ variants:
     modem: LTE-M
   - nw: nbiot
     modem: NB-IoT
+exampleContext:
+  tracker:
+    ltem:
+      id: some-device
+    nbiot:
+      id: some-device
 ---
 
 # Using variants
@@ -23,3 +29,8 @@ Given network is `${variant.nw}` and modem is `${variant.modem}`
 > These are useful in case variable placeholders need to be constructed.
 
 Given network is `<variant.nw>` and modem is `<variant.modem>`
+
+## Nested variant placeholders
+
+Given the placeholder `<variant.nw>` is embedded in another placeholder:
+`${tracker.<variant.nw>.id}/pgps/get`

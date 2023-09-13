@@ -241,8 +241,8 @@ describe('runSuite()', () => {
 				nw: 'ltem',
 				modem: 'LTE-M',
 			})
-			assert.equal(titles[2], 'network is `nbiot` and modem is `NB-IoT`')
-			assert.deepEqual(variants[2], {
+			assert.equal(titles[3], 'network is `nbiot` and modem is `NB-IoT`')
+			assert.deepEqual(variants[3], {
 				nw: 'nbiot',
 				modem: 'NB-IoT',
 			})
@@ -256,6 +256,15 @@ describe('runSuite()', () => {
 			assert.deepEqual(variants[3], {
 				nw: 'nbiot',
 				modem: 'NB-IoT',
+			})
+			// Embedded placeholders
+			assert.equal(
+				titles[2],
+				'the placeholder `ltem` is embedded in another placeholder: `some-device/pgps/get`',
+			)
+			assert.deepEqual(variants[2], {
+				nw: 'ltem',
+				modem: 'LTE-M',
 			})
 		})
 	})

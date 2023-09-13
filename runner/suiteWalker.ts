@@ -135,6 +135,7 @@ export const suiteWalker = (
 									throw new Error(
 										[
 											`Step has unreplaced placeholders: ${step.title}`,
+											unreplaced.map((name) => ` - ${name}`).join(', '),
 											`${path.format(file)}:${step.line}`,
 										].join(os.EOL),
 									)
