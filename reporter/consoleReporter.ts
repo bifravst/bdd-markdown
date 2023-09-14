@@ -166,6 +166,7 @@ const formatRunResult = (
 					stepResult.logs,
 					colorLine(` ${featureLine}  ${scenarioLine}  ${stepLine}        `),
 					print,
+					result.startTime,
 					options,
 				)
 			})
@@ -178,6 +179,8 @@ const printLogs = (
 	logs: LogEntry[],
 	line: string,
 	print: (...args: string[]) => void,
+
+	startTime: number,
 	options?: PrintLogsOptions,
 ) => {
 	for (const log of logs) {
@@ -203,7 +206,7 @@ const printLogs = (
 		}
 
 		if (options?.withTimestamps === true) {
-			const timeInfo = colorTime(`⏲ ${log.ts.toString()} ms`)
+			const timeInfo = colorTime(`⏲ ${(log.ts - startTime).toString()} ms`)
 			print(`${line}${prefix}`, timeInfo)
 		}
 
