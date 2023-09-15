@@ -129,7 +129,7 @@ will take precedence.
 
 ```markdown
 ---
-run: first
+order: first
 ---
 
 # Runs before all others
@@ -143,7 +143,7 @@ Given this is the first step
 
 ```markdown
 ---
-run: last
+order: last
 ---
 
 # Runs before all others

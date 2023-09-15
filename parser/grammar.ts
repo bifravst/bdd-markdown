@@ -35,7 +35,8 @@ export type Feature = KeywordDefinition & {
 	scenarios: Scenarios
 	rules?: Rule[]
 	frontMatter?: Record<string, any> & {
-		run?: 'never' | 'only' | 'first' | 'last'
+		run?: 'never' | 'only'
+		order?: 'first' | 'last'
 		needs?: string[]
 		variants?: Record<string, string>[]
 		/** Used to define example replacements for placeholders during the step runner collection phase */

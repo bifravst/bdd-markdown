@@ -1,5 +1,5 @@
 ---
-run: first
+order: first
 needs:
   - Last
 ---

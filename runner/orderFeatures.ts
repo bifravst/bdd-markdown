@@ -42,13 +42,15 @@ export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 
 	// Sort `first` features to the beginning
 	sorted.sort((fileName) =>
-		featureFileNameToFeatureFile[fileName]?.feature.frontMatter?.run === 'first'
+		featureFileNameToFeatureFile[fileName]?.feature.frontMatter?.order ===
+		'first'
 			? -1
 			: 1,
 	)
 	// Sort `last` features to the end
 	sorted.sort((fileName) =>
-		featureFileNameToFeatureFile[fileName]?.feature.frontMatter?.run === 'last'
+		featureFileNameToFeatureFile[fileName]?.feature.frontMatter?.order ===
+		'last'
 			? 1
 			: -1,
 	)
