@@ -1,229 +1,171 @@
-# BDD Markdown [![npm version](https://img.shields.io/npm/v/@nordicsemiconductor/bdd-markdown.svg)](https://www.npmjs.com/package/@nordicsemiconductor/bdd-markdown)
+# nRF Asset Tracker Web Application for AWS
 
-[![Test and Release](https://github.com/NordicSemiconductor/bdd-markdown-js/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/NordicSemiconductor/bdd-markdown-js/actions/workflows/test-and-release.yaml)
+[![GitHub Actions](https://github.com/NordicSemiconductor/asset-tracker-cloud-app-aws-js/workflows/Test%20and%20Release/badge.svg)](https://github.com/NordicSemiconductor/asset-tracker-cloud-app-aws-js/actions)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
-[![Mergify Status](https://img.shields.io/endpoint.svg?url=https://api.mergify.com/v1/badges/NordicSemiconductor/bdd-markdown-js)](https://mergify.io)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Mergify Status](https://img.shields.io/endpoint.svg?url=https://api.mergify.com/v1/badges/NordicSemiconductor/asset-tracker-cloud-app-aws-js)](https://mergify.io)
+[![@commitlint/config-conventional](https://img.shields.io/badge/%40commitlint-config--conventional-brightgreen)](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier/)
 [![ESLint: TypeScript](https://img.shields.io/badge/ESLint-TypeScript-blue.svg)](https://github.com/typescript-eslint/typescript-eslint)
+[![React](https://github.com/aleen42/badges/raw/master/src/react.svg)](https://reactjs.org/)
+[![Bootstrap 5](https://img.shields.io/badge/Bootstrap-5-ffffff?labelColor=7952b3)](https://getbootstrap.com/docs/5.0/)
+[![CSS modules](https://img.shields.io/badge/CSS-modules-yellow)](https://github.com/css-modules/css-modules)
+[![Vite](https://github.com/aleen42/badges/raw/master/src/vitejs.svg)](https://vitejs.dev/)
 
-Write BDD tests in Markdown.
+The nRF Asset Tracker Web Application for AWS is a reference single-page
+application (SPA) developed with [React](https://reactjs.org/) in
+[TypeScript](https://www.typescriptlang.org/).
 
-## Idea
+The UI components are themed using
+[Bootstrap 5](https://getbootstrap.com/docs/5.0/) and
+[CSS modules](https://github.com/css-modules/css-modules). All complex UI logic
+is extracted using [React hooks](https://reactjs.org/docs/hooks-custom.html) to
+allow re-use when changing the UI framework.
 
-Writing BDD tests should be more comfortable
-[than this](https://github.com/NordicSemiconductor/cloud-e2e-bdd-test-runner-example-js/blob/ca4f6e8c517c13f1c88abfdb6426c8ed6fe730e7/features/Webhook.feature),
-so why not use Markdown? It can look
-[like this](./parser/test-data/feature/Example.feature.md).
+[Vite](https://vitejs.dev/) is used as the frontend toolchain.
 
-- it is a well supported document format, many tools like auto-formatters
-  already exist
-- it provide good tools to structure a hierarchical document
-- it has support for embedding source code / JSON payloads, and even tables
-- front matter can be used for feature-level configuration
+> :information_source:
+> [Read the complete nRF Asset Tracker documentation](https://nordicsemiconductor.github.io/asset-tracker-cloud-docs/).
 
-## History
+## Set up
 
-Work on the original BDD e2e feature runner began in 2018, and the project has
-been proved very useful for testing cloud-native solutions. Read more about the
-original idea
-[here](https://github.com/NordicSemiconductor/cloud-e2e-bdd-test-runner-js#motivation).
-However, the implementation had some shortcomings. Especially understanding test
-results and the way state and retries were handled was not optimal. In addition
-was the old codebase itself not sufficiently covered with tests. Therefore this
-project was initiated in 2022, with four years of experience authoring and
-running tests. With a fresh set of eyes, the way to write test was complete
-changed from Gherkin to Markdown which called for releasing it as a standalone
-project.
+    npm ci
 
-## Examples
+## Configuration
 
-- [Demo of supported syntax](./parser/test-data/feature/Example.feature.md)
-- [Gherkin `Rule` keyword](./parser/test-data/feature/Highlander.feature.md)
-- [Mars Rover Kata](./examples/mars-rover/MarsRover.feature.md) (this
-  demonstrates the `Soon` keyword which retries steps)  
-  Run:
-  `$(set -o pipefail && npx tsx examples/mars-rover/tests.ts | npx tsx reporter/console-cli.ts)`
-- [Firmware UART log assertions](./examples/firmware/RunFirmware.feature.md)
-  (this demonstrates the use of the `Context`, which is a global object
-  available to provide run-time settings to the test run, which replace
-  placeholders in step titles and codeblocks.)  
-  Run:
-  `$(set -o pipefail && npx tsx examples/firmware/tests.ts | npx tsx reporter/console-cli.ts)`
+In the
+[nRF Asset Tracker for AWS](https://github.com/NordicSemiconductor/asset-tracker-cloud-aws-js)
+folder, run `node cli web-app-config` and store the output in a local `.envrc`
+file. Then run `direnv allow` to allow it.
 
-## Test eventual consistent systems using the `Soon` keyword
-
-Let's have a look at this scenario:
-
-```markdown
-# To Do List
-
-## Create a new todo list item
-
-Given I create a new task named `My item`
-
-Then the list of tasks should contain `My item`
+```bash
+# .envrc
+export PUBLIC_CELL_GEO_LOCATION_CACHE_TABLE_NAME=...
+export PUBLIC_CLOUDFRONT_DISTRIBUTION_ID=...
+export PUBLIC_FOTA_BUCKET_NAME=...
+export PUBLIC_GEOLOCATION_API_URL=...
+export PUBLIC_HISTORICALDATA_TABLE_INFO=...
+export PUBLIC_IDENTITY_POOL_ID=...
+export PUBLIC_NETWORK_SURVEY_GEOLOCATION_API_URL=...
+export PUBLIC_NETWORKSURVEY_STORAGE_TABLE_NAME=...
+export PUBLIC_USER_IOT_POLICY_NAME=...
+export PUBLIC_USER_POOL_ID=...
+export PUBLIC_USER_POOL_CLIENT_ID=...
+export PUBLIC_WEB_APP_BUCKET_NAME=...
+export PUBLIC_WEB_APP_DOMAIN_NAME=...
+export PUBLIC_SENTRY_DSN=...
+export PUBLIC_REGION=...
+export PUBLIC_MQTT_ENDPOINT=...
 ```
 
-What if you are testing a todo list system, that is eventually consistent?
+## Running
 
-More specifically: creating a new task happens through a `POST` request to an
-API that returns a `202 Accepted` status code.
+    npm start
 
-The system does not guarantee that task you've just created is _immediately_
-available.
+## End-to-end tests using Playwright
 
-The `Then` assertion will fail, because it is executed immediately.
+The frontend provides [end-to-end tests](./e2e-tests) using
+[Playwright](https://playwright.dev/).
 
-For testing eventual consistent systems, we need to either wait a reasonable
-enough time or retry the assertion.
+### Configure AWS credentials
 
-However, if there are many similar assertions in your test suite will quickly
-add up to long run times.
+The end-to-end tests run against an instance of the
+[nRF Asset Tracker for AWS](https://github.com/NordicSemiconductor/asset-tracker-cloud-aws-js).
 
-Therefore the most efficient solution is to retry the assertion until it passes,
-or times out. This way a back-off algorithm can be used to wait increasing
-longer times and many tries during the test run will have the least amount of
-impact on the run time.
+Either, use the credentials you created, when setting up the solution, or enable
+the Web App CI feature and use the dedicated credentials created for this task.
+The latter option is the recommended approach since it limits the permission
+scope to only the needed ones. They can also be used to
+[run the end-to-end tests on GitHub Actions](#running-end-to-end-tests-using-github-actions).
 
-Implementing the appropriate way of retrying is left to the implementing step,
-however you are encourage to mark these eventual consisted steps using the
-`Soon` keyword.
+Add these environment variables to your `.envrc`. Then run `direnv allow` to
+allow it.
 
-## Control feature execution order via dependencies
-
-By default the features are loaded in no particular order. You _may_ attempt to
-order them using a naming convention, however this can enforce a forced ranking
-of all features, and over time files might need to get renamed to make room for
-new features.
-
-In this project, features can specify a dependency to one or more other features
-in their front matter, and after parsing all features files, they will be sorted
-[topologically](https://en.wikipedia.org/wiki/Topological_sorting).
-
-Features can define their dependencies via the `needs` keyword:
-
-```markdown
----
-needs:
-  - First feature
----
-
-# Second
-
-## Scenario
-
-Given this is the first step
+```bash
+# .envrc
+export AWS_REGION=...
+export AWS_ACCESS_KEY_ID=...
+export AWS_SECRET_ACCESS_KEY=...
+export WEBAPP_STACK_NAME=...
 ```
 
-This feature will be run after a feature with the name `First feature`
+### Running the tests
 
-## Running features _first_ and _last_
+You can then run the tests using
 
-In addition, features can specify whether they should be run before all other
-features, or after all. Multiple keywords can have this flag, but dependencies
-will take precedence.
+    npm run test:e2e
 
-### Example: running a feature before all others
+### Running individual tests
 
-```markdown
----
-order: first
----
+    npx playwright test authenticated/map/locationHistory/gnss.spec.ts
 
-# Runs before all others
+### Playwright Inspector
 
-## Scenario
+For developing tests it is helpful to run the
+[Playwright Inspector](https://playwright.dev/docs/inspector).
 
-Given this is the first step
+You can enabled the inspector during the tests by running
+
+    PWDEBUG=1 npm run test:e2e
+
+### Running end-to-end tests using GitHub Actions
+
+[This workflow](./.github/workflows/test-and-release.yaml) runs the end-to-end
+tests for every commit. For this to work a running instance of
+[nRF Asset Tracker for AWS](https://github.com/NordicSemiconductor/asset-tracker-cloud-aws-js)
+is needed. The tests will be run against this instance. Typically it will be the
+production instance, to ensure that the web application works with the current
+production setup.
+
+In order for the test runner to interact with the instance for retrieving the
+app configuration and for providing test data you need to configure AWS
+credentials as
+[GitHub environment secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-an-environment).
+
+Set these secrets:
+
+- `AWS_REGION`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `WEBAPP_STACK_NAME`
+
+If you have enabled the web application CI of the nRF Asset Tracker for AWS
+(`node cli configure context stack web-app-ci 1`) you can acquire them using the
+nRF Asset Tracker for AWS CLI:
+
+```bash
+node cli web-app-ci -s
 ```
 
-### Example: running a feature after all others:
+You can set the secrets through the GitHub UI (make sure to create the
+`production`
+[environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
+in your repository first).
 
-```markdown
----
-order: last
----
+Alternatively you can use the [GitHub CLI](https://cli.github.com/) using the
+environment settings from above:
 
-# Runs before all others
-
-## Scenario
-
-Given this is the first step
+```bash
+gh secret set AWS_REGION --env production --body "${AWS_REGION}"
+gh secret set AWS_ACCESS_KEY_ID --env production --body "${AWS_ACCESS_KEY_ID}"
+gh secret set AWS_SECRET_ACCESS_KEY --env production --body "${AWS_SECRET_ACCESS_KEY}"
+gh secret set WEBAPP_STACK_NAME --env production --body "${WEBAPP_STACK_NAME}"
 ```
 
-## Skipping features
+## Sentry
 
-Features can be skipped, this will also skip all dependent and transiently
-dependent features.
+Optionally, Sentry can be enabled for the web application. Export the
+`PUBLIC_SENTRY_DSN` environment variable.
 
-### Example: skipping a feature
+To enable this in the continuous deployment pipeline of nRF Asset Tracker,
+configure the DSN using the CLI:
 
-```markdown
----
-run: never
----
-
-# This feature never runs
-
-## Scenario
-
-Given this is the first step
+```bash
+./cli.sh configure thirdParty sentry sentryDsn https://4f901247818d46099a3f15b6ada9390e@o4504255385174016.ingest.sentry.io/4504684789170176
 ```
 
-## Running only specific features
+When the next deployment is triggered, the DSN becomes available via
 
-Features can be run exclusively, this will also run all dependent and
-transiently dependent features. All other features not marked as `run: only`
-will be skipped.
-
-### Example: running only a specific feature
-
-```markdown
----
-run: only
----
-
-# This feature runs, all other features are skipped
-
-## Scenario
-
-Given this is the first step
+```bash
+./cli.sh web-app-config
 ```
-
-## Variants
-
-Variants (defined in the frontmatter of a feature) can be used to run the same
-feature in different variants. For every entry in variants, the feature file is
-run. ([Example](./runner/test-data/runSuite/variants/Variants.feature.md))
-
-## Number placeholders in JSON
-
-For JSON code-blocks there is a special notation to replace number placeholders,
-while still maintaining the JSON syntax and allow for formatters like prettier
-to format the code-block.
-
-````markdown
-Given `v` is the number `42`
-
-And I store this in `result`
-
-```json
-{ "foo": "$number{v}" }
-```
-
-Then `result` should match
-
-```json
-{ "foo": 42 }
-```
-````
-
-## Markdown Reporter
-
-It includes a markdown reporter, which will turn the suite result into markdown,
-suitable for displaying it as
-[GitHub Actions job summaries](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary).
-
-Example: [Mars Rover Report](./reporter/test-data/mars-rover.md)
