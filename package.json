@@ -54,7 +54,7 @@
     "husky": "8.0.3",
     "lint-staged": "15.0.2",
     "prettier": "3.0.3",
-    "tsx": "4.0.0",
+    "tsx": "4.1.0",
     "typescript": "5.2.2"
   },
   "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc",
