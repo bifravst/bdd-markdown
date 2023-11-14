@@ -155,8 +155,8 @@ const formatRunResult = (
 								i === 0
 									? colorCode('❯')
 									: i === lines.length - 1
-									? colorCode('└')
-									: colorCode('│'),
+									  ? colorCode('└')
+									  : colorCode('│'),
 								colorCode(line),
 							),
 						)
@@ -218,8 +218,8 @@ const printLogs = (
 						i === 0
 							? prefix
 							: i === messages.length - 1
-							? color('└')
-							: color('│')
+							  ? color('└')
+							  : color('│')
 					}`,
 					color(m),
 				),
