@@ -40,7 +40,7 @@
     "@commitlint/config-conventional": "18.4.3",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "12.0.113",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "16.0.23",
-    "@types/node": "20.9.3",
+    "@types/node": "20.9.4",
     "@types/prettier": "3.0.0",
     "@types/toposort": "2.0.7",
     "@typescript-eslint/eslint-plugin": "6.12.0",
