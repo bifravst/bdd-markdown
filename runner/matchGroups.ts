@@ -59,7 +59,7 @@ export const matchGroups =
 				? convert(
 						matches.groups,
 						converters as Record<string, (v: string) => string>,
-				  )
+					)
 				: matches.groups
 		const valid = validateWithJSONSchema(schema)(converted)
 		if ('errors' in valid)
