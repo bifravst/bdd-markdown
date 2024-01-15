@@ -1,5 +1,6 @@
 import { type Static, type TObject } from '@sinclair/typebox'
-import { validateWithJSONSchema } from './validateWithJSONSchema.js'
+import { validate } from './validate.js'
+import { formatTypeBoxErrors } from './formatTypeBoxErrors.js'
 
 export class MatchError extends Error {
 	constructor(message: string) {
@@ -61,14 +62,12 @@ export const matchGroups =
 						converters as Record<string, (v: string) => string>,
 					)
 				: matches.groups
-		const valid = validateWithJSONSchema(schema)(converted)
+		const valid = validate(schema)(converted)
 		if ('errors' in valid)
 			throw new MatchError(
 				`Result '${JSON.stringify(
 					converted,
-				)}' matched from '${input}' is not valid: ${valid.errors
-					.map(({ instancePath, message }) => `${instancePath}: ${message}`)
-					.join(', ')}!`,
+				)}' matched from '${input}' is not valid: ${formatTypeBoxErrors(valid.errors)}!`,
 			)
 		return valid.value
 	}

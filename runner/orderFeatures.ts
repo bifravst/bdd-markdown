@@ -2,9 +2,9 @@ import toposort from 'toposort'
 import { RunConfigSchema } from '../parser/grammar.js'
 import { markDependentsSkipped } from './markDependentsSkipped.js'
 import { type FeatureFile } from './parseFeaturesInFolder.js'
-import { validateWithJSONSchema } from './validateWithJSONSchema.js'
+import { validate } from './validate.js'
 
-const validator = validateWithJSONSchema(RunConfigSchema)
+const validator = validate(RunConfigSchema)
 
 export const orderFeatures = (featureFiles: FeatureFile[]): FeatureFile[] => {
 	// Validate config
