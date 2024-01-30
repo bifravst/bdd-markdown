@@ -50,7 +50,7 @@
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-unicorn": "50.0.1",
     "exponential-backoff": "^3.1.1",
-    "husky": "8.0.3",
+    "husky": "9.0.7",
     "lint-staged": "15.2.0",
     "prettier": "3.2.4",
     "tsx": "4.7.0",
@@ -63,7 +63,7 @@
   },
   "scripts": {
     "test": "find ./ -type f -name \\*.spec.ts | xargs npx tsx --test --test-reporter spec",
-    "prepare": "husky install && check-node-version --package",
+    "prepare": "husky && check-node-version --package",
     "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
   },
   "lint-staged": {
