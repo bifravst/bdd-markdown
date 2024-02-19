@@ -23,7 +23,7 @@ export const step = (s: TokenStream): ParsedStep | null => {
 	if (!steps.includes(stepWord as StepKeyword))
 		throw new InvalidSyntaxError(
 			s,
-			`Unexpected step: ${stepWord}, expected one of ${steps}!`,
+			`Unexpected step: ${stepWord}, expected one of ${steps.join(',')}!`,
 		)
 	whiteSpace(s)
 	const title = paragraph(s)
