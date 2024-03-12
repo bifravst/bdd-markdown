@@ -38,7 +38,7 @@
   "devDependencies": {
     "@bifravst/eslint-config-typescript": "6.0.11",
     "@bifravst/prettier-config": "1.0.0",
-    "@commitlint/config-conventional": "19.0.3",
+    "@commitlint/config-conventional": "19.1.0",
     "@types/node": "20.11.26",
     "@types/prettier": "3.0.0",
     "@types/toposort": "2.0.7",
