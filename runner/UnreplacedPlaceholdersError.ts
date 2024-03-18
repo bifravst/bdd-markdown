@@ -1,7 +1,7 @@
 import path from 'node:path'
 import os from 'node:os'
-import type { Step } from '../parser/grammar'
-import type { Unreplaced } from './getUnreplacedPlaceholders'
+import type { Step } from '../parser/grammar.js'
+import type { Unreplaced } from './getUnreplacedPlaceholders.js'
 
 export class UnreplacedPlaceholdersError extends Error {
 	public readonly step: Step
