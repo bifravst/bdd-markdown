@@ -1,6 +1,6 @@
 import assert from 'assert/strict'
 import os from 'os'
-import type { StepRunner } from '../../runner/runSuite'
+import type { StepRunner } from '../../runner/runSuite.js'
 
 export type FirmwareCIRunContext = {
 	appVersion: string
