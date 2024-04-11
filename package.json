@@ -94,7 +94,6 @@
     "access": "public"
   },
   "files": [
-    "package-lock.json",
     "dist/index.d.ts",
     "dist/index.js",
     "dist/parser",
