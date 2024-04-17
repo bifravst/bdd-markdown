@@ -7,7 +7,12 @@ import {
 	loadFeatureFile,
 	parseFeaturesInFolder,
 } from './parseFeaturesInFolder.js'
-import { runSuite, type StepRunner } from './runSuite.js'
+import {
+	runSuite,
+	type FeatureResult,
+	type ScenarioResult,
+	type StepRunner,
+} from './runSuite.js'
 import { regExpMatchedStep } from './regExpMatchedStep.js'
 import { Type } from '@sinclair/typebox'
 
@@ -267,5 +272,45 @@ describe('runSuite()', () => {
 				modem: 'LTE-M',
 			})
 		})
+	})
+
+	it('should not run scenarios after a failed scenario', async () => {
+		const runner = runSuite(
+			await parseFeaturesInFolder(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'runSuite',
+					'skip-remaining-scenarios-after-failure',
+				),
+			),
+			'Skipped scenarios example',
+		)
+
+		runner.addStepRunners(
+			...(<StepRunner[]>[
+				{
+					match: () => true,
+					run: () => {
+						throw new Error(`Failure!`)
+					},
+				},
+			]),
+		)
+
+		const result = await runner.run()
+
+		assert.equal(result.ok, false)
+
+		const featureResult = result.results[0]?.[1] as FeatureResult
+		const scenario1 = featureResult.results[0]?.[1] as ScenarioResult
+		const scenario2 = featureResult.results[1]?.[1] as ScenarioResult
+		// First scenario should fail
+		assert.equal(scenario1.ok, false)
+		assert.equal(scenario1.skipped, false)
+		// Second scenario should be skipped
+		assert.equal(scenario1.ok, false)
+		assert.equal(scenario2.skipped, true, 'Skip the second scenario')
 	})
 })
