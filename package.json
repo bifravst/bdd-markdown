@@ -28,13 +28,6 @@
       "node": "./dist/*"
     }
   },
-  "dependencies": {
-    "@sinclair/typebox": "0.32.20",
-    "chalk": "5.3.0",
-    "jsonata": "2.0.4",
-    "toposort": "2.0.2",
-    "yaml": "2.4.1"
-  },
   "devDependencies": {
     "@bifravst/eslint-config-typescript": "6.0.23",
     "@bifravst/prettier-config": "1.0.0",
@@ -102,5 +95,12 @@
     "dist/runner",
     "LICENSE",
     "README.md"
-  ]
+  ],
+  "peerDependencies": {
+    "@sinclair/typebox": "^0.32.21",
+    "chalk": "^5.3.0",
+    "jsonata": "^2.0.4",
+    "toposort": "^2.0.2",
+    "yaml": "^2.4.1"
+  }
 }
