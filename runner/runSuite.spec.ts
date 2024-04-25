@@ -11,6 +11,7 @@ import {
 	runSuite,
 	type FeatureResult,
 	type ScenarioResult,
+	type StepResult,
 	type StepRunner,
 } from './runSuite.js'
 import { regExpMatchedStep } from './regExpMatchedStep.js'
@@ -312,5 +313,47 @@ describe('runSuite()', () => {
 		// Second scenario should be skipped
 		assert.equal(scenario1.ok, false)
 		assert.equal(scenario2.skipped, true, 'Skip the second scenario')
+	})
+
+	it('should not run steps after a failed step in a scenario', async () => {
+		const runner = runSuite(
+			await parseFeaturesInFolder(
+				path.join(
+					process.cwd(),
+					'runner',
+					'test-data',
+					'runSuite',
+					'skip-remaining-steps-after-failure',
+				),
+			),
+			'Skipped steps example',
+		)
+
+		runner.addStepRunners(
+			...(<StepRunner[]>[
+				{
+					match: () => true,
+					run: () => {
+						throw new Error(`Failure!`)
+					},
+				},
+			]),
+		)
+
+		const result = await runner.run()
+
+		assert.equal(result.ok, false)
+
+		const featureResult = result.results[0]?.[1] as FeatureResult
+		const scenario = featureResult.results[0]?.[1] as ScenarioResult
+		const step1 = scenario.results[0]?.[1] as StepResult
+		const step2 = scenario.results[1]?.[1] as StepResult
+		// First scenario should fail
+		assert.equal(scenario.ok, false)
+		// Second step should be skipped
+		assert.equal(scenario.ok, false)
+		assert.equal(step1.skipped, false)
+		assert.equal(step1.ok, false)
+		assert.equal(step2.skipped, true, 'Skip the second step')
 	})
 })

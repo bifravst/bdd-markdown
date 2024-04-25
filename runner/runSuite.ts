@@ -98,10 +98,12 @@ export const runSuite = <Context extends Record<string, any>>(
 			let featureStart: number
 			let skipFeature: boolean = false
 			let skipScenario: boolean = false
+			let skipRemainingSteps: boolean = false
 			await suiteWalker(suite, c)
 				.onFeature(({ feature, skip }) => {
 					scenarioResults = []
 					skipScenario = false
+					skipRemainingSteps = false
 					featureStart = Date.now()
 					skipFeature = skip
 					// Have dependency failed?
@@ -169,7 +171,7 @@ export const runSuite = <Context extends Record<string, any>>(
 							),
 						)
 
-					if (skipFeature || skipScenario) {
+					if (skipFeature || skipScenario || skipRemainingSteps) {
 						stepResults.push([
 							step,
 							{
@@ -215,6 +217,7 @@ export const runSuite = <Context extends Record<string, any>>(
 								skipped: false,
 							},
 						])
+						skipRemainingSteps = true
 					}
 				})
 				.walk()
