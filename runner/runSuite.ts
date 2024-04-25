@@ -181,6 +181,7 @@ export const runSuite = <Context extends Record<string, any>>(
 								skipped: true,
 							},
 						])
+						return
 					}
 
 					const stepLogger = logger({ ...logObserver, step })
