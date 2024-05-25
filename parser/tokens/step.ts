@@ -1,6 +1,7 @@
 import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
 import { getLineNumber } from '../errors/toErrorPosition.js'
-import { StepKeyword, steps, type Step } from '../grammar.js'
+import type { StepKeyword } from '../grammar.js'
+import { steps, type Step } from '../grammar.js'
 import { type TokenStream } from '../tokenStream.js'
 import { comment } from './comment.js'
 import { paragraph } from './paragraph.js'

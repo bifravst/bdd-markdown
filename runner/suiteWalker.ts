@@ -1,4 +1,4 @@
-import path from 'node:path'
+import type path from 'node:path'
 import {
 	Keyword,
 	type Feature,
