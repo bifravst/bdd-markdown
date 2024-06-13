@@ -81,8 +81,8 @@ const isAllStrings = (arr: unknown): arr is Array<string> =>
 
 const readCol = until('|')
 
-const readRow = (s: TokenStream): (string | undefined)[] | null => {
-	const rowTokens: (string | undefined)[] = []
+const readRow = (s: TokenStream): (string | null)[] | null => {
+	const rowTokens: (string | null)[] = []
 
 	while (true) {
 		if (s.char() !== '|') break
@@ -93,7 +93,7 @@ const readRow = (s: TokenStream): (string | undefined)[] | null => {
 			s.next()
 			break
 		}
-		rowTokens.push(col === null ? undefined : col.trim())
+		rowTokens.push(col === null ? null : col.trim())
 	}
 	space(s)
 	return rowTokens.length > 0 ? rowTokens : null

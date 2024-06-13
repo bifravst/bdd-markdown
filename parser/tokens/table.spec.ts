@@ -25,22 +25,22 @@ describe('table()', () => {
 			{
 				start: '20',
 				eat: '5',
-				left: undefined,
+				left: null,
 			},
 			{
 				start: '20',
-				eat: undefined,
+				eat: null,
 				left: '15',
 			},
 			{
-				start: undefined,
+				start: null,
 				eat: '5',
 				left: '15',
 			},
 			{
-				start: undefined,
-				eat: undefined,
-				left: undefined,
+				start: null,
+				eat: null,
+				left: null,
 			},
 		]))
 
