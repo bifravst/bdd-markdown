@@ -19,4 +19,34 @@ describe('table()', () => {
 				left: '15',
 			},
 		]))
+
+	it('should parse a table with blank values', () =>
+		assert.deepEqual(table(l('with-blanks')), [
+			{
+				start: '20',
+				eat: '5',
+				left: undefined,
+			},
+			{
+				start: '20',
+				eat: undefined,
+				left: '15',
+			},
+			{
+				start: undefined,
+				eat: '5',
+				left: '15',
+			},
+			{
+				start: undefined,
+				eat: undefined,
+				left: undefined,
+			},
+		]))
+
+	it('should not allow blank table headers', () =>
+		assert.throws(
+			() => table(l('error-blank-header')),
+			/Table header must be all strings./,
+		))
 })

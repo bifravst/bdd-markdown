@@ -39,12 +39,18 @@ export const table = (s: TokenStream): Table | null => {
 		const header = readRow(s)
 		if (header === null)
 			throw new InvalidSyntaxError(s, `Failed to parse table header!`)
+		// All header columns must be specified
+		if (!isAllStrings(header))
+			throw new InvalidSyntaxError(s, `Table header must be all strings.`)
 		// Parse header separator
 		const headerSep = readRow(s)
 		if (headerSep === null) {
 			throw new InvalidSyntaxError(s, `Failed to parse table header separator!`)
 		}
-		if (headerSep.filter((col) => /^-+$/.test(col)).length !== headerSep.length)
+		if (
+			headerSep.filter((col) => /^-+$/.test(col ?? '')).length !==
+			headerSep.length
+		)
 			throw new InvalidSyntaxError(s, `Invalid table header separator.`)
 		// Parse rows
 		while (true) {
@@ -61,7 +67,7 @@ export const table = (s: TokenStream): Table | null => {
 						...row,
 						[header[i] ?? '']: col,
 					}),
-					{} as Record<string, string>,
+					{},
 				),
 			)
 		}
@@ -70,10 +76,13 @@ export const table = (s: TokenStream): Table | null => {
 	return Object.keys(table).length > 0 ? table : null
 }
 
+const isAllStrings = (arr: unknown): arr is Array<string> =>
+	Array.isArray(arr) && arr.every((v) => typeof v === 'string')
+
 const readCol = until('|')
 
-const readRow = (s: TokenStream): string[] | null => {
-	const rowTokens: string[] = []
+const readRow = (s: TokenStream): (string | undefined)[] | null => {
+	const rowTokens: (string | undefined)[] = []
 
 	while (true) {
 		if (s.char() !== '|') break
@@ -84,8 +93,7 @@ const readRow = (s: TokenStream): string[] | null => {
 			s.next()
 			break
 		}
-		if (col === null) break
-		rowTokens.push(col.trim())
+		rowTokens.push(col === null ? undefined : col.trim())
 	}
 	space(s)
 	return rowTokens.length > 0 ? rowTokens : null
