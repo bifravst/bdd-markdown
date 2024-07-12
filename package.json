@@ -1,16 +1,16 @@
 {
-  "name": "@nordicsemiconductor/bdd-markdown",
+  "name": "@bifravst/bdd-markdown",
   "version": "0.0.0-development",
   "description": "Write BDD tests in Markdown.",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NordicSemiconductor/bdd-markdown-js.git"
+    "url": "git+https://github.com/bifravst/bdd-markdown.git"
   },
   "bugs": {
-    "url": "https://github.com/NordicSemiconductor/bdd-markdown-js/issues"
+    "url": "https://github.com/bifravst/bdd-markdown/issues"
   },
-  "homepage": "https://github.com/NordicSemiconductor/bdd-markdown-js#readme",
+  "homepage": "https://github.com/bifravst/bdd-markdown#readme",
   "keywords": [
     "nrf-asset-tracker",
     "bdd"

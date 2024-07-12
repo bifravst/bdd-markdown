@@ -6,7 +6,7 @@
     [
       {
         "root": "/",
-        "dir": "/home/m/nrf-asset-tracker/bdd-markdown-js/examples/firmware",
+        "dir": "/home/m/nrf-asset-tracker/bdd-markdown/examples/firmware",
         "base": "RunFirmware.feature.md",
         "ext": ".md",
         "name": "RunFirmware.feature"

@@ -6,7 +6,7 @@
     [
       {
         "root": "/",
-        "dir": "/home/m/nrf-asset-tracker/bdd-markdown-js/examples/mars-rover",
+        "dir": "/home/m/nrf-asset-tracker/bdd-markdown/examples/mars-rover",
         "base": "MarsRover.feature.md",
         "ext": ".md",
         "name": "MarsRover.feature"

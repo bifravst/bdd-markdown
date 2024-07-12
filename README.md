@@ -1,6 +1,6 @@
 # BDD Markdown [![npm version](https://img.shields.io/npm/v/@nordicsemiconductor/bdd-markdown.svg)](https://www.npmjs.com/package/@nordicsemiconductor/bdd-markdown)
 
-[![Test and Release](https://github.com/NordicSemiconductor/bdd-markdown-js/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/NordicSemiconductor/bdd-markdown-js/actions/workflows/test-and-release.yaml)
+[![Test and Release](https://github.com/bifravst/bdd-markdown/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/bifravst/bdd-markdown/actions/workflows/test-and-release.yaml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
 [![@commitlint/config-conventional](https://img.shields.io/badge/%40commitlint-config--conventional-brightgreen)](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional)
@@ -12,7 +12,7 @@ Write BDD tests in Markdown.
 ## Idea
 
 Writing BDD tests should be more comfortable
-[than this](https://github.com/NordicSemiconductor/cloud-e2e-bdd-test-runner-example-js/blob/ca4f6e8c517c13f1c88abfdb6426c8ed6fe730e7/features/Webhook.feature),
+[than this](https://github.com/bifravst/cloud-e2e-bdd-test-runner-example-js/blob/ca4f6e8c517c13f1c88abfdb6426c8ed6fe730e7/features/Webhook.feature),
 so why not use Markdown? It can look
 [like this](./parser/test-data/feature/Example.feature.md).
 
@@ -27,7 +27,7 @@ so why not use Markdown? It can look
 Work on the original BDD e2e feature runner began in 2018, and the project has
 been proved very useful for testing cloud-native solutions. Read more about the
 original idea
-[here](https://github.com/NordicSemiconductor/cloud-e2e-bdd-test-runner-js#motivation).
+[here](https://github.com/bifravst/cloud-e2e-bdd-test-runner-js#motivation).
 However, the implementation had some shortcomings. Especially understanding test
 results and the way state and retries were handled was not optimal. In addition
 was the old codebase itself not sufficiently covered with tests. Therefore this
