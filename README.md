@@ -1,4 +1,4 @@
-# BDD Markdown [![npm version](https://img.shields.io/npm/v/@nordicsemiconductor/bdd-markdown.svg)](https://www.npmjs.com/package/@nordicsemiconductor/bdd-markdown)
+# BDD Markdown [![npm version](https://img.shields.io/npm/v/rsrp-bar/bdd-markdown.svg)](https://www.npmjs.com/package/rsrp-bar/bdd-markdown)
 
 [![Test and Release](https://github.com/bifravst/bdd-markdown/actions/workflows/test-and-release.yaml/badge.svg)](https://github.com/bifravst/bdd-markdown/actions/workflows/test-and-release.yaml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
