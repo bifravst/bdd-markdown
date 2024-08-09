@@ -1,5 +1,5 @@
-import { type Step } from '../parser/grammar.js'
 import jsonata from 'jsonata'
+import { type Step } from '../parser/grammar.js'
 
 export const replaceFromExamples = async (
 	step: Step,

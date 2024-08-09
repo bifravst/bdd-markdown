@@ -1,3 +1,4 @@
+import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
 import { randomUUID } from 'node:crypto'
 import { describe, it } from 'node:test'
@@ -7,6 +8,7 @@ import {
 	loadFeatureFile,
 	parseFeaturesInFolder,
 } from './parseFeaturesInFolder.js'
+import { regExpMatchedStep } from './regExpMatchedStep.js'
 import {
 	runSuite,
 	type FeatureResult,
@@ -14,8 +16,6 @@ import {
 	type StepResult,
 	type StepRunner,
 } from './runSuite.js'
-import { regExpMatchedStep } from './regExpMatchedStep.js'
-import { Type } from '@sinclair/typebox'
 
 describe('runSuite()', () => {
 	it('should run a simple test suite', async () => {

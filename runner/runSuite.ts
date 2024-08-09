@@ -1,4 +1,6 @@
+import os from 'node:os'
 import path, { type ParsedPath } from 'path'
+import type { Step } from '../parser/grammar.js'
 import {
 	logger,
 	type LogEntry,
@@ -8,11 +10,9 @@ import {
 import { type FeatureFile } from './parseFeaturesInFolder.js'
 import {
 	suiteWalker,
-	type ScenarioWithExamples,
 	type FeatureVariant,
+	type ScenarioWithExamples,
 } from './suiteWalker.js'
-import os from 'node:os'
-import type { Step } from '../parser/grammar.js'
 
 export type StepRunnerArgs<Context extends Record<string, any>> = {
 	feature: FeatureVariant

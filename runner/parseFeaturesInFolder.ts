@@ -1,10 +1,10 @@
+import { readdir, stat } from 'fs/promises'
 import { readFile } from 'node:fs/promises'
 import { parse } from 'node:path'
+import path from 'path'
+import { feature } from '../parser/feature.js'
 import type { Feature } from '../parser/grammar.js'
 import { tokenStream } from '../parser/tokenStream.js'
-import { feature } from '../parser/feature.js'
-import { readdir, stat } from 'fs/promises'
-import path from 'path'
 
 export type FeatureFile = {
 	file: ReturnType<typeof parse>

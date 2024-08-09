@@ -2,18 +2,18 @@ import type path from 'node:path'
 import {
 	Keyword,
 	type Feature,
-	type Step,
 	type Row,
 	type Scenario,
+	type Step,
 } from '../parser/grammar.js'
-import { orderFeatures } from './orderFeatures.js'
-import type { FeatureFile } from './parseFeaturesInFolder.js'
-import { replaceFromExamples } from './replaceFromExamples.js'
-import { replaceFromContext } from './replaceFromContext.js'
 import {
 	Source,
 	getUnreplacedPlaceholders,
 } from './getUnreplacedPlaceholders.js'
+import { orderFeatures } from './orderFeatures.js'
+import type { FeatureFile } from './parseFeaturesInFolder.js'
+import { replaceFromContext } from './replaceFromContext.js'
+import { replaceFromExamples } from './replaceFromExamples.js'
 import { UnreplacedPlaceholdersError } from './UnreplacedPlaceholdersError.js'
 
 type FeatureListenerArgs = {

@@ -8,9 +8,9 @@ import type {
 	StepResult,
 	SuiteResult,
 } from '../runner/runSuite.js'
+import type { ScenarioWithExamples } from '../runner/suiteWalker.js'
 import { inputTable } from './markdown/inputTable.js'
 import { logEntry } from './markdown/logEntry.js'
-import type { ScenarioWithExamples } from '../runner/suiteWalker.js'
 
 export const markdownReporter = async (result: SuiteResult): Promise<string> =>
 	prettier.format(

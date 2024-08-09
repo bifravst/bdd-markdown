@@ -1,9 +1,9 @@
 import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
-import { regExpMatchedStep } from '../../runner/regExpMatchedStep.js'
-import { Direction, rover } from './rover.js'
-import type { StepRunner } from '../../runner/runSuite.js'
 import { backOff } from 'exponential-backoff'
+import { regExpMatchedStep } from '../../runner/regExpMatchedStep.js'
+import type { StepRunner } from '../../runner/runSuite.js'
+import { Direction, rover } from './rover.js'
 
 export type RoverContext = {
 	rover?: ReturnType<typeof rover>
