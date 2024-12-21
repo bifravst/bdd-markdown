@@ -93,7 +93,7 @@
   ],
   "peerDependencies": {
     "@sinclair/typebox": "^0.34.13",
-    "chalk": "^5.4.0",
+    "chalk": "^5.4.1",
     "jsonata": "^2.0.6",
     "toposort": "^2.0.2",
     "yaml": "^2.6.1"
