@@ -92,7 +92,7 @@
     "README.md"
   ],
   "peerDependencies": {
-    "@sinclair/typebox": "^0.34.16",
+    "@sinclair/typebox": "^0.34.20",
     "chalk": "^5.4.1",
     "jsonata": "^2.0.6",
     "toposort": "^2.0.2",
