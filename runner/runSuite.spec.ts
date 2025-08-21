@@ -181,6 +181,17 @@ describe('runSuite()', () => {
 						assert.equal(value.length, 36)
 					},
 				),
+				regExpMatchedStep(
+					{
+						regExp: /^`(?<value>[^`]+)` should be replaced in the step$/,
+						schema: Type.Object({
+							value: Type.String(),
+						}),
+					},
+					async ({ match: { value } }) => {
+						assert.equal(value, 'eyJraWQiOiJndmxxx')
+					},
+				),
 				{
 					match: (title) => /^it should be replaced in this JSON$/.test(title),
 					run: async ({ step }) => {
