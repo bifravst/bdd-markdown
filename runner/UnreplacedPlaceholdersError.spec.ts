@@ -31,7 +31,7 @@ describe('UnreplacedPlaceholdersError', () => {
 		assert.equal(
 			err.message,
 			[
-				'Step has unreplaced title placeholders: I am authenticated with Cognito as `${userEmail}` with password `${userPassword}`',
+				'Step has one ore more unreplaced placeholders: I am authenticated with Cognito as `${userEmail}` with password `${userPassword}`',
 				' - ${userEmail}',
 				' - ${userPassword}',
 				'/tmp/MyFeature.feature.md:1',

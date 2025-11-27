@@ -10,7 +10,7 @@ export class UnreplacedPlaceholdersError extends Error {
 	constructor(file: path.ParsedPath, step: Step, unreplaced: Unreplaced) {
 		super(
 			[
-				`Step has unreplaced title placeholders: ${step.title}`,
+				`Step has one ore more unreplaced placeholders: ${step.title}`,
 				unreplaced.map(({ placeholder: name }) => ` - ${name}`).join(os.EOL),
 				`${path.format(file)}:${step.line}`,
 			].join(os.EOL),
