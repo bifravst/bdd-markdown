@@ -45,12 +45,12 @@
   "prettier": "@bifravst/prettier-config",
   "engines": {
     "node": ">=20.0.0",
-    "npm": ">=9.0.0"
+    "npm": ">=12.0.2 <13"
   },
   "scripts": {
     "test": "find ./ -type f -name *.spec.ts | xargs npx tsx --test --test-reporter spec",
     "test:watch": "find ./ -type f -name *.spec.ts | xargs npx tsx --test --watch --test-reporter spec",
-    "prepare": "husky && check-node-version --package",
+    "prepare": "husky && case \"$npm_command\" in install|ci) check-node-version --package ;; esac",
     "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
   },
   "lint-staged": {
