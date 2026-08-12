@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: "24.x"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -45,7 +45,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: "24.x"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -70,7 +70,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: "24.x"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -97,7 +97,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: "24.x"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
