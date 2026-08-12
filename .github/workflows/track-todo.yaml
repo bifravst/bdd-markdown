@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@61b9e3751b92087fd0b06925ba6dd6314e06f089 # master
 
       - name: Run tdg-github-action
-        uses: ribtoks/tdg-github-action@master
+        uses: ribtoks/tdg-github-action@2e71a53c3aae01ab7196b87f3575739462cb507d # master
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
