@@ -1,5 +1,10 @@
 name: Test and Release
 
+permissions:
+  contents: write
+  issues: write
+  id-token: write
+
 on:
   push:
 
@@ -7,7 +12,6 @@ env:
   # For chalk: https://github.com/chalk/chalk#supportscolor
   FORCE_COLOR: 3
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
   parse:
@@ -22,6 +26,7 @@ jobs:
         with:
           node-version: ">=24.19.0 <25"
           cache: "npm"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install NPM version specified in package.json
         uses: ./.github/actions/install-npm
@@ -47,6 +52,7 @@ jobs:
         with:
           node-version: ">=24.19.0 <25"
           cache: "npm"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install NPM version specified in package.json
         uses: ./.github/actions/install-npm
@@ -72,6 +78,7 @@ jobs:
         with:
           node-version: ">=24.19.0 <25"
           cache: "npm"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install NPM version specified in package.json
         uses: ./.github/actions/install-npm
@@ -99,6 +106,7 @@ jobs:
         with:
           node-version: ">=24.19.0 <25"
           cache: "npm"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install NPM version specified in package.json
         uses: ./.github/actions/install-npm
