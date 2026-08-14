@@ -1,6 +1,6 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { inputTable } from './inputTable.js'
+import { inputTable } from './inputTable.ts'
 
 describe('inputTable()', () => {
 	it('should generate a table', async () => {

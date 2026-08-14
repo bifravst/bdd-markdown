@@ -1,9 +1,9 @@
 import os from 'os'
-import { type CodeBlock } from '../grammar.js'
-import { type TokenStream } from '../tokenStream.js'
-import { line } from './line.js'
-import { whiteSpace } from './whiteSpace.js'
-import { word } from './word.js'
+import { type CodeBlock } from '../grammar.ts'
+import { type TokenStream } from '../tokenStream.ts'
+import { line } from './line.ts'
+import { whiteSpace } from './whiteSpace.ts'
+import { word } from './word.ts'
 
 const fence = (s: TokenStream): boolean => {
 	const index = s.index()

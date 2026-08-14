@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import os from 'os'
-import { type TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.ts'
 
 export const toErrorPosition = (stream: TokenStream): string => {
 	const lineNum = getLineNumber(stream)

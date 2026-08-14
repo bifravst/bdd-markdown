@@ -1,4 +1,4 @@
-import { markdownReporter } from './markdownReporter.js'
+import { markdownReporter } from './markdownReporter.ts'
 
 const chunks: string[] = []
 

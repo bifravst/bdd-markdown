@@ -1,5 +1,5 @@
-import { LogLevel, type LogEntry } from '../../runner/logger.js'
-import { escapeLogMessage } from './escapeLogMessage.js'
+import { LogLevel, type LogEntry } from '../../runner/logger.ts'
+import { escapeLogMessage } from './escapeLogMessage.ts'
 
 export const logEntry = (
 	logEntry: LogEntry,

@@ -1,8 +1,8 @@
 import os from 'os'
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
-import { type Table } from '../grammar.js'
-import { type TokenStream } from '../tokenStream.js'
-import { space } from './whiteSpace.js'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.ts'
+import { type Table } from '../grammar.ts'
+import { type TokenStream } from '../tokenStream.ts'
+import { space } from './whiteSpace.ts'
 
 const until =
 	(endToken: string) =>

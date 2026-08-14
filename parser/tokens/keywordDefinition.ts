@@ -1,11 +1,11 @@
-import { getLineNumber } from '../errors/toErrorPosition.js'
-import type { Keyword } from '../grammar.js'
-import { type KeywordDefinition } from '../grammar.js'
-import { type TokenStream } from '../tokenStream.js'
-import { comment } from './comment.js'
-import { description } from './description.js'
-import { keyword } from './keyword.js'
-import { whiteSpace } from './whiteSpace.js'
+import { getLineNumber } from '../errors/toErrorPosition.ts'
+import type { Keyword } from '../grammar.ts'
+import { type KeywordDefinition } from '../grammar.ts'
+import { type TokenStream } from '../tokenStream.ts'
+import { comment } from './comment.ts'
+import { description } from './description.ts'
+import { keyword } from './keyword.ts'
+import { whiteSpace } from './whiteSpace.ts'
 
 /**
  * In this reader we have to take a look ahead in in case we do not encounter the "allowed" keyword, track back.

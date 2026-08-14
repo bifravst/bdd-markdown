@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { tokenStream } from '../tokenStream.js'
-import { step } from './step.js'
+import { tokenStream } from '../tokenStream.ts'
+import { step } from './step.ts'
 
 describe('step()', () => {
 	it('should parse step definitions (Given, When, Then, Soon)', () => {

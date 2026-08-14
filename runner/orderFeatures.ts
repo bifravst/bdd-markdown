@@ -1,8 +1,8 @@
 import toposort from 'toposort'
-import { RunConfigSchema } from '../parser/grammar.js'
-import { markDependentsSkipped } from './markDependentsSkipped.js'
-import { type FeatureFile } from './parseFeaturesInFolder.js'
-import { validate } from './validate.js'
+import { RunConfigSchema } from '../parser/grammar.ts'
+import { markDependentsSkipped } from './markDependentsSkipped.ts'
+import { type FeatureFile } from './parseFeaturesInFolder.ts'
+import { validate } from './validate.ts'
 
 const validator = validate(RunConfigSchema)
 

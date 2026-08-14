@@ -1,5 +1,5 @@
 import jsonata from 'jsonata'
-import { type Step } from '../parser/grammar.js'
+import { type Step } from '../parser/grammar.ts'
 
 export const replaceFromExamples = async (
 	step: Step,
@@ -42,7 +42,7 @@ const replacePlaceholders = async (
 	let result = s
 	for (const match of s.matchAll(expression)) {
 		const expression = match[1] as string
-		let e: jsonata.Expression | undefined = undefined
+		let e: jsonata.Expression
 		try {
 			e = jsonata(expression)
 		} catch {

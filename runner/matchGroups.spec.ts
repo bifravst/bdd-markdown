@@ -1,7 +1,7 @@
 import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { MatchError, matchGroups } from './matchGroups.js'
+import { MatchError, matchGroups } from './matchGroups.ts'
 
 const rx =
 	/^I set the initial starting point to `(?<x>-?[0-9]+),(?<y>-?[0-9]+)`$/

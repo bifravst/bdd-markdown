@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { StepKeyword } from '../parser/grammar.js'
-import { replaceFromContext } from './replaceFromContext.js'
+import { StepKeyword } from '../parser/grammar.ts'
+import { replaceFromContext } from './replaceFromContext.ts'
 
 describe('replaceFromContext()', () => {
 	it('should replace nested variant placeholders', async () => {

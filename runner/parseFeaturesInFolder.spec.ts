@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { parseFeaturesInFolder } from './parseFeaturesInFolder.js'
+import { parseFeaturesInFolder } from './parseFeaturesInFolder.ts'
 
 describe('parseFeaturesInFolder()', () => {
 	it('should parse the files in a folder as features', async () => {

@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import { readFileSync } from 'fs'
 import path from 'path'
-import { feature } from './parser/feature.js'
-import { tokenStream } from './parser/tokenStream.js'
+import { feature } from './parser/feature.ts'
+import { tokenStream } from './parser/tokenStream.ts'
 
 const f = path.join(
 	process.cwd(),

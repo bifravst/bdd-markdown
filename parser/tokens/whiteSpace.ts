@@ -1,4 +1,4 @@
-import { type TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.ts'
 
 const skip =
 	(ifMatch: (char: string) => boolean) =>

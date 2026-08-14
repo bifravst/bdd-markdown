@@ -1,6 +1,6 @@
 import assert from 'assert/strict'
 import os from 'os'
-import type { StepRunner } from '../../runner/runSuite.js'
+import type { StepRunner, StepRunnerArgs } from '../../runner/runSuite.ts'
 
 export type FirmwareCIRunContext = {
 	appVersion: string
@@ -10,10 +10,13 @@ export type FirmwareCIRunContext = {
 }
 
 export const steps: StepRunner<FirmwareCIRunContext>[] = [
-	<StepRunner<FirmwareCIRunContext>>{
+	{
 		match: (title) =>
 			/^the Firmware CI run device log should contain$/.test(title),
-		run: async ({ step, context: { deviceLog } }) => {
+		run: async ({
+			step,
+			context: { deviceLog },
+		}: StepRunnerArgs<FirmwareCIRunContext>): Promise<void> => {
 			const shouldContain = step.codeBlock?.code.split(os.EOL) ?? []
 			if (shouldContain.length === 0)
 				throw new Error(`Must provide content to match against!`)

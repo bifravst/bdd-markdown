@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { LogLevel } from '../../runner/logger.js'
-import { ZERO_WIDTH_SPACE } from './escapeLogMessage.js'
-import { logEntry } from './logEntry.js'
+import { LogLevel } from '../../runner/logger.ts'
+import { ZERO_WIDTH_SPACE } from './escapeLogMessage.ts'
+import { logEntry } from './logEntry.ts'
 
 describe('logEntry()', () => {
 	it('should escape backticks in log messages', async () => {

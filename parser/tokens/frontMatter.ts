@@ -1,8 +1,8 @@
 import os from 'os'
 import { parse } from 'yaml'
-import { type TokenStream } from '../tokenStream.js'
-import { line } from './line.js'
-import { whiteSpace } from './whiteSpace.js'
+import { type TokenStream } from '../tokenStream.ts'
+import { line } from './line.ts'
+import { whiteSpace } from './whiteSpace.ts'
 
 const readFence = (s: TokenStream): boolean => {
 	const index = s.index()

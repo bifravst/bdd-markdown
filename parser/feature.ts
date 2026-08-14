@@ -1,5 +1,5 @@
-import { IncompleteParseError } from './errors/IncompleteParseError.js'
-import { InvalidSyntaxError } from './errors/InvalidSyntaxError.js'
+import { IncompleteParseError } from './errors/IncompleteParseError.ts'
+import { InvalidSyntaxError } from './errors/InvalidSyntaxError.ts'
 import {
 	Keyword,
 	StepKeyword,
@@ -11,16 +11,16 @@ import {
 	type ScenarioOutline,
 	type Step,
 	type Table,
-} from './grammar.js'
-import { codeBlock } from './tokens/codeBlock.js'
-import { description } from './tokens/description.js'
-import { frontMatter } from './tokens/frontMatter.js'
-import { keyword } from './tokens/keyword.js'
-import { keywordDefinition } from './tokens/keywordDefinition.js'
-import { step } from './tokens/step.js'
-import { table } from './tokens/table.js'
-import { whiteSpace } from './tokens/whiteSpace.js'
-import { type TokenStream } from './tokenStream.js'
+} from './grammar.ts'
+import { codeBlock } from './tokens/codeBlock.ts'
+import { description } from './tokens/description.ts'
+import { frontMatter } from './tokens/frontMatter.ts'
+import { keyword } from './tokens/keyword.ts'
+import { keywordDefinition } from './tokens/keywordDefinition.ts'
+import { step } from './tokens/step.ts'
+import { table } from './tokens/table.ts'
+import { whiteSpace } from './tokens/whiteSpace.ts'
+import { type TokenStream } from './tokenStream.ts'
 
 export const feature = (s: TokenStream): Feature => {
 	// Features may have front matter

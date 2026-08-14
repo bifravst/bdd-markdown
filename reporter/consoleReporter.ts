@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import os from 'os'
-import { LogLevel, type LogEntry } from '../runner/logger.js'
-import type { SuiteResult } from '../runner/runSuite.js'
-import { toString } from './toString.js'
+import { LogLevel, type LogEntry } from '../runner/logger.ts'
+import type { SuiteResult } from '../runner/runSuite.ts'
+import { toString } from './toString.ts'
 
 const errorMark = chalk.bgRedBright.bold(' EE ')
 const passMark = chalk.bgGreenBright.bold.rgb(0, 0, 0)(' OK ')

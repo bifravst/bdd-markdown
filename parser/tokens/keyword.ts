@@ -1,9 +1,9 @@
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
-import { getLineNumber } from '../errors/toErrorPosition.js'
-import { Keyword } from '../grammar.js'
-import { type TokenStream } from '../tokenStream.js'
-import { sentence } from './sentence.js'
-import { space } from './whiteSpace.js'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.ts'
+import { getLineNumber } from '../errors/toErrorPosition.ts'
+import { Keyword } from '../grammar.ts'
+import { type TokenStream } from '../tokenStream.ts'
+import { sentence } from './sentence.ts'
+import { space } from './whiteSpace.ts'
 
 /**
  * Keywords are
@@ -50,7 +50,7 @@ export const keyword = (
 		throw new InvalidSyntaxError(s, `Expected " ", got "${s.char()}".`)
 	space(s)
 
-	let keyword: Keyword | undefined = undefined
+	let keyword: Keyword | undefined
 	let description: string | undefined = undefined
 
 	const sn = sentence(s)

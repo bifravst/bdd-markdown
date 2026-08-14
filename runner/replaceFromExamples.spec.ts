@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { StepKeyword } from '../parser/grammar.js'
-import { replaceFromExamples } from './replaceFromExamples.js'
+import { StepKeyword } from '../parser/grammar.ts'
+import { replaceFromExamples } from './replaceFromExamples.ts'
 
 describe('replaceFromExamples()', () => {
 	it('should replace placeholders in a step title with the provided example data', async () => {

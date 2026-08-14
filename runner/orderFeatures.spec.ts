@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { orderFeatures } from './orderFeatures.js'
-import { parseFeaturesInFolder } from './parseFeaturesInFolder.js'
+import { orderFeatures } from './orderFeatures.ts'
+import { parseFeaturesInFolder } from './parseFeaturesInFolder.ts'
 
 describe('orderFeatures()', () => {
 	it('should order the features according to their dependencies and whether they should run first or last', async () => {

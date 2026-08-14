@@ -21,37 +21,41 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "node": "./dist/index.js"
+      "node": "./dist/index.js",
+      "types": "./index.ts"
     },
     "./*": {
       "import": "./dist/*",
-      "node": "./dist/*"
+      "node": "./dist/*",
+      "types": "./*.ts"
     }
   },
   "devDependencies": {
-    "@bifravst/eslint-config-typescript": "6.4.4",
+    "@bifravst/eslint-config-typescript": "7.0.34",
     "@bifravst/prettier-config": "1.1.17",
-    "@commitlint/config-conventional": "20.5.3",
-    "@types/node": "22.20.1",
+    "@commitlint/config-conventional": "21.2.2",
+    "@swc/core": "1.15.47",
+    "@types/node": "26.2.0",
     "@types/toposort": "2.0.7",
+    "@typescript/native": "npm:typescript@7.0.2",
     "check-node-version": "4.2.1",
-    "commitlint": "20.5.3",
-    "eslint-import-resolver-typescript": "3.10.1",
-    "exponential-backoff": "^3.1.3",
+    "commitlint": "21.2.2",
+    "eslint-import-resolver-typescript": "4.4.5",
+    "exponential-backoff": "3.1.3",
     "husky": "9.1.7",
-    "lint-staged": "16.4.0",
-    "tsx": "4.23.12"
+    "lint-staged": "17.3.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2"
   },
   "prettier": "@bifravst/prettier-config",
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=24.19.0 <25",
     "npm": ">=12.0.2 <13"
   },
   "scripts": {
-    "test": "find ./ -type f -name *.spec.ts | xargs npx tsx --test --test-reporter spec",
-    "test:watch": "find ./ -type f -name *.spec.ts | xargs npx tsx --test --watch --test-reporter spec",
+    "test": "node --no-warnings --experimental-transform-types --test \"!(node_modules)/**/*.spec.ts\"",
+    "test:watch": "node --no-warnings --experimental-transform-types --test --watch \"!(node_modules)/**/*.spec.ts\"",
     "prepare": "husky && case \"$npm_command\" in install|ci) check-node-version --package ;; esac",
-    "prepublishOnly": "npx tsc --noEmit false --outDir ./dist -d"
+    "prepublishOnly": "node --experimental-strip-types ./.npm/compile.ts"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
@@ -84,19 +88,21 @@
     "access": "public"
   },
   "files": [
-    "dist/index.d.ts",
-    "dist/index.js",
-    "dist/parser",
-    "dist/reporter",
-    "dist/runner",
+    "dist",
+    "examples",
+    "parser",
+    "reporter",
+    "runner",
+    "index.ts",
+    "parse.ts",
     "LICENSE",
     "README.md"
   ],
-  "peerDependencies": {
-    "@sinclair/typebox": "^0.34.49",
-    "chalk": "^5.6.2",
-    "jsonata": "^2.2.1",
-    "toposort": "^2.0.2",
-    "yaml": "^2.9.0"
+  "dependencies": {
+    "@sinclair/typebox": "0.34.52",
+    "chalk": "6.0.0",
+    "jsonata": "2.2.2",
+    "toposort": "2.0.2",
+    "yaml": "2.9.0"
   }
 }

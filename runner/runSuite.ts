@@ -1,18 +1,18 @@
 import os from 'node:os'
 import path, { type ParsedPath } from 'path'
-import type { Step } from '../parser/grammar.js'
+import type { Step } from '../parser/grammar.ts'
 import {
 	logger,
 	type LogEntry,
 	type LogObserver,
 	type Logger,
-} from './logger.js'
-import { type FeatureFile } from './parseFeaturesInFolder.js'
+} from './logger.ts'
+import { type FeatureFile } from './parseFeaturesInFolder.ts'
 import {
 	suiteWalker,
 	type FeatureVariant,
 	type ScenarioWithExamples,
-} from './suiteWalker.js'
+} from './suiteWalker.ts'
 
 export type StepRunnerArgs<Context extends Record<string, any>> = {
 	feature: FeatureVariant

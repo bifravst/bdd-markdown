@@ -3,19 +3,19 @@ import assert from 'assert/strict'
 import { randomUUID } from 'node:crypto'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { codeBlockOrThrow } from './codeBlockOrThrow.js'
+import { codeBlockOrThrow } from './codeBlockOrThrow.ts'
 import {
 	loadFeatureFile,
 	parseFeaturesInFolder,
-} from './parseFeaturesInFolder.js'
-import { regExpMatchedStep } from './regExpMatchedStep.js'
+} from './parseFeaturesInFolder.ts'
+import { regExpMatchedStep } from './regExpMatchedStep.ts'
 import {
 	runSuite,
 	type FeatureResult,
 	type ScenarioResult,
 	type StepResult,
 	type StepRunner,
-} from './runSuite.js'
+} from './runSuite.ts'
 
 describe('runSuite()', () => {
 	it('should run a simple test suite', async () => {

@@ -1,4 +1,4 @@
-import { type TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.ts'
 
 export const word = (s: TokenStream): string | null => {
 	const wordTokens = []

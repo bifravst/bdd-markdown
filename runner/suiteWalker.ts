@@ -5,16 +5,16 @@ import {
 	type Row,
 	type Scenario,
 	type Step,
-} from '../parser/grammar.js'
+} from '../parser/grammar.ts'
 import {
 	Source,
 	getUnreplacedPlaceholders,
-} from './getUnreplacedPlaceholders.js'
-import { orderFeatures } from './orderFeatures.js'
-import type { FeatureFile } from './parseFeaturesInFolder.js'
-import { replaceFromContext } from './replaceFromContext.js'
-import { replaceFromExamples } from './replaceFromExamples.js'
-import { UnreplacedPlaceholdersError } from './UnreplacedPlaceholdersError.js'
+} from './getUnreplacedPlaceholders.ts'
+import { orderFeatures } from './orderFeatures.ts'
+import type { FeatureFile } from './parseFeaturesInFolder.ts'
+import { replaceFromContext } from './replaceFromContext.ts'
+import { replaceFromExamples } from './replaceFromExamples.ts'
+import { UnreplacedPlaceholdersError } from './UnreplacedPlaceholdersError.ts'
 
 type FeatureListenerArgs = {
 	feature: FeatureVariant

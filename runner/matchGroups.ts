@@ -1,6 +1,6 @@
 import { type Static, type TObject } from '@sinclair/typebox'
-import { formatTypeBoxErrors } from './formatTypeBoxErrors.js'
-import { validate } from './validate.js'
+import { formatTypeBoxErrors } from './formatTypeBoxErrors.ts'
+import { validate } from './validate.ts'
 
 export class MatchError extends Error {
 	constructor(message: string) {

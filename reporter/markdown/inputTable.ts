@@ -1,4 +1,4 @@
-import type { Row } from '../../parser/grammar.js'
+import type { Row } from '../../parser/grammar.ts'
 
 export const inputTable = (example: Row): string[] => {
 	const cellSize: number[] = []

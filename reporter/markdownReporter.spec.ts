@@ -2,7 +2,7 @@ import assert from 'assert/strict'
 import { readFile } from 'fs/promises'
 import { describe, it } from 'node:test'
 import path from 'path'
-import { markdownReporter } from './markdownReporter.js'
+import { markdownReporter } from './markdownReporter.ts'
 
 describe('markdownReporter()', () => {
 	it('should format the Mars Rover run', async () => {

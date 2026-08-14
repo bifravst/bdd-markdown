@@ -1,12 +1,12 @@
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
-import { getLineNumber } from '../errors/toErrorPosition.js'
-import type { StepKeyword } from '../grammar.js'
-import { steps, type Step } from '../grammar.js'
-import { type TokenStream } from '../tokenStream.js'
-import { comment } from './comment.js'
-import { paragraph } from './paragraph.js'
-import { whiteSpace } from './whiteSpace.js'
-import { word } from './word.js'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.ts'
+import { getLineNumber } from '../errors/toErrorPosition.ts'
+import type { StepKeyword } from '../grammar.ts'
+import { steps, type Step } from '../grammar.ts'
+import { type TokenStream } from '../tokenStream.ts'
+import { comment } from './comment.ts'
+import { paragraph } from './paragraph.ts'
+import { whiteSpace } from './whiteSpace.ts'
+import { word } from './word.ts'
 
 type ParsedStep = Omit<Step, 'keyword'> & { keyword: StepKeyword }
 

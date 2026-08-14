@@ -1,6 +1,6 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import { markDependentsSkipped } from './markDependentsSkipped.js'
+import { markDependentsSkipped } from './markDependentsSkipped.ts'
 
 describe('markDependentsSkipped()', () => {
 	it('should mark features as skipped, if they transiently depend on a skipped feature', () => {

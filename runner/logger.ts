@@ -1,4 +1,4 @@
-import type { Step } from '../parser/grammar.js'
+import type { Step } from '../parser/grammar.ts'
 
 export type Logger = {
 	/**

@@ -1,8 +1,8 @@
 import { readFile } from 'fs/promises'
 import os from 'os'
 import path from 'path'
-import { runFolder } from '../../runner/runFolder.js'
-import { steps, type FirmwareCIRunContext } from './steps.js'
+import { runFolder } from '../../runner/runFolder.ts'
+import { steps, type FirmwareCIRunContext } from './steps.ts'
 
 const runner = await runFolder<FirmwareCIRunContext>({
 	name: 'Firmware',

@@ -1,9 +1,9 @@
-import { type Step } from '../parser/grammar.js'
+import { type Step } from '../parser/grammar.ts'
 import {
 	replaceNumberPlaceholders,
 	replaceStringPlaceholders,
 	replaceVariantPlaceholders,
-} from './replaceFromExamples.js'
+} from './replaceFromExamples.ts'
 
 export const replaceFromContext = async (
 	step: Step,

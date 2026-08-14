@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { StepKeyword } from '../parser/grammar.js'
-import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.js'
+import { StepKeyword } from '../parser/grammar.ts'
+import { getUnreplacedPlaceholders } from './getUnreplacedPlaceholders.ts'
 
 describe('getUnreplacedPlaceholders()', () => {
 	it('should detect unreplaced placeholders in the title', () =>

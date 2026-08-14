@@ -1,9 +1,9 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { tokenStream } from '../tokenStream.js'
-import { sentence } from './sentence.js'
-import { space } from './whiteSpace.js'
+import { tokenStream } from '../tokenStream.ts'
+import { sentence } from './sentence.ts'
+import { space } from './whiteSpace.ts'
 
 describe('sentence()', () => {
 	it('should read a sentence', () =>

@@ -1,4 +1,4 @@
-import type { CodeBlock, Step } from '../parser/grammar.js'
+import type { CodeBlock, Step } from '../parser/grammar.ts'
 
 export class MissingCodeBlockError extends Error {
 	constructor(step: Step) {

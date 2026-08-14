@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import path from 'path'
-import { runFolder } from '../../runner/runFolder.js'
-import { steps, type RoverContext } from './steps.js'
+import { runFolder } from '../../runner/runFolder.ts'
+import { steps, type RoverContext } from './steps.ts'
 
 const start = Date.now()
 const runner = await runFolder<RoverContext>({

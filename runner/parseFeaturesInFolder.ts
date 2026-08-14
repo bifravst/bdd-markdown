@@ -2,9 +2,9 @@ import { readdir, stat } from 'fs/promises'
 import { readFile } from 'node:fs/promises'
 import { parse } from 'node:path'
 import path from 'path'
-import { feature } from '../parser/feature.js'
-import type { Feature } from '../parser/grammar.js'
-import { tokenStream } from '../parser/tokenStream.js'
+import { feature } from '../parser/feature.ts'
+import type { Feature } from '../parser/grammar.ts'
+import { tokenStream } from '../parser/tokenStream.ts'
 
 export type FeatureFile = {
 	file: ReturnType<typeof parse>
@@ -36,6 +36,7 @@ export const loadFeatureFile = async (
 	} catch (error) {
 		throw new Error(
 			`Failed to parse feature file ${sourceFile}: ${(error as Error).message}`,
+			{ cause: error },
 		)
 	}
 }

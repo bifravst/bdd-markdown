@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
-import type { Step } from '../parser/grammar.js'
-import { LogLevel, logger, type LogEntry } from './logger.js'
+import type { Step } from '../parser/grammar.ts'
+import { LogLevel, logger, type LogEntry } from './logger.ts'
 
 describe('logger()', () => {
 	describe('should allow to log messages', () => {

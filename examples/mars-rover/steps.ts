@@ -1,9 +1,9 @@
 import { Type } from '@sinclair/typebox'
 import assert from 'assert/strict'
 import { backOff } from 'exponential-backoff'
-import { regExpMatchedStep } from '../../runner/regExpMatchedStep.js'
-import type { StepRunner } from '../../runner/runSuite.js'
-import { Direction, rover } from './rover.js'
+import { regExpMatchedStep } from '../../runner/regExpMatchedStep.ts'
+import type { StepRunner, StepRunnerArgs } from '../../runner/runSuite.ts'
+import { Direction, rover } from './rover.ts'
 
 export type RoverContext = {
 	rover?: ReturnType<typeof rover>
@@ -25,9 +25,12 @@ enum MovementDirection {
 }
 
 export const steps: StepRunner<RoverContext>[] = [
-	<StepRunner<RoverContext>>{
+	{
 		match: (title) => /^I have a Mars Rover$/.test(title),
-		run: async ({ log: { progress }, context }) => {
+		run: async ({
+			log: { progress },
+			context,
+		}: StepRunnerArgs<RoverContext>): Promise<void> => {
 			progress('Creating a new rover')
 			const r = rover({
 				canMoveTo: ([x, y]) =>
@@ -112,7 +115,7 @@ export const steps: StepRunner<RoverContext>[] = [
 			converters: coordinateTransformer,
 		},
 		async ({ match, context }) => {
-			if (context.obstacles === undefined) context.obstacles = []
+			context.obstacles ??= []
 			context.obstacles.push([match.x, match.y])
 		},
 	),

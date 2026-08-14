@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
-import { toString } from './toString.js'
+import { toString } from './toString.ts'
 
 describe('toString()', () => {
 	it('should return strings as is', () => assert.equal(toString('foo'), 'foo'))

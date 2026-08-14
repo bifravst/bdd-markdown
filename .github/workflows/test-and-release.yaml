@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: ">=24.19.0 <25"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -31,9 +31,9 @@ jobs:
 
       - name: Parse examples
         run: |
-          npx tsx parse.ts parser/test-data/feature/Example.feature.md
-          npx tsx parse.ts parser/test-data/feature/Highlander.feature.md
-          npx tsx parse.ts examples/mars-rover/MarsRover.feature.md
+          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Example.feature.md
+          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Highlander.feature.md
+          node --no-warnings --experimental-transform-types parse.ts examples/mars-rover/MarsRover.feature.md
 
   mars-rover:
     name: "Run Mars Rover example"
@@ -45,7 +45,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: ">=24.19.0 <25"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -56,9 +56,9 @@ jobs:
 
       - name: Mars Rover Example
         run: |
-          npx tsx examples/mars-rover/tests.ts > mars-rover.json
-          cat mars-rover.json | npx tsx reporter/console-cli.ts
-          cat mars-rover.json | npx tsx reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
+          node --no-warnings --experimental-transform-types examples/mars-rover/tests.ts > mars-rover.json
+          cat mars-rover.json | node --no-warnings --experimental-transform-types reporter/console-cli.ts
+          cat mars-rover.json | node --no-warnings --experimental-transform-types reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
 
   firmware:
     name: "Run Firmware example"
@@ -70,7 +70,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: ">=24.19.0 <25"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -81,9 +81,9 @@ jobs:
 
       - name: Firmware Example
         run: |
-          npx tsx examples/firmware/tests.ts > firmware.json
-          cat firmware.json | npx tsx reporter/console-cli.ts
-          cat firmware.json | npx tsx reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
+          node --no-warnings --experimental-transform-types examples/firmware/tests.ts > firmware.json
+          cat firmware.json | node --no-warnings --experimental-transform-types reporter/console-cli.ts
+          cat firmware.json | node --no-warnings --experimental-transform-types reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
 
   tests:
     name: "Test and Release"
@@ -97,7 +97,7 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
-          node-version: "22.x"
+          node-version: ">=24.19.0 <25"
           cache: "npm"
 
       - name: Install NPM version specified in package.json
@@ -120,14 +120,14 @@ jobs:
 
       - name: Parse examples
         run: |
-          npx tsx parse.ts parser/test-data/feature/Example.feature.md
-          npx tsx parse.ts parser/test-data/feature/Highlander.feature.md
-          npx tsx parse.ts examples/mars-rover/MarsRover.feature.md
+          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Example.feature.md
+          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Highlander.feature.md
+          node --no-warnings --experimental-transform-types parse.ts examples/mars-rover/MarsRover.feature.md
 
       - name: Run examples
         run: |
-          npx tsx examples/mars-rover/tests.ts
-          npx tsx examples/firmware/tests.ts
+          node --no-warnings --experimental-transform-types examples/mars-rover/tests.ts
+          node --no-warnings --experimental-transform-types examples/firmware/tests.ts
 
       - name: Semantic release
         run: npx semantic-release

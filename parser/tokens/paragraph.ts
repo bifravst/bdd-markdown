@@ -1,5 +1,5 @@
-import { type TokenStream } from '../tokenStream.js'
-import { sentence } from './sentence.js'
+import { type TokenStream } from '../tokenStream.ts'
+import { sentence } from './sentence.ts'
 
 /**
  * Parse a markdown paragraph (until two newlines are encountered)

@@ -1,4 +1,4 @@
-import { type TokenStream } from '../tokenStream.js'
+import { type TokenStream } from '../tokenStream.ts'
 
 export const line = (s: TokenStream): string | null => {
 	// This is a blank line

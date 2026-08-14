@@ -1,8 +1,8 @@
 import assert from 'node:assert'
 import path from 'node:path'
 import { describe, it, mock } from 'node:test'
-import { parseFeaturesInFolder } from './parseFeaturesInFolder.js'
-import { suiteWalker } from './suiteWalker.js'
+import { parseFeaturesInFolder } from './parseFeaturesInFolder.ts'
+import { suiteWalker } from './suiteWalker.ts'
 
 describe('suiteWalker()', () => {
 	it('should walk a suite', async () => {

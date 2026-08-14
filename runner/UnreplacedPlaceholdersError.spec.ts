@@ -2,9 +2,9 @@ import assert from 'node:assert'
 import os from 'node:os'
 import path from 'node:path'
 import { describe, it } from 'node:test'
-import { StepKeyword } from '../parser/grammar.js'
-import { Source } from './getUnreplacedPlaceholders.js'
-import { UnreplacedPlaceholdersError } from './UnreplacedPlaceholdersError.js'
+import { StepKeyword } from '../parser/grammar.ts'
+import { Source } from './getUnreplacedPlaceholders.ts'
+import { UnreplacedPlaceholdersError } from './UnreplacedPlaceholdersError.ts'
 
 describe('UnreplacedPlaceholdersError', () => {
 	it('should format the error', () => {

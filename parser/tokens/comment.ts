@@ -1,6 +1,6 @@
-import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.js'
-import { type Comment } from '../grammar.js'
-import { type TokenStream } from '../tokenStream.js'
+import { InvalidSyntaxError } from '../errors/InvalidSyntaxError.ts'
+import { type Comment } from '../grammar.ts'
+import { type TokenStream } from '../tokenStream.ts'
 
 const commentStart = (s: TokenStream): boolean => {
 	if (s.char() !== '<') return false

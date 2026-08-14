@@ -1,9 +1,9 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { feature } from './feature.js'
-import type { CodeBlock, Comment, Feature } from './grammar.js'
-import { testData } from './test-data/testData.js'
+import { feature } from './feature.ts'
+import type { CodeBlock, Comment, Feature } from './grammar.ts'
+import { testData } from './test-data/testData.ts'
 
 const l = testData(import.meta.url)
 

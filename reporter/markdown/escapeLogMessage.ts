@@ -1,4 +1,4 @@
-import { toString } from '../toString.js'
+import { toString } from '../toString.ts'
 
 // eslint-disable-next-line no-irregular-whitespace
 export const ZERO_WIDTH_SPACE = `​`

@@ -1,6 +1,6 @@
 import { type Static, type TObject } from '@sinclair/typebox'
-import { matchGroups } from './matchGroups.js'
-import type { StepRunner, StepRunnerArgs } from './runSuite.js'
+import { matchGroups } from './matchGroups.ts'
+import type { StepRunner, StepRunnerArgs } from './runSuite.ts'
 
 export const regExpMatcher =
 	(matcher: ReturnType<typeof matchGroups>) =>

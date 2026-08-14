@@ -1,4 +1,4 @@
-import { consoleReporter } from './consoleReporter.js'
+import { consoleReporter } from './consoleReporter.ts'
 
 const onlyFailed = process.argv.includes('--only-failed')
 const withTimestamps = process.argv.includes('--with-timestamps')

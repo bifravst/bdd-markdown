@@ -1,7 +1,7 @@
 import { Type } from '@sinclair/typebox'
 import assert from 'node:assert/strict'
 import { describe, test as it } from 'node:test'
-import { validate } from './validate.js'
+import { validate } from './validate.ts'
 
 void describe('validate', () => {
 	void it('Should check input is valid', async () => {

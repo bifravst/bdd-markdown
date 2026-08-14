@@ -1,8 +1,8 @@
 import assert from 'assert/strict'
 import { describe, it } from 'node:test'
 import os from 'os'
-import { tokenStream } from '../tokenStream.js'
-import { paragraph } from './paragraph.js'
+import { tokenStream } from '../tokenStream.ts'
+import { paragraph } from './paragraph.ts'
 
 describe('paragraph()', () => {
 	it('should read a paragraph', () =>
