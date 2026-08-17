@@ -34,7 +34,6 @@
     "@bifravst/eslint-config-typescript": "7.0.34",
     "@bifravst/prettier-config": "1.1.17",
     "@commitlint/config-conventional": "21.2.2",
-    "@swc/core": "1.15.47",
     "@types/node": "26.2.0",
     "@types/toposort": "2.0.7",
     "@typescript/native": "npm:typescript@7.0.2",
@@ -55,7 +54,7 @@
     "test": "node --no-warnings --experimental-transform-types --test \"!(node_modules)/**/*.spec.ts\"",
     "test:watch": "node --no-warnings --experimental-transform-types --test --watch \"!(node_modules)/**/*.spec.ts\"",
     "prepare": "husky && case \"$npm_command\" in install|ci) check-node-version --package ;; esac",
-    "prepublishOnly": "node --experimental-strip-types ./.npm/compile.ts"
+    "prepublishOnly": "npx tsc --noEmit false -d"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
@@ -89,12 +88,6 @@
   },
   "files": [
     "dist",
-    "examples",
-    "parser",
-    "reporter",
-    "runner",
-    "index.ts",
-    "parse.ts",
     "LICENSE",
     "README.md"
   ],

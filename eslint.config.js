@@ -13,5 +13,5 @@ export default [
 			'@typescript-eslint/no-floating-promises': ['warn'],
 		},
 	},
-	{ ignores: ['dist/**', '.npm/**'] },
+	{ ignores: ['dist/**'] },
 ]
