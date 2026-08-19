@@ -86,10 +86,7 @@ export const steps = [
 ]
 
 export type EffectiveStepKeyword =
-	| StepKeyword.Given
-	| StepKeyword.When
-	| StepKeyword.Then
-	| StepKeyword.Soon
+	StepKeyword.Given | StepKeyword.When | StepKeyword.Then | StepKeyword.Soon
 
 export type Step = {
 	keyword: EffectiveStepKeyword
