@@ -1,15 +1,16 @@
 import { Type, type Static } from '@sinclair/typebox'
 
-export enum Keyword {
-	Feature = 'Feature',
-	Scenario = 'Scenario',
+export const Keyword = {
+	Feature: 'Feature',
+	Scenario: 'Scenario',
 	// Alias for 'Scenario'
-	Example = 'Example',
-	Background = 'Background',
-	ScenarioOutline = 'Scenario Outline',
-	ScenarioOutlineExamples = 'Examples',
-	Rule = 'Rule',
-}
+	Example: 'Example',
+	Background: 'Background',
+	ScenarioOutline: 'Scenario Outline',
+	ScenarioOutlineExamples: 'Examples',
+	Rule: 'Rule',
+} as const
+export type Keyword = (typeof Keyword)[keyof typeof Keyword]
 export const keywords: string[] = [
 	Keyword.Feature,
 	Keyword.Example,
@@ -30,7 +31,7 @@ export type KeywordDefinition = {
 export type Scenarios = (Scenario | ScenarioOutline)[]
 
 export type Feature = KeywordDefinition & {
-	keyword: Keyword.Feature
+	keyword: typeof Keyword.Feature
 	background?: Background
 	scenarios: Scenarios
 	rules?: Rule[]
@@ -48,34 +49,35 @@ export type Feature = KeywordDefinition & {
  * Used to group Scenarios
  */
 export type Rule = KeywordDefinition & {
-	keyword: Keyword.Rule
+	keyword: typeof Keyword.Rule
 	scenarios: Scenarios
 }
 
 export type Scenario = KeywordDefinition & {
-	keyword: Keyword.Scenario | Keyword.Example
+	keyword: typeof Keyword.Scenario | typeof Keyword.Example
 	steps: Step[]
 }
 
 export type Background = KeywordDefinition & {
-	keyword: Keyword.Background
+	keyword: typeof Keyword.Background
 	steps: Step[]
 }
 
 export type ScenarioOutline = KeywordDefinition & {
-	keyword: Keyword.ScenarioOutline
+	keyword: typeof Keyword.ScenarioOutline
 	steps: Step[]
 	examples: Table
 }
 
-export enum StepKeyword {
-	Given = 'Given',
-	When = 'When',
-	Then = 'Then',
-	And = 'And',
+export const StepKeyword = {
+	Given: 'Given',
+	When: 'When',
+	Then: 'Then',
+	And: 'And',
 	// Then, but with optional scenario retry
-	Soon = 'Soon',
-}
+	Soon: 'Soon',
+} as const
+export type StepKeyword = (typeof StepKeyword)[keyof typeof StepKeyword]
 
 export const steps = [
 	StepKeyword.Given,
@@ -86,7 +88,10 @@ export const steps = [
 ]
 
 export type EffectiveStepKeyword =
-	StepKeyword.Given | StepKeyword.When | StepKeyword.Then | StepKeyword.Soon
+	| typeof StepKeyword.Given
+	| typeof StepKeyword.When
+	| typeof StepKeyword.Then
+	| typeof StepKeyword.Soon
 
 export type Step = {
 	keyword: EffectiveStepKeyword
@@ -107,14 +112,17 @@ export type Table = Row[]
 
 export type Comment = { text: string }
 
-enum Run {
-	never = 'never',
-	only = 'only',
-	first = 'first',
-	last = 'last',
-}
+const Run = {
+	never: 'never',
+	only: 'only',
+	first: 'first',
+	last: 'last',
+} as const
+type Run = (typeof Run)[keyof typeof Run]
 export const RunConfigSchema = Type.Object({
-	run: Type.Optional(Type.Enum(Run)),
+	run: Type.Optional(
+		Type.Union(Object.values(Run).map((v) => Type.Literal(v))),
+	),
 	needs: Type.Optional(
 		Type.Array(
 			Type.String({

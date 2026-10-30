@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: ">=24.19.0 <25"
+          node-version: ">=26.12.1 <27"
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
 
@@ -36,9 +36,9 @@ jobs:
 
       - name: Parse examples
         run: |
-          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Example.feature.md
-          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Highlander.feature.md
-          node --no-warnings --experimental-transform-types parse.ts examples/mars-rover/MarsRover.feature.md
+          node --no-warnings parse.ts parser/test-data/feature/Example.feature.md
+          node --no-warnings parse.ts parser/test-data/feature/Highlander.feature.md
+          node --no-warnings parse.ts examples/mars-rover/MarsRover.feature.md
 
   mars-rover:
     name: "Run Mars Rover example"
@@ -50,7 +50,7 @@ jobs:
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: ">=24.19.0 <25"
+          node-version: ">=26.12.1 <27"
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
 
@@ -62,9 +62,9 @@ jobs:
 
       - name: Mars Rover Example
         run: |
-          node --no-warnings --experimental-transform-types examples/mars-rover/tests.ts > mars-rover.json
-          cat mars-rover.json | node --no-warnings --experimental-transform-types reporter/console-cli.ts
-          cat mars-rover.json | node --no-warnings --experimental-transform-types reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
+          node --no-warnings examples/mars-rover/tests.ts > mars-rover.json
+          cat mars-rover.json | node --no-warnings reporter/console-cli.ts
+          cat mars-rover.json | node --no-warnings reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
 
   firmware:
     name: "Run Firmware example"
@@ -76,7 +76,7 @@ jobs:
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: ">=24.19.0 <25"
+          node-version: ">=26.12.1 <27"
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
 
@@ -88,23 +88,29 @@ jobs:
 
       - name: Firmware Example
         run: |
-          node --no-warnings --experimental-transform-types examples/firmware/tests.ts > firmware.json
-          cat firmware.json | node --no-warnings --experimental-transform-types reporter/console-cli.ts
-          cat firmware.json | node --no-warnings --experimental-transform-types reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
+          node --no-warnings examples/firmware/tests.ts > firmware.json
+          cat firmware.json | node --no-warnings reporter/console-cli.ts
+          cat firmware.json | node --no-warnings reporter/markdown-cli.ts >> $GITHUB_STEP_SUMMARY
 
-  tests:
-    name: "Test and Release"
+  tests-matrix:
+    name: "Test (Node.js ${{ matrix.node-version }})"
 
     needs: [parse, mars-rover, firmware]
 
     runs-on: ubuntu-26.04
+
+    strategy:
+      matrix:
+        node-version:
+          - ">=24.22.1 <25"
+          - ">=26.12.1 <27"
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: ">=24.19.0 <25"
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
 
@@ -128,14 +134,52 @@ jobs:
 
       - name: Parse examples
         run: |
-          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Example.feature.md
-          node --no-warnings --experimental-transform-types parse.ts parser/test-data/feature/Highlander.feature.md
-          node --no-warnings --experimental-transform-types parse.ts examples/mars-rover/MarsRover.feature.md
+          node --no-warnings parse.ts parser/test-data/feature/Example.feature.md
+          node --no-warnings parse.ts parser/test-data/feature/Highlander.feature.md
+          node --no-warnings parse.ts examples/mars-rover/MarsRover.feature.md
 
       - name: Run examples
         run: |
-          node --no-warnings --experimental-transform-types examples/mars-rover/tests.ts
-          node --no-warnings --experimental-transform-types examples/firmware/tests.ts
+          node --no-warnings examples/mars-rover/tests.ts
+          node --no-warnings examples/firmware/tests.ts
+
+  tests:
+    name: "Test and Release"
+
+    needs: [tests-matrix]
+
+    runs-on: ubuntu-26.04
+
+    # Stable required status check, independent of the Node.js versions in the matrix.
+    if: ${{ always() }}
+
+    steps:
+      - name: All tests must have succeeded
+        env:
+          RESULT: ${{ needs.tests-matrix.result }}
+        run: test "$RESULT" = "success"
+
+  release:
+    name: "Release"
+
+    needs: [tests]
+
+    runs-on: ubuntu-26.04
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ">=26.12.1 <27"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install NPM version specified in package.json
+        uses: ./.github/actions/install-npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit
 
       - name: Semantic release
         run: npx semantic-release

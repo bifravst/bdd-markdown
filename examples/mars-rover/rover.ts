@@ -1,9 +1,10 @@
-export enum Direction {
-	N = 'N',
-	S = 'S',
-	W = 'W',
-	E = 'E',
-}
+export const Direction = {
+	N: 'N',
+	S: 'S',
+	W: 'W',
+	E: 'E',
+} as const
+export type Direction = (typeof Direction)[keyof typeof Direction]
 
 type Rover = {
 	setX: (newX: number) => void
