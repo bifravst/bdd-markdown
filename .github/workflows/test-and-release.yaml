@@ -17,7 +17,7 @@ jobs:
   parse:
     name: "Run parse examples"
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -43,7 +43,7 @@ jobs:
   mars-rover:
     name: "Run Mars Rover example"
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -69,7 +69,7 @@ jobs:
   firmware:
     name: "Run Firmware example"
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -97,7 +97,7 @@ jobs:
 
     needs: [parse, mars-rover, firmware]
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     strategy:
       matrix:
@@ -148,7 +148,7 @@ jobs:
 
     needs: [tests-matrix]
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     # Stable required status check, independent of the Node.js versions in the matrix.
     if: ${{ always() }}
@@ -164,7 +164,7 @@ jobs:
 
     needs: [tests]
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
