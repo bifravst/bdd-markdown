@@ -19,10 +19,12 @@ const coordinateTransformer = {
 	y: (s: string) => parseInt(s, 10),
 }
 
-enum MovementDirection {
-	forward = 'forward',
-	backward = 'backward',
-}
+const MovementDirection = {
+	forward: 'forward',
+	backward: 'backward',
+} as const
+type MovementDirection =
+	(typeof MovementDirection)[keyof typeof MovementDirection]
 
 export const steps: StepRunner<RoverContext>[] = [
 	{

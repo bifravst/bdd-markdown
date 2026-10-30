@@ -28,12 +28,13 @@ type ErrorInfo = {
 	detail?: any
 }
 
-export enum LogLevel {
-	DEBUG = 'debug',
-	INFO = 'info',
-	ERROR = 'error',
-	PROGRESS = 'progress',
-}
+export const LogLevel = {
+	DEBUG: 'debug',
+	INFO: 'info',
+	ERROR: 'error',
+	PROGRESS: 'progress',
+} as const
+export type LogLevel = (typeof LogLevel)[keyof typeof LogLevel]
 
 export type LogEntry = {
 	level: LogLevel

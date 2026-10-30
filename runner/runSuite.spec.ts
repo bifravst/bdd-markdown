@@ -158,7 +158,7 @@ describe('runSuite()', () => {
 		)
 
 		runner.addStepRunners(
-			...(<StepRunner[]>[
+			...([
 				regExpMatchedStep(
 					{
 						regExp: /^I store a random string in `(?<storageName>[^`]+)`$/,
@@ -201,7 +201,7 @@ describe('runSuite()', () => {
 						)
 					},
 				},
-			]),
+			] as StepRunner[]),
 		)
 
 		const result = await runner.run()
@@ -232,7 +232,7 @@ describe('runSuite()', () => {
 			const variants: Record<string, string>[] = []
 
 			runner.addStepRunners(
-				...(<StepRunner[]>[
+				...([
 					{
 						match: () => true,
 						run: async ({ step: { title }, feature: { variant } }) => {
@@ -241,7 +241,7 @@ describe('runSuite()', () => {
 							return
 						},
 					},
-				]),
+				] as StepRunner[]),
 			)
 
 			const result = await runner.run()
@@ -301,14 +301,14 @@ describe('runSuite()', () => {
 		)
 
 		runner.addStepRunners(
-			...(<StepRunner[]>[
+			...([
 				{
 					match: () => true,
 					run: () => {
 						throw new Error(`Failure!`)
 					},
 				},
-			]),
+			] as StepRunner[]),
 		)
 
 		const result = await runner.run()
@@ -341,14 +341,14 @@ describe('runSuite()', () => {
 		)
 
 		runner.addStepRunners(
-			...(<StepRunner[]>[
+			...([
 				{
 					match: () => true,
 					run: () => {
 						throw new Error(`Failure!`)
 					},
 				},
-			]),
+			] as StepRunner[]),
 		)
 
 		const result = await runner.run()

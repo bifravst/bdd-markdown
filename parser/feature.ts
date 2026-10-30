@@ -140,10 +140,12 @@ const featureChildSteps = (
 			steps,
 			examples: parseExamples(s, 3),
 		}
-	} else if ([Keyword.Scenario, Keyword.Example].includes(def.keyword)) {
+	} else if (
+		([Keyword.Scenario, Keyword.Example] as Keyword[]).includes(def.keyword)
+	) {
 		return {
 			...def,
-			keyword: def.keyword as Keyword.Scenario | Keyword.Example,
+			keyword: def.keyword as typeof Keyword.Scenario | typeof Keyword.Example,
 			steps,
 		}
 	} else if (def.keyword === Keyword.Background) {
@@ -186,10 +188,13 @@ const parseRuleChildren = (
 				steps,
 				examples: parseExamples(s, 4),
 			})
-		} else if ([Keyword.Scenario, Keyword.Example].includes(def.keyword)) {
+		} else if (
+			([Keyword.Scenario, Keyword.Example] as Keyword[]).includes(def.keyword)
+		) {
 			children.push({
 				...def,
-				keyword: def.keyword as Keyword.Scenario | Keyword.Example,
+				keyword: def.keyword as
+					typeof Keyword.Scenario | typeof Keyword.Example,
 				steps,
 			})
 		} else {

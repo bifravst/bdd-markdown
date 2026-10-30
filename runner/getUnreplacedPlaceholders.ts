@@ -3,10 +3,11 @@ import type { Step } from '../parser/grammar.ts'
 const placeholderMatch = /\${[^}]+}/g
 const alternativePlaceholderMatch = /<[^>]+>/g
 
-export enum Source {
-	title = 'title',
-	codeblock = 'codeblock',
-}
+export const Source = {
+	title: 'title',
+	codeblock: 'codeblock',
+} as const
+export type Source = (typeof Source)[keyof typeof Source]
 
 export type Unreplaced = { placeholder: string; source: Source }[]
 
